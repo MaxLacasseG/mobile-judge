@@ -12,12 +12,12 @@ const db = require("./config/keys").mongoURI;
 const utilisateur = require("./routes/Utilisateur");
 
 mongoose.connect(
-    db,
-    { useNewUrlParser: true },
-    err => {
-        if (err) logger.log(err);
-        logger.trace("Connecté à la base de donnée");
-    }
+	db,
+	{ useNewUrlParser: true },
+	err => {
+		if (err) logger.log(err);
+		logger.trace("Connecté à la base de donnée");
+	}
 );
 //PASSPORT INIT, ADDS TO REQUESTS
 passport.initialize();
@@ -32,6 +32,6 @@ app.use(morgan("dev"));
 app.use("/api/utilisateur", utilisateur);
 
 app.listen(port, err => {
-    if (err) logger.log(err);
-    logger.trace(`listening on ${port}`);
+	if (err) logger.log(err);
+	logger.trace(`listening on ${port}`);
 });
