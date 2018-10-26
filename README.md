@@ -5,9 +5,9 @@
 `Admin`
 
 1. Ajouter des utilisateurs
-2. Modifier des utilisateurs `Attribuer_une_région`
+2. Modifier des utilisateurs `Attribuer une région`
 3. Supprimer des utilisateurs
-4. Voir toutes les finales [actives ou archivées]
+4. Voir toutes les finales `actives ou archivées`
 5. Modifier une finale [en entrant son mdp]
 
 ---
