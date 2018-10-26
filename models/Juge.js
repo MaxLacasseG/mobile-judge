@@ -8,6 +8,14 @@ const JugeSchema = new Schema({
 	nom: { type: String },
 	telephone: { type: String },
 	courriel: { type: String },
+	employeur: { type: String },
+	titre: { type: String },
+	preferences: {
+		premierChoix: { type: String },
+		deuxiemeChoix: { type: String },
+		troisiemeChoix: { type: String }
+	},
+	langue: { type: String },
 	projets: [
 		{
 			type: Schema.Types.ObjectId,
