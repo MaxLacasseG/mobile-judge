@@ -1,24 +1,43 @@
-export const GET_ALL_PROGRAMS = "GET_ALL_PROGRAMS";
-export const GET_PROGRAM_ID = "GET_PROGRAM_ID";
-export const ADD_PROGRAM = "ADD_PROGRAM";
-export const UPDATE_PROGRAM = "UPDATE_PROGRAM";
-export const DELETE_PROGRAM = "DELETE_PROGRAM";
-
-export const GET_ALL_WEEKS = "GET_ALL_WEEKS";
-export const GET_ALL_WEEKS_USERID = "GET_ALL_WEEKS_USERID";
-export const GET_ALL_WEEKS_PROGRAMID = "GET_ALL_WEEKS_PROGRAMID";
-export const GET_WEEK_ID = "GET_WEEK_ID";
-export const ADD_WEEK = "ADD_WEEK";
-export const ADD_TIME_PERIOD = "ADD_TIME_PERIOD";
-export const UPDATE_WEEK = "UPDATE_WEEK";
-export const DELETE_WEEK = "DELETE_WEEK";
-
+//AUTHENTICATION
 export const SET_CURRENT_USER = "SET_CURRENT_USER";
 export const CLEAR_CURRENT_USER = "CLEAR_CURRENT_USER";
 export const UPDATE_USER = "UPDATE_USER";
 export const ARCHIVE_USER = "ARCHIVE_USER";
 
-export const GET_CURRENT_EMPLOYE = "GET_CURRENT_EMPLOYE";
-export const ADD_EMPLOYE = "ADD_EMPLOYE";
+//FINAL
+export const SET_FINAL = "SET_FINAL";
+export const GET_FINAL = "GET_FINAL";
+export const GET_ALL_FINALS = "GET_ALL_FINALS";
+export const ADD_FINAL = "ADD_FINAL";
+export const UPDATE_FINAL = "UPDATE_FINAL";
+export const ARCHIVE_FINAL = "ARCHIVE_FINAL";
+export const DELETE_FINAL = "DELETE_FINAL";
+export const RESET_FINAL_PARTICIPANTS = "RESET_FINAL_PARTICIPANTS";
+export const IMPORT_LIST = "IMPORT_LIST";
+export const EXPORT_LIST = "EXPORT_LIST";
+
+//JUDGE
+export const SET_JUDGE = "SET_JUDGE";
+export const GET_JUDGE = "GET_JUDGE";
+export const GET_ALL_JUDGES = "GET_ALL_JUDGES";
+export const ADD_JUDGE = "ADD_JUDGE";
+export const UPDATE_JUDGE = "UPDATE_JUDGE";
+export const DELETE_JUDGE = "DELETE_JUDGE";
+
+//PROJECT
+export const SET_PROJECT = "SET_PROJECT";
+export const GET_PROJECT = "GET_PROJECT";
+export const GET_ALL_PROJECTS = "GET_ALL_PROJECTS";
+export const ADD_PROJECT = "ADD_PROJECT";
+export const UPDATE_PROJECT = "UPDATE_PROJECT";
+export const DELETE_PROJECT = "DELETE_PROJECT";
+
+//REGION
+export const SET_REGION = "SET_REGION";
+export const GET_REGION = "GET_REGION";
+export const GET_ALL_REGIONS = "GET_ALL_REGIONS";
+export const ADD_REGION = "ADD_REGION";
+export const UPDATE_REGION = "UPDATE_REGION";
+export const DELETE_REGION = "DELETE_REGION";
 
 export const GET_ERRORS = "GET_ERRORS";

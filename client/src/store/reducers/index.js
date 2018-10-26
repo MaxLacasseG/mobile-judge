@@ -1,10 +1,14 @@
 import { combineReducers } from "redux";
-import employeReducer from "./employeReducer";
 import authReducer from "./authReducer";
+import finaleReducer from "./finaleReducer";
+import projetReducer from "./projetReducer";
+import jugeReducer from "./jugeReducer";
 import erreurReducer from "./erreurReducer";
 
 export default combineReducers({
-    employe: employeReducer,
-    auth: authReducer,
-    erreur: erreurReducer
+	auth: authReducer,
+	finale: finaleReducer,
+	projet: projetReducer,
+	juge: jugeReducer,
+	erreur: erreurReducer
 });
