@@ -1,0 +1,24 @@
+export const GET_ALL_PROGRAMS = "GET_ALL_PROGRAMS";
+export const GET_PROGRAM_ID = "GET_PROGRAM_ID";
+export const ADD_PROGRAM = "ADD_PROGRAM";
+export const UPDATE_PROGRAM = "UPDATE_PROGRAM";
+export const DELETE_PROGRAM = "DELETE_PROGRAM";
+
+export const GET_ALL_WEEKS = "GET_ALL_WEEKS";
+export const GET_ALL_WEEKS_USERID = "GET_ALL_WEEKS_USERID";
+export const GET_ALL_WEEKS_PROGRAMID = "GET_ALL_WEEKS_PROGRAMID";
+export const GET_WEEK_ID = "GET_WEEK_ID";
+export const ADD_WEEK = "ADD_WEEK";
+export const ADD_TIME_PERIOD = "ADD_TIME_PERIOD";
+export const UPDATE_WEEK = "UPDATE_WEEK";
+export const DELETE_WEEK = "DELETE_WEEK";
+
+export const SET_CURRENT_USER = "SET_CURRENT_USER";
+export const CLEAR_CURRENT_USER = "CLEAR_CURRENT_USER";
+export const UPDATE_USER = "UPDATE_USER";
+export const ARCHIVE_USER = "ARCHIVE_USER";
+
+export const GET_CURRENT_EMPLOYE = "GET_CURRENT_EMPLOYE";
+export const ADD_EMPLOYE = "ADD_EMPLOYE";
+
+export const GET_ERRORS = "GET_ERRORS";
