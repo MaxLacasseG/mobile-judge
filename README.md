@@ -2,17 +2,17 @@
 
 **Cas d'utilisation**
 
-[Admin]
+`Admin`
 
 1. Ajouter des utilisateurs
-2. Modifier des utilisateurs [Attribuer_une_région]
+2. Modifier des utilisateurs `Attribuer_une_région`
 3. Supprimer des utilisateurs
 4. Voir toutes les finales [actives ou archivées]
 5. Modifier une finale [en entrant son mdp]
 
 ---
 
-[Responsable]
+`Responsable`
 
 1. Créer une finale
 2. Importer la liste des juges/participants
@@ -26,7 +26,7 @@
 
 ---
 
-[Juge]
+`Juge`
 
 1. Se connecter en choisissant la finale
 2. Voir la liste des projets à juger et la période
