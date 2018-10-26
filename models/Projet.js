@@ -5,6 +5,7 @@ const ProjetSchema = new Schema({
 	numero: { type: Number },
 	finale: { type: Schema.Types.ObjectId, ref: "Finale" },
 	titre: { type: String },
+	langue: { type: String },
 	participant1: {
 		prenom: { type: String },
 		nom: { type: String }

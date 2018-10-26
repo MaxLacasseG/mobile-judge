@@ -35,7 +35,8 @@
 4. Je peux modifier mes notes tant que le jugement est ouvert
 5. Lorsque toutes les notes sont complétées, je suis informé que mon jugement est complété.
 6. Lorsque j'enregistre, la page est rafraichie au cas ou des modifications seraient faites.
-7. Lorsque je me déconnecte et qu'il manque des jugements, je reçois une alerte disant d'informer le juge en chef de mon départ.
+7. Lorsque j'enregistre et qu'il manque des notes, je suis informé des cases à remplir.
+8. Lorsque je me déconnecte et qu'il manque des jugements, je reçois une alerte disant d'informer le juge en chef de mon départ.
 
 ---
 

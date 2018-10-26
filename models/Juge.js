@@ -18,8 +18,9 @@ const JugeSchema = new Schema({
 	langue: { type: String },
 	projets: [
 		{
-			type: Schema.Types.ObjectId,
-			ref: "Projet"
+			periode: { type: Number },
+			projets: { type: Schema.Types.ObjectId, ref: "Projet" },
+			resultat: { type: Schema.Types.Mixed }
 		}
 	]
 });
