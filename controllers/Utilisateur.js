@@ -1,5 +1,7 @@
 const logger = require("tracer").colorConsole();
-//const emailUtil = require("../utils/email");
+const uuidv4 = require("uuid/v4");
+
+const emailUtil = require("../utils/emailUtil");
 const Utilisateur = require("../models/Utilisateur");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
@@ -15,7 +17,7 @@ controller.creer = async data => {
         .courrielExistant(data.courriel)
         .then(async courrielExiste => {
             if (courrielExiste) {
-                return await {
+                throw await {
                     success: false,
                     courriel: "Utilisateur existant"
                 };
@@ -28,6 +30,7 @@ controller.creer = async data => {
                         .toLowerCase()
                         .trim();
                     utilisateur.mdp = hash;
+
                     const result = utilisateur.save();
                     resolve(result);
                 });
@@ -126,97 +129,64 @@ controller.rechercherParId = id => {
     return Utilisateur.findById(id);
 };
 
-/* 
-controller.sendConfirm = function(user, addresse) {
-	var email = _.find(user.emails, {'email' : addresse});
-	if (!email) {
-		promise.reject({title: i18n.__('common.error'), msg : i18n.__('confirm.notAssociated')});
-		return promise;
-	}
-	email.confirmCode = rack();
-	return user.save()
-	.then(function() {
-		return emailUtil.send(email.email, user.firstName + ' ' + user.lastName, i18n.__('confirm.subject'), i18n.__('confirm.body',  {name: user.firstName + ' ' + user.lastName,url:network.getFullURL()+ "/users/confirm/" + email.confirmCode}));
-	})
-	.then(function() {
-		return user;
-	})
-}
+controller.forgotPassword = (courriel, host) => {
+    return controller
+        .rechercher(courriel)
+        .then(user => {
+            if (!user) {
+                throw { msg: "courriel inexistant" };
+            }
+            user.resetToken = uuidv4();
+            user.resetTokenExpired = Date.now() + 360000;
+            return user.save();
+        })
+        .then(user => {
+            const mailOptions = {
+                to: user.courriel,
+                from: keys.nodeMailerConfig.auth.user,
+                subject: "JUGEMENT MOBILE - Réinitialisation du mot de passe",
+                text:
+                    "Vous recevez ce courriel car vous (ou quelqu'un) a demandé de réinitialiser votre mot de passe pour l'application de jugement \n\n" +
+                    "Cliquez sur le lien suivant pour réinitialiser votre mot de passe:\n\n" +
+                    "http://" +
+                    host +
+                    "/reinitialiser/" +
+                    user.resetToken +
+                    "\n\n" +
+                    "Si vous n'avez pas demandé de changement, ignorez ce courriel et votre mot de passe demeurera inchangé.\n"
+            };
 
-controller.sendInvite = function(user, addresse, email, program, eventName) {
-	user.inviteCode = rack();
-	return user.save()
-	.then(function() {
-		return emailUtil.send(user.username, user.firstName + ' ' + user.lastName, i18n.__('invite.subject.'+email, {event: eventName}), i18n.__('invite.body.'+email,  {name: user.firstName + ' ' + user.lastName, program: program.name, url: network.getFullURL()+ "/users/invite/" + user.inviteCode, event: eventName}))
-	}).then(function() {
-		return user;
-	})
-}
-
-controller.finishInvite = function(inviteCode, data) {
-	return User.findOne({inviteCode: inviteCode})
-	.then(function(user) {
-		user.firstName = data.firstName;
-		user.lastName = data.lastName;
-		user.password = data.password;
-		user.inviteCode = null;
-		var email = _.find(user.emails, {"email": user.username.toLowerCase().trim()});
-		email.confirmed = true;
-		email.confirmCode = undefined;
-		return user.save();
-	})
-}
-
-controller.confirm = function(confirmCode) {
-	var email;
-	return User.findOne({'emails.confirmCode' : confirmCode})
-	.then(function(user) {
-		if (!user) {
-			throw {title: i18n.__('common.error'), msg : i18n.__("confirm.notFound")}
-		}
-		email = _.find(user.emails, {'confirmCode' : confirmCode});
-		email.confirmed = true;
-		email.confirmCode = undefined;
-		return user.save();
-	}).then(function(user) {
-		var result = {};
-		result.user = user;
-		result.email = email.email;
-		return result;
-	});
-} */
-
-/* 
-controller.forgotPassword = function(email) {
-	return controller.find(email)
-	.then(function(user) {
-		if (!user) {
-			throw {title: i18n.__('common.error'), msg : i18n.__("reset.notAssociated")}
-		}
-		user.resetCode = rack();
-		return user.save();
-	})
-	.then(function(user) {
-		return emailUtil.send(email, user.firstName + ' ' + user.lastName, i18n.__('reset.subject'), i18n.__('reset.body',  network.getFullURL()+ "/users/forgotPassword/" + user.resetCode));
-	});
-}
+            emailUtil.send(mailOptions, err => {
+                if (err) throw err;
+                return {
+                    success: true,
+                    msg: "Un message a été envoyé par courriel"
+                };
+            });
+        })
+        .catch(err => {
+            throw err;
+        });
+};
 
 controller.findResetCode = function(resetCode) {
-	return User.findOne({"resetCode" : resetCode})
-}
+    return User.findOne({ resetCode: resetCode });
+};
 
 controller.resetPassword = function(user, password) {
-	return controller.find(user.username)
-	.then(function(user) {
-		if (!user) {
-			throw {title: i18n.__('common.error'), msg : i18n.__("reset.notAssociated")};
-		}
-		user.password = password;
-		user.resetCode = undefined;
-		return user.save();
-	})
-}
- */
+    return controller.find(user.username).then(function(user) {
+        if (!user) {
+            throw {
+                title: i18n.__("common.error"),
+                msg: i18n.__("reset.notAssociated")
+            };
+        }
+        user.password = password;
+        user.resetCode = undefined;
+        return user.save();
+    });
+};
+
 controller.update = function(user, data) {
     return controller.find(user.username).then(function(user) {
         user.firstName = data.firstName || user.firstName;
