@@ -4,13 +4,13 @@ const passport = require("passport");
 const logger = require("tracer").colorConsole();
 const isEmpty = require("../utils/isEmpty");
 
-const FinaleController = require("../controllers/Finale");
+const RegionController = require("../controllers/Region");
 
 router.get("/tous", (req, res) => {
-    FinaleController.rechercherTous()
+    RegionController.rechercherTous()
         .then(resultat => {
             if (isEmpty(resultat))
-                throw { success: false, msg: "Aucune finale trouvée" };
+                throw { success: false, msg: "Aucune région trouvée" };
             res.status(200).json(resultat);
         })
         .catch(err => {
@@ -18,11 +18,11 @@ router.get("/tous", (req, res) => {
         });
 });
 
-router.get("/id", (req, res) => {
-    FinaleController.rechercherId(req.query.finaleId)
+router.get("/id/:regionId", (req, res) => {
+    RegionController.rechercherId(req.params.regionId)
         .then(resultat => {
             if (isEmpty(resultat))
-                throw { success: false, msg: "Aucune finale trouvée" };
+                throw { success: false, msg: "Région non trouvée" };
             res.status(200).json(resultat);
         })
         .catch(err => {
@@ -31,7 +31,7 @@ router.get("/id", (req, res) => {
 });
 
 router.post("/creer", (req, res) => {
-    FinaleController.creer(req.body)
+    RegionController.creer(req.body)
         .then(resultat => {
             res.status(200).json(resultat);
         })
@@ -39,11 +39,9 @@ router.post("/creer", (req, res) => {
             res.status(400).json(err);
         });
 });
-
-router.post("/importer-participants/:finaleId", (req, res) => {});
 
 router.put("/modifier", (req, res) => {
-    FinaleController.modifier(req.body)
+    RegionController.modifier(req.body)
         .then(resultat => {
             res.status(200).json(resultat);
         })
@@ -52,8 +50,8 @@ router.put("/modifier", (req, res) => {
         });
 });
 
-router.put("/reactiver", (req, res) => {
-    FinaleController.reactiver(req.query.finaleId)
+router.delete("/supprimer/tous", (req, res) => {
+    RegionController.supprimerTous()
         .then(resultat => {
             res.status(200).json(resultat);
         })
@@ -62,18 +60,8 @@ router.put("/reactiver", (req, res) => {
         });
 });
 
-router.delete("/archiver", (req, res) => {
-    FinaleController.archiver(req.query.finaleId)
-        .then(resultat => {
-            res.status(200).json(resultat);
-        })
-        .catch(err => {
-            res.status(400).json(err);
-        });
-});
-
-router.delete("/supprimer", (req, res) => {
-    FinaleController.supprimerUn(req.query.finaleId)
+router.delete("/supprimer/:regionId", (req, res) => {
+    RegionController.supprimerUn(req.params.regionId)
         .then(resultat => {
             res.status(200).json(resultat);
         })
