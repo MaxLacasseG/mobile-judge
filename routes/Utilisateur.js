@@ -47,24 +47,21 @@ router.post("/connexion", (req, res) => {
 });
 
 router.post("/oubli-mdp", function(req, res) {
-    UtilisateurController.forgotPassword(
-        req.body.courriel,
-        req.headers.host
-    ).then(
-        function() {
-            return res.status(200).send({
+    UtilisateurController.forgotPassword(req.body.courriel, req.headers.host)
+        .then(result => {
+            logger.log("mail sent", result);
+            res.status(200).json({
                 success: true,
                 msg:
                     "Un courriel vous a été envoyé afin de réinitialiser votre mot de passe"
             });
-        },
-        function(err) {
-            logger.error(err);
-            return res.status(200).send(err);
-        }
-    );
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
 });
 
+//NECESSAIRE?? ou à développer dans la partie client?
 router.get("/oubli-mdp", function(req, res) {
     UserController.findResetToken(req.query.resetToken).then(function(user) {
         if (!user) {
@@ -74,7 +71,7 @@ router.get("/oubli-mdp", function(req, res) {
                     "Le code de réinitialisation est invalide ou expiré. Veuillez refaire une demande."
             });
         } else {
-            res.status(200).send({
+            res.status(200).json({
                 resetToken: true
             });
         }
