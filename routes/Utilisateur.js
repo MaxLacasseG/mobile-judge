@@ -65,30 +65,37 @@ router.post("/oubli-mdp", function(req, res) {
     );
 });
 
-router.get("/forgotPassword/:resetCode", function(req, res) {
-    UserController.findResetCode(req.params.resetCode).then(function(user) {
+router.get("/oubli-mdp", function(req, res) {
+    UserController.findResetToken(req.query.resetToken).then(function(user) {
         if (!user) {
-            return res.redirect("/#/login?invalidResetCode=true");
+            return res.status(400).json({
+                resetToken: false,
+                msg:
+                    "Le code de réinitialisation est invalide ou expiré. Veuillez refaire une demande."
+            });
+        } else {
+            res.status(200).send({
+                resetToken: true
+            });
         }
-        req.session.resetUser = user;
-        res.redirect("/#/reset-password");
     });
 });
 
-router.post("/passwordReset", function(req, res) {
-    if (!req.session.resetUser) {
-        return res.status(200).send({ success: false });
-    }
-    UserController.resetPassword(req.session.resetUser, req.body.password).then(
-        function() {
-            req.session.resetUser = undefined;
-            return res.status(200).send({ success: true });
-        },
-        function(err) {
-            logger.error(err);
-            return res.status(200).send(err);
-        }
-    );
+router.post("/reinit-mdp", function(req, res) {
+    UtilisateurController.findResetToken(req.query.token)
+        .then(user => {
+            if (!user) throw { msg: "Utilisateur non trouvé" };
+            return UtilisateurController.reinitMdp(user, req.body.mdp);
+        })
+        .then(success => {
+            res.status(200).json({
+                success: true,
+                msg: "Mot de passe modifié"
+            });
+        })
+        .catch(err => {
+            res.status(400).json({ success: false, err });
+        });
 });
 
 // router.post("/update", requireAuthentication, function(req, res) {

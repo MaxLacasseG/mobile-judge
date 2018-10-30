@@ -22,19 +22,10 @@ controller.creer = async data => {
                     courriel: "Utilisateur existant"
                 };
             }
-            return await new Promise((resolve, reject) => {
-                bcrypt.hash(data.mdp, saltRounds, (err, hash) => {
-                    if (err) reject(err);
-                    const utilisateur = new Utilisateur(data);
-                    utilisateur.courriel = utilisateur.courriel
-                        .toLowerCase()
-                        .trim();
-                    utilisateur.mdp = hash;
+            const utilisateur = new Utilisateur(data);
+            utilisateur.courriel = utilisateur.courriel.toLowerCase().trim();
 
-                    const result = utilisateur.save();
-                    resolve(result);
-                });
-            });
+            return utilisateur.save();
         });
 };
 
@@ -169,31 +160,16 @@ controller.forgotPassword = (courriel, host) => {
         });
 };
 
-controller.findResetCode = function(resetCode) {
-    return User.findOne({ resetCode: resetCode });
+controller.findResetToken = resetToken => {
+    return Utilisateur.findOne({ resetToken });
 };
 
-controller.resetPassword = function(user, password) {
-    return controller.find(user.username).then(function(user) {
-        if (!user) {
-            throw {
-                title: i18n.__("common.error"),
-                msg: i18n.__("reset.notAssociated")
-            };
-        }
-        user.password = password;
-        user.resetCode = undefined;
-        return user.save();
-    });
-};
-
-controller.update = function(user, data) {
-    return controller.find(user.username).then(function(user) {
-        user.firstName = data.firstName || user.firstName;
-        user.lastName = data.lastName || user.lastName;
-        user.birthday = data.birthday || user.birthday;
-        return user.save();
-    });
+controller.reinitMdp = (user, mdp) => {
+    console.log(user, mdp);
+    user.mdp = mdp;
+    user.resetToken = null;
+    user.resetTokenExpired = null;
+    return user.save();
 };
 
 module.exports = controller;
