@@ -75,6 +75,12 @@ router.delete("/archiver", (req, res) => {
 router.delete("/supprimer", (req, res) => {
     FinaleController.supprimerUn(req.query.finaleId)
         .then(resultat => {
+            if (isEmpty(resultat)) {
+                throw {
+                    success: false,
+                    msg: "Impossible de supprimer l'élément demandé."
+                };
+            }
             res.status(200).json(resultat);
         })
         .catch(err => {

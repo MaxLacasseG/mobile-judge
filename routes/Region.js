@@ -53,6 +53,12 @@ router.put("/modifier", (req, res) => {
 router.delete("/supprimer/tous", (req, res) => {
     RegionController.supprimerTous()
         .then(resultat => {
+            if (isEmpty(resultat)) {
+                throw {
+                    success: false,
+                    msg: "Impossible de supprimer l'élément demandé."
+                };
+            }
             res.status(200).json(resultat);
         })
         .catch(err => {

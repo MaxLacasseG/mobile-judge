@@ -20,8 +20,9 @@ controller.rechercherTous = () => {
 
 controller.creer = projetInfos => {
     //TODO: Validation
+    logger.warn(projetInfos);
     const newProjet = new Projet(projetInfos);
-
+    newProjet.jugement = [];
     return newProjet.save();
 };
 
@@ -31,7 +32,7 @@ controller.modifier = projetId => {
 };
 
 controller.supprimerUn = projetId => {
-    return Projet.findByIdAndDelete(regionId);
+    return Projet.findByIdAndDelete(projetId);
 };
 
 controller.supprimerProjetsFinale = finaleId => {
