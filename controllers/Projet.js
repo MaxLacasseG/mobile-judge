@@ -35,9 +35,19 @@ controller.supprimerUn = projetId => {
 };
 
 controller.supprimerProjetsFinale = finaleId => {
-    return Projet.find({ finale: finaleId })
-        .then(resultat => {
-            return Projet.deleteMany(resultat);
+    return Projet.deleteMany({ finale: finaleId })
+        .then(resultats => {
+            return resultats;
+        })
+        .catch(err => {
+            throw err;
+        });
+};
+
+controller.supprimerTous = () => {
+    return Projet.deleteMany({})
+        .then(resultats => {
+            return resultats;
         })
         .catch(err => {
             throw err;

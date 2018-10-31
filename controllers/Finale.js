@@ -38,6 +38,10 @@ controller.supprimerUn = finaleId => {
     return Finale.findByIdAndDelete(finaleId);
 };
 
+controller.supprimerTous = () => {
+    return Finale.deleteMany({});
+};
+
 controller.archiver = async finaleId => {
     return controller
         .rechercherId(finaleId)

@@ -4,13 +4,10 @@ const uuidv4 = require("uuid/v4");
 const emailUtil = require("../utils/emailUtil");
 const Utilisateur = require("../models/Utilisateur");
 const bcrypt = require("bcrypt");
-const saltRounds = 10;
 const controller = {};
 const JWT = require("jsonwebtoken");
 const keys = require("../config/keys");
-// @param {object}			data: Les infos fournis par le formulaire d'inscription
-// @return {err, result}	result: L'utilisateur enregistré
-//							err: L'erreur s'il y a lieu
+
 controller.creer = async data => {
     //TODOS:VALIDATION
     return await controller
@@ -31,57 +28,61 @@ controller.creer = async data => {
 
 controller.connexion = data => {
     //VALIDATION
-    return controller
-        .rechercher(data.courriel)
+    return Utilisateur.findOne({ courriel: data.courriel })
         .then(utilisateur => {
-            return new Promise((resolve, reject) => {
-                bcrypt.compare(data.mdp, utilisateur.mdp, (err, result) => {
-                    if (err) reject(err);
-                    else {
-                        if (result) {
-                            const payload = {
-                                id: utilisateur._id,
-                                courriel: utilisateur.courriel,
-                                prenom: utilisateur.prenom,
-                                nom: utilisateur.nom,
-                                regions: utilisateur.regions,
-                                admin: utilisateur.admin
-                            };
-                            JWT.sign(
-                                payload,
-                                keys.secretOrKey,
-                                { expiresIn: 3600 },
-                                (err, token) => {
-                                    if (err) throw err;
-                                    resolve({
-                                        success: true,
-                                        msg: "Connecté",
-                                        token: "Bearer " + token
-                                    });
-                                }
-                            );
-                        } else {
-                            reject(false);
-                        }
-                    }
-                });
+            return {
+                isMatch: bcrypt.compareSync(data.mdp, utilisateur.mdp),
+                utilisateur
+            };
+        })
+        .then(result => {
+            if (!result.isMatch)
+                throw { success: false, msg: "Mot de passe erroné." };
+
+            const payload = {
+                _id: result.utilisateur._id,
+                courriel: result.utilisateur.courriel,
+                prenom: result.utilisateur.prenom,
+                nom: result.utilisateur.nom,
+                telephone: result.utilisateur.telephone,
+                region: result.utilisateur.region,
+                isAdmin: result.utilisateur.isAdmin
+            };
+
+            const token = JWT.sign(payload, keys.secretOrKey, {
+                expiresIn: 3600
             });
+
+            if (!token) {
+                throw { success: false, msg: "Impossible de générer le jeton" };
+            }
+
+            return {
+                success: true,
+                msg: "Connecté",
+                token: "Bearer " + token
+            };
         })
         .catch(err => {
             throw err;
         });
 };
 
-// @param  {string} 	courriel
-// @return {bool}	Retourne si le courriel existe dans la bdd ou non
-controller.courrielExistant = async courriel => {
-    return await Utilisateur.find(
-        {
-            courriel: courriel.toLowerCase().trim()
-        },
-        null
-    ).then(async utilisateurs => {
-        return (await utilisateurs.length) > 0;
+controller.courrielExistant = courriel => {
+    return Utilisateur.find({ courriel: courriel.toLowerCase().trim() })
+        .then(utilisateurs => {
+            return utilisateurs.length > 0;
+        })
+        .catch(err => {
+            throw err;
+        });
+};
+
+controller.assignerRegion = (utilisateurId, regionsAjout) => {
+    return controller.rechercherParId(utilisateurId).then(utilisateur => {
+        utilisateur.region = regionsAjout;
+
+        return utilisateur.save();
     });
 };
 
@@ -112,26 +113,28 @@ controller.inviter = function(data) {
         });
 };
 
-controller.rechercher = courriel => {
-    return Utilisateur.findOne({ courriel: courriel });
+controller.rechercher = filtre => {
+    return Utilisateur.find(filtre);
 };
 
 controller.rechercherParId = id => {
     return Utilisateur.findById(id);
 };
 
-controller.forgotPassword = (courriel, host) => {
-    return controller
-        .rechercher(courriel)
-        .then(user => {
-            if (!user) {
-                throw { msg: "courriel inexistant" };
+controller.oubliMdp = (courriel, host) => {
+    return Utilisateur.findOne({ courriel: courriel })
+        .then(utilisateur => {
+            //Creation d'un token réinitialisation
+            if (!utilisateur) {
+                throw { success: false, msg: "courriel inexistant" };
             }
-            user.resetToken = uuidv4();
-            user.resetTokenExpired = Date.now() + 360000;
-            return user.save();
+            utilisateur.resetToken = uuidv4();
+            utilisateur.resetTokenExpired = Date.now() + 360000;
+            return utilisateur.save();
         })
         .then(user => {
+            //REFORMATER LE COURRIEL
+            //Envoi d'un courriel de réinitialisation --> Infos du courriel dans le dossier CONFIG
             const mailOptions = {
                 to: user.courriel,
                 from: keys.nodeMailerConfig.auth.user,
@@ -160,16 +163,29 @@ controller.forgotPassword = (courriel, host) => {
         });
 };
 
-controller.findResetToken = resetToken => {
+controller.trouverReinitToken = resetToken => {
     return Utilisateur.findOne({ resetToken });
 };
 
 controller.reinitMdp = (user, mdp) => {
-    console.log(user, mdp);
     user.mdp = mdp;
     user.resetToken = null;
     user.resetTokenExpired = null;
     return user.save();
+};
+
+controller.supprimerUn = utilisateurId => {
+    return Utilisateur.findByIdAndDelete(utilisateurId);
+};
+
+controller.supprimerTous = () => {
+    return Utilisateur.deleteMany({})
+        .then(resultats => {
+            return resultats;
+        })
+        .catch(err => {
+            throw err;
+        });
 };
 
 module.exports = controller;

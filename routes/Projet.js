@@ -79,6 +79,28 @@ router.put("/modifier", (req, res) => {
 router.delete("/supprimer/tous", (req, res) => {
     ProjetController.supprimerTous()
         .then(resultat => {
+            if (isEmpty(resultat) || resultat.n === 0) {
+                throw {
+                    success: false,
+                    msg: "Impossible de supprimer l'élément demandé."
+                };
+            }
+            res.status(200).json(resultat);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
+});
+
+router.delete("/supprimer/finale", (req, res) => {
+    ProjetController.supprimerProjetsFinale(req.query.finaleId)
+        .then(resultat => {
+            if (isEmpty(resultat) || resultat.n === 0) {
+                throw {
+                    success: false,
+                    msg: "Impossible de supprimer l'élément demandé."
+                };
+            }
             res.status(200).json(resultat);
         })
         .catch(err => {
@@ -89,7 +111,7 @@ router.delete("/supprimer/tous", (req, res) => {
 router.delete("/supprimer", (req, res) => {
     ProjetController.supprimerUn(req.query.projetId)
         .then(resultat => {
-            if (isEmpty(resultat)) {
+            if (isEmpty(resultat) || resultat.n === 0) {
                 throw {
                     success: false,
                     msg: "Impossible de supprimer l'élément demandé."

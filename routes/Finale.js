@@ -30,6 +30,30 @@ router.get("/id", (req, res) => {
         });
 });
 
+router.get("/actif", (req, res) => {
+    FinaleController.rechercher({ isActive: true })
+        .then(resultat => {
+            if (isEmpty(resultat))
+                throw { success: false, msg: "Aucune finale trouvée" };
+            res.status(200).json(resultat);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
+});
+
+router.get("/archive", (req, res) => {
+    FinaleController.rechercher({ isActive: false })
+        .then(resultat => {
+            if (isEmpty(resultat))
+                throw { success: false, msg: "Aucune finale trouvée" };
+            res.status(200).json(resultat);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
+});
+
 router.post("/creer", (req, res) => {
     FinaleController.creer(req.body)
         .then(resultat => {
@@ -62,6 +86,11 @@ router.put("/reactiver", (req, res) => {
         });
 });
 
+//TODO:
+router.put("/assigner-participants", (req, res) => {
+    res.status(400).json("TODO");
+});
+
 router.delete("/archiver", (req, res) => {
     FinaleController.archiver(req.query.finaleId)
         .then(resultat => {
@@ -75,7 +104,23 @@ router.delete("/archiver", (req, res) => {
 router.delete("/supprimer", (req, res) => {
     FinaleController.supprimerUn(req.query.finaleId)
         .then(resultat => {
-            if (isEmpty(resultat)) {
+            if (isEmpty(resultat) || resultat.n === 0) {
+                throw {
+                    success: false,
+                    msg: "Impossible de supprimer l'élément demandé."
+                };
+            }
+            res.status(200).json(resultat);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
+});
+
+router.delete("/supprimer/tous", (req, res) => {
+    FinaleController.supprimerTous()
+        .then(resultat => {
+            if (isEmpty(resultat) || resultat.n === 0) {
                 throw {
                     success: false,
                     msg: "Impossible de supprimer l'élément demandé."

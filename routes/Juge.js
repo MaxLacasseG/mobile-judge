@@ -86,9 +86,31 @@ router.put("/modifier", (req, res) => {
         });
 });
 
-router.delete("/supprimer/finale", (req, res) => {
-    JugeController.supprimerJugesFinale(req.query.finaleId)
+router.delete("/supprimer/tous", (req, res) => {
+    JugeController.supprimerTous()
         .then(resultat => {
+            if (isEmpty(resultat) || resultat.n === 0) {
+                throw {
+                    success: false,
+                    msg: "Impossible de supprimer l'élément demandé."
+                };
+            }
+            res.status(200).json(resultat);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
+});
+
+router.delete("/supprimer/finale", (req, res) => {
+    JugeController.supprimerProjetsFinale(req.query.finaleId)
+        .then(resultat => {
+            if (isEmpty(resultat) || resultat.n === 0) {
+                throw {
+                    success: false,
+                    msg: "Impossible de supprimer l'élément demandé."
+                };
+            }
             res.status(200).json(resultat);
         })
         .catch(err => {
@@ -99,7 +121,7 @@ router.delete("/supprimer/finale", (req, res) => {
 router.delete("/supprimer", (req, res) => {
     JugeController.supprimerUn(req.query.jugeId)
         .then(resultat => {
-            if (isEmpty(resultat)) {
+            if (isEmpty(resultat) || resultat.n === 0) {
                 throw {
                     success: false,
                     msg: "Impossible de supprimer l'élément demandé."

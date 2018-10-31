@@ -35,9 +35,19 @@ controller.supprimerUn = jugeId => {
 };
 
 controller.supprimerJugesFinale = finaleId => {
-    return Juge.find({ finale: finaleId })
-        .then(async resultat => {
-            return await Juge.deleteMany(resultat);
+    return Juge.deleteMany({ finale: finaleId })
+        .then(resultats => {
+            return Juge.deleteMany(resultats);
+        })
+        .catch(err => {
+            throw err;
+        });
+};
+
+controller.supprimerTous = () => {
+    return Juge.deleteMany({})
+        .then(resultats => {
+            return resultats;
         })
         .catch(err => {
             throw err;

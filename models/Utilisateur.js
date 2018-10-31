@@ -13,7 +13,7 @@ const UtilisateurSchema = new Schema({
     prenom: { type: String, select: true },
     nom: { type: String, select: true },
     telephone: { type: String, select: true },
-    region: { type: Schema.Types.ObjectId, ref: "Region" },
+    region: [{ type: Schema.Types.ObjectId, ref: "Region" }],
     isAdmin: { type: Boolean, default: false },
     resetToken: { type: String, default: null },
     resetTokenExpired: { type: Number, default: null }
@@ -39,7 +39,7 @@ UtilisateurSchema.pre("save", function(next) {
     });
 });
 
-UtilisateurSchema.methods.comparePassword = function(candidatePassword, cb) {
+UtilisateurSchema.methods.comparePassword = (candidatePassword, cb) => {
     bcrypt.compare(candidatePassword, this.mdp, function(err, isMatch) {
         if (err) return cb(err);
         cb(null, isMatch);
