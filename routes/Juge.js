@@ -8,22 +8,108 @@ const JugeController = require("../controllers/Juge");
 
 //Ajouter les juges non inscrit dans SGI
 
-router.get("/tous", (req, res) => {});
+router.get("/tous", (req, res) => {
+    JugeController.rechercherTous()
+        .then(resultat => {
+            if (isEmpty(resultat))
+                throw { success: false, msg: "Aucun projet trouvé" };
+            res.status(200).json(resultat);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
+});
 
-router.get("/finale/:finaleId", (req, res) => {});
+router.get("/finale", (req, res) => {
+    ProjetController.rechercherId(req.query.finaleId)
+        .then(resultat => {
+            if (isEmpty(resultat))
+                throw { success: false, msg: "Aucun projet trouvé" };
+            res.status(200).json(resultat);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
+});
 
-router.get("/id/:jugeId", (req, res) => {});
+router.get("/projet", (req, res) => {
+    const filtre = {
+        projetId: req.query.projetId,
+        finaleId: req.query.finaleId
+    };
 
-router.get("/projet/:projetId", (req, res) => {});
+    JugeController.rechercher(filtre)
+        .then(resultat => {
+            if (isEmpty(resultat))
+                throw { success: false, msg: "Aucun projet trouvé" };
+            res.status(200).json(resultat);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
+});
 
-router.get("/region/:finaleId", (req, res) => {});
+router.get("/id", (req, res) => {
+    JugeController.rechercherId(req.query.jugeId)
+        .then(resultat => {
+            if (isEmpty(resultat))
+                throw { success: false, msg: "Aucun juge trouvé" };
+            res.status(200).json(resultat);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
+});
 
-router.post("/creer", (req, res) => {});
+//TODO: Ajouter tous les juges par région
 
+router.post("/creer", (req, res) => {
+    JugeController.creer(req.body)
+        .then(resultat => {
+            res.status(200).json(resultat);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
+});
+
+//TODO: Gérer la connexion d'un juge
 router.post("/connexion", (req, res) => {});
 
-router.put("/modifier", (req, res) => {});
+router.put("/modifier", (req, res) => {
+    JugeController.modifier(req.body)
+        .then(resultat => {
+            res.status(200).json(resultat);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
+});
 
-router.delete("/supprimer", (req, res) => {});
+router.delete("/supprimer/tous", (req, res) => {
+    JugeController.supprimerTous()
+        .then(resultat => {
+            res.status(200).json(resultat);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
+});
+
+router.delete("/supprimer", (req, res) => {
+    JugeController.supprimerUn(req.query.jugeId)
+        .then(resultat => {
+            if (isEmpty(resultat)) {
+                throw {
+                    success: false,
+                    msg: "Impossible de supprimer l'élément demandé."
+                };
+            }
+            res.status(200).json(resultat);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
+});
 
 module.exports = router;

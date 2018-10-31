@@ -45,7 +45,7 @@ router.get("/juge", (req, res) => {
 });
 
 router.get("/id", (req, res) => {
-    RegionController.rechercherId(req.query.projetId)
+    ProjetController.rechercherId(req.query.projetId)
         .then(resultat => {
             if (isEmpty(resultat))
                 throw { success: false, msg: "Aucun projet trouvé" };

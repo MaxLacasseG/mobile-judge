@@ -6,8 +6,8 @@ controller.rechercher = filtre => {
     return Projet.find(filtre);
 };
 
-controller.rechercherId = finaleId => {
-    return Projet.findById(finaleId);
+controller.rechercherId = projetId => {
+    return Projet.findById(projetId);
 };
 
 controller.rechercherFinale = finaleId => {
@@ -20,7 +20,6 @@ controller.rechercherTous = () => {
 
 controller.creer = projetInfos => {
     //TODO: Validation
-    logger.warn(projetInfos);
     const newProjet = new Projet(projetInfos);
     newProjet.jugement = [];
     return newProjet.save();

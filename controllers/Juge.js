@@ -3,31 +3,45 @@ const Juge = require("../models/Juge");
 const controller = {};
 
 controller.rechercher = filtre => {
-    return false;
+    return Juge.find(filtre);
 };
 
-controller.rechercherId = finaleId => {
-    return false;
+controller.rechercherId = jugeId => {
+    return Projet.findById(jugeId);
 };
 
-controller.rechercherTousFinale = finaleId => {
-    return false;
+controller.rechercherFinale = finaleId => {
+    return Juge.find({ finale: finaleId });
 };
 
-controller.creer = projetInfos => {
-    return true;
+controller.rechercherTous = () => {
+    return Juge.find({});
 };
 
-controller.modifier = projetId => {
-    return true;
+controller.creer = jugeInfos => {
+    //TODO: Validation
+    const newJuge = new Juge(jugeInfos);
+    newJuge.projets = [];
+    return newJuge.save();
 };
 
-controller.supprimerUn = projetId => {
-    return true;
+controller.modifier = jugeId => {
+    //TODO: Validation
+    return Juge.findByIdAndUpdate(jugeId._id, jugeId);
 };
 
-controller.supprimerProjetsFinale = finaleId => {
-    return true;
+controller.supprimerUn = jugeId => {
+    return Juge.findByIdAndDelete(jugeId);
+};
+
+controller.supprimerJugesFinale = finaleId => {
+    return Juge.find({ finale: finaleId })
+        .then(resultat => {
+            return Juge.deleteMany(resultat);
+        })
+        .catch(err => {
+            throw err;
+        });
 };
 
 module.exports = controller;
