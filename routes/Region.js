@@ -18,8 +18,8 @@ router.get("/tous", (req, res) => {
         });
 });
 
-router.get("/id/:regionId", (req, res) => {
-    RegionController.rechercherId(req.params.regionId)
+router.get("/id", (req, res) => {
+    RegionController.rechercherId(req.query.regionId)
         .then(resultat => {
             if (isEmpty(resultat))
                 throw { success: false, msg: "Région non trouvée" };
@@ -66,8 +66,8 @@ router.delete("/supprimer/tous", (req, res) => {
         });
 });
 
-router.delete("/supprimer/:regionId", (req, res) => {
-    RegionController.supprimerUn(req.params.regionId)
+router.delete("/supprimer", (req, res) => {
+    RegionController.supprimerUn(req.query.regionId)
         .then(resultat => {
             res.status(200).json(resultat);
         })

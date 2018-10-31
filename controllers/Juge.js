@@ -27,7 +27,7 @@ controller.creer = jugeInfos => {
 
 controller.modifier = jugeId => {
     //TODO: Validation
-    return Juge.findByIdAndUpdate(jugeId._id, jugeId);
+    return Juge.findByIdAndUpdate(jugeId._id, jugeId, { new: true });
 };
 
 controller.supprimerUn = jugeId => {

@@ -19,7 +19,7 @@ router.get("/tous", (req, res) => {
 });
 
 router.get("/finale", (req, res) => {
-    ProjetController.rechercherId(req.query.finaleId)
+    ProjetController.rechercher({ finale: req.query.finaleId })
         .then(resultat => {
             if (isEmpty(resultat))
                 throw { success: false, msg: "Aucun projet trouvé" };

@@ -29,7 +29,9 @@ controller.creer = finaleInfos => {
 
 controller.modifier = finaleInfos => {
     //TODO: Validation
-    return Finale.findByIdAndUpdate(finaleInfos._id, finaleInfos);
+    return Finale.findByIdAndUpdate(finaleInfos._id, finaleInfos, {
+        new: true
+    });
 };
 
 controller.supprimerUn = finaleId => {

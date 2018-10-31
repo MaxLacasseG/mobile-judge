@@ -21,7 +21,7 @@ router.get("/tous", (req, res) => {
 });
 
 router.get("/finale", (req, res) => {
-    JugeController.rechercherFinale(req.query.finaleId)
+    JugeController.rechercher({ finale: req.query.finaleId })
         .then(resultat => {
             if (isEmpty(resultat))
                 throw { success: false, msg: "Aucun juge trouvé" };

@@ -27,7 +27,7 @@ controller.creer = projetInfos => {
 
 controller.modifier = projetId => {
     //TODO: Validation
-    return Projet.findByIdAndUpdate(projetId._id, projetId);
+    return Projet.findByIdAndUpdate(projetId._id, projetId, { new: true });
 };
 
 controller.supprimerUn = projetId => {

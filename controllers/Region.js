@@ -23,7 +23,9 @@ controller.creer = regionInfos => {
 
 controller.modifier = regionInfos => {
     //TODO: Validation
-    return Region.findByIdAndUpdate(regionInfos._id, regionInfos);
+    return Region.findByIdAndUpdate(regionInfos._id, regionInfos, {
+        new: true
+    });
 };
 
 controller.supprimerUn = regionId => {
