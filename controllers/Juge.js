@@ -7,7 +7,7 @@ controller.rechercher = filtre => {
 };
 
 controller.rechercherId = jugeId => {
-    return Projet.findById(jugeId);
+    return Juge.findById(jugeId);
 };
 
 controller.rechercherFinale = finaleId => {
@@ -36,8 +36,8 @@ controller.supprimerUn = jugeId => {
 
 controller.supprimerJugesFinale = finaleId => {
     return Juge.find({ finale: finaleId })
-        .then(resultat => {
-            return Juge.deleteMany(resultat);
+        .then(async resultat => {
+            return await Juge.deleteMany(resultat);
         })
         .catch(err => {
             throw err;

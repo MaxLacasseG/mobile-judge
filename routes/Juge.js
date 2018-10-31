@@ -21,10 +21,10 @@ router.get("/tous", (req, res) => {
 });
 
 router.get("/finale", (req, res) => {
-    ProjetController.rechercherId(req.query.finaleId)
+    JugeController.rechercherFinale(req.query.finaleId)
         .then(resultat => {
             if (isEmpty(resultat))
-                throw { success: false, msg: "Aucun projet trouvé" };
+                throw { success: false, msg: "Aucun juge trouvé" };
             res.status(200).json(resultat);
         })
         .catch(err => {
@@ -86,8 +86,8 @@ router.put("/modifier", (req, res) => {
         });
 });
 
-router.delete("/supprimer/tous", (req, res) => {
-    JugeController.supprimerTous()
+router.delete("/supprimer/finale", (req, res) => {
+    JugeController.supprimerJugesFinale(req.query.finaleId)
         .then(resultat => {
             res.status(200).json(resultat);
         })
