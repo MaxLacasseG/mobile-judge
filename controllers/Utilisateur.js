@@ -1,6 +1,6 @@
 const logger = require("tracer").colorConsole();
 const uuidv4 = require("uuid/v4");
-
+const isEmpty = require("../utils/isEmpty");
 const emailUtil = require("../utils/emailUtil");
 const Utilisateur = require("../models/Utilisateur");
 const bcrypt = require("bcrypt");
@@ -10,37 +10,37 @@ const keys = require("../config/keys");
 
 controller.creer = async data => {
     //TODOS:VALIDATION
-    return await controller
-        .courrielExistant(data.courriel)
-        .then(async courrielExiste => {
-            if (courrielExiste) {
-                throw await {
-                    success: false,
-                    courriel: "Utilisateur existant"
-                };
-            }
-            const utilisateur = new Utilisateur(data);
-            utilisateur.courriel = utilisateur.courriel.toLowerCase().trim();
+    return await controller.courrielExistant(data.courriel).then(async courrielExiste => {
+        if (courrielExiste) {
+            throw await {
+                success: false,
+                courriel: "Utilisateur existant"
+            };
+        }
+        const utilisateur = new Utilisateur(data);
+        utilisateur.courriel = utilisateur.courriel.toLowerCase().trim();
 
-            return utilisateur.save();
-        });
+        return utilisateur.save();
+    });
 };
 
 controller.connexion = data => {
     //VALIDATION
     return Utilisateur.findOne({ courriel: data.courriel })
         .then(utilisateur => {
+            if (isEmpty(utilisateur)) {
+                throw { success: false, msg: "Utilisateur inconnu" };
+            }
             return {
                 isMatch: bcrypt.compareSync(data.mdp, utilisateur.mdp),
                 utilisateur
             };
         })
         .then(result => {
-            if (!result.isMatch)
-                throw { success: false, msg: "Mot de passe erroné." };
+            if (!result.isMatch) throw { success: false, msg: "Mot de passe erroné." };
 
             const payload = {
-                _id: result.utilisateur._id,
+                id: result.utilisateur._id,
                 courriel: result.utilisateur.courriel,
                 prenom: result.utilisateur.prenom,
                 nom: result.utilisateur.nom,
@@ -103,13 +103,7 @@ controller.inviter = function(data) {
             return user.save();
         })
         .then(function(user) {
-            return controller.sendInvite(
-                user,
-                user.username,
-                data.email,
-                data.program || {},
-                data.event
-            );
+            return controller.sendInvite(user, user.username, data.email, data.program || {}, data.event);
         });
 };
 

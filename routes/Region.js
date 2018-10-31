@@ -6,11 +6,10 @@ const isEmpty = require("../utils/isEmpty");
 
 const RegionController = require("../controllers/Region");
 
-router.get("/tous", (req, res) => {
+router.get("/tous", passport.authenticate("jwt", { session: false }), (req, res) => {
     RegionController.rechercherTous()
         .then(resultat => {
-            if (isEmpty(resultat))
-                throw { success: false, msg: "Aucune région trouvée" };
+            if (isEmpty(resultat)) throw { success: false, msg: "Aucune région trouvée" };
             res.status(200).json(resultat);
         })
         .catch(err => {
@@ -21,8 +20,7 @@ router.get("/tous", (req, res) => {
 router.get("/id", (req, res) => {
     RegionController.rechercherId(req.query.regionId)
         .then(resultat => {
-            if (isEmpty(resultat))
-                throw { success: false, msg: "Région non trouvée" };
+            if (isEmpty(resultat)) throw { success: false, msg: "Région non trouvée" };
             res.status(200).json(resultat);
         })
         .catch(err => {
