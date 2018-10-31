@@ -12,7 +12,7 @@ export const login = (userData, history) => dispatch => {
             setAuthToken(token);
             const decoded = jwt_decode(token);
             dispatch(setCurrentUser(decoded));
-            history.push("/");
+            history.push("/finale");
         })
         .catch(err => {
             dispatch({ type: GET_ERRORS, payload: err.response.data });
@@ -36,4 +36,20 @@ export const logoutUser = () => dispatch => {
     dispatch(setCurrentUser({}));
     //Redirects to login
     window.location.href = "/connexion";
+};
+
+export const oubliMdp = () => dispatch => {
+    axios
+        .post("/api/utilisateur/oubli-mdp", userData)
+        .then(result => {
+            const { token } = result.data;
+            localStorage.setItem("jwtToken", token);
+            setAuthToken(token);
+            const decoded = jwt_decode(token);
+            dispatch(setCurrentUser(decoded));
+            history.push("/finale");
+        })
+        .catch(err => {
+            dispatch({ type: GET_ERRORS, payload: err.response.data });
+        });
 };

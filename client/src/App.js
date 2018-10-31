@@ -5,21 +5,23 @@ import store from "./store/store";
 import setAuthHeader from "./utils/setAuthHeaders";
 import jwt_decode from "jwt-decode";
 import { setCurrentUser, logoutUser } from "./store/actions/authActions";
-import {
-    BrowserRouter as Router,
-    Route,
-    Switch,
-    Redirect
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import PrivateRoute from "./components/auth/PrivateRoute";
-import AdminRoute from "./components/auth/AdminRoute";
 
 //Components
 import Accueil from "./components/pages/Accueil";
 import Page404 from "./components/pages/Page404";
 import Navbar from "./components/pages/partials/Navbar";
+
 import Bienvenue from "./components/auth/Bienvenue";
 import Connexion from "./components/auth/ConnexionForm";
+import MdpOubli from "./components/auth/MdpOubli";
+import MdpChangement from "./components/auth/MdpChangement";
+
+import Finale from "./components/finales/Finale";
+import Importation from "./components/finales/Importation";
+import Assignation from "./components/finales/Assignation";
+import Exportation from "./components/finales/Exportation";
 
 //AUTH CHECK
 //if there is a token already in localstorage,
@@ -37,7 +39,7 @@ if (localStorage.jwtToken) {
     if (decoded.exp < currentTime) {
         store.dispatch(logoutUser());
         //Redirects
-        window.location.href = "/login";
+        window.location.href = "/connexion";
     }
 }
 
@@ -52,16 +54,14 @@ class App extends Component {
                         <div className="container">
                             <Switch>
                                 <Route exact path="/" component={Accueil} />
-                                <Route
-                                    exact
-                                    path="/connexion"
-                                    component={Connexion}
-                                />
-                                <Route
-                                    exact
-                                    path="/non-trouve"
-                                    component={Page404}
-                                />
+                                <Route exact path="/admin-connexion" component={Connexion} />
+                                <Route exact path="/oubli-mot-de-passe" component={MdpOubli} />
+                                <Route exact path="/modification-mot-de-passe/*" component={MdpChangement} />
+                                <PrivateRoute exact path="/selection-finale" component={Finale} />
+                                <PrivateRoute exact path="/importation" component={Importation} />
+                                <PrivateRoute exact path="/assignation" component={Assignation} />
+                                <PrivateRoute exact path="/exportation" component={Exportation} />
+                                <Route exact path="/non-trouve" component={Page404} />
                                 <Redirect exact from="/*" to="/" />
                             </Switch>
                         </div>

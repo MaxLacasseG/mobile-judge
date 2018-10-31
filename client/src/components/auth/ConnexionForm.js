@@ -18,7 +18,7 @@ class ConnexionForm extends Component {
 
     componentDidMount() {
         if (this.props.auth.isAuthenticated) {
-            this.props.history.push("/");
+            this.props.history.push("/finale");
         }
     }
     onSubmit(e) {
@@ -65,10 +65,7 @@ class ConnexionForm extends Component {
                                         onChange={this.onChange}
                                     />
                                 </div>
-                                <input
-                                    type="submit"
-                                    className="btn btn-info btn-block mt-4"
-                                />
+                                <input type="submit" className="btn btn-info btn-block mt-4" />
                             </form>
                         </div>
                     </div>

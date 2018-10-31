@@ -9,8 +9,7 @@ const UtilisateurController = require("../controllers/Utilisateur");
 router.get("/tous", (req, res) => {
     UtilisateurController.rechercher({})
         .then(resultat => {
-            if (isEmpty(resultat))
-                throw { success: false, msg: "Aucun utilisateur trouvé" };
+            if (isEmpty(resultat)) throw { success: false, msg: "Aucun utilisateur trouvé" };
             res.status(200).json(resultat);
         })
         .catch(err => {
@@ -21,8 +20,7 @@ router.get("/tous", (req, res) => {
 router.get("/courriel-existant", (req, res) => {
     UtilisateurController.courrielExistant(req.query.courriel)
         .then(resultat => {
-            if (isEmpty(resultat))
-                throw { success: false, msg: "Aucun utilisateur trouvé" };
+            if (isEmpty(resultat)) throw { success: false, msg: "Aucun utilisateur trouvé" };
             res.status(200).json(resultat);
         })
         .catch(err => {
@@ -33,8 +31,7 @@ router.get("/courriel-existant", (req, res) => {
 router.get("/id", (req, res) => {
     UtilisateurController.rechercherParId(req.query.utilisateurId)
         .then(resultat => {
-            if (isEmpty(resultat))
-                throw { success: false, msg: "Aucun utilisateur trouvé" };
+            if (isEmpty(resultat)) throw { success: false, msg: "Aucun utilisateur trouvé" };
             res.status(200).json(resultat);
         })
         .catch(err => {
@@ -45,8 +42,7 @@ router.get("/id", (req, res) => {
 router.get("/region", (req, res) => {
     UtilisateurController.rechercher({ region: req.query.regionId })
         .then(resultat => {
-            if (isEmpty(resultat))
-                throw { success: false, msg: "Aucun utilisateur trouvé" };
+            if (isEmpty(resultat)) throw { success: false, msg: "Aucun utilisateur trouvé" };
 
             res.status(200).json(resultat);
         })
@@ -81,8 +77,7 @@ router.post("/oubli-mdp", (req, res) => {
             res.status(200).json({
                 result,
                 success: true,
-                msg:
-                    "Un courriel vous a été envoyé afin de réinitialiser votre mot de passe"
+                msg: "Un courriel vous a été envoyé afin de réinitialiser votre mot de passe"
             });
         })
         .catch(err => {
@@ -119,10 +114,7 @@ router.put("/modifier", (req, res) => {
 });
 
 router.put("/assigner-region", (req, res) => {
-    UtilisateurController.assignerRegion(
-        req.query.utilisateurId,
-        req.body.liste
-    )
+    UtilisateurController.assignerRegion(req.query.utilisateurId, req.body.liste)
         .then(result => {
             res.status(200).json(result);
         })
