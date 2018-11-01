@@ -6,7 +6,8 @@ const emailUtil = {};
 emailUtil.send = mailOptions => {
     const transporter = nodemailer.createTransport(keys.nodeMailerConfig);
 
-    return transporter.sendMail(mailOptions, function(err, info) {
+    return transporter.sendMail(mailOptions, (err, info) => {
+        console.log(info);
         if (err) console.log(err);
         else return info;
     });

@@ -86,7 +86,7 @@ router.post("/oubli-mdp", (req, res) => {
 });
 
 router.post("/reinit-mdp", (req, res) => {
-    UtilisateurController.trouverReinitToken(req.query.token)
+    UtilisateurController.trouverReinitToken(req.body.token)
         .then(user => {
             if (!user) throw { msg: "Utilisateur non trouvé" };
             return UtilisateurController.reinitMdp(user, req.body.mdp);

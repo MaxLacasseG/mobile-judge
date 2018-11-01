@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { login } from "../../store/actions/authActions";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 
 class ConnexionForm extends Component {
     constructor(props) {
@@ -67,6 +67,13 @@ class ConnexionForm extends Component {
                                 </div>
                                 <input type="submit" className="btn btn-info btn-block mt-4" />
                             </form>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-md-8 m-auto pt-3">
+                            <h3 className="center-text link-info">
+                                <Link to="/oubli-mot-de-passe">Mot de passe oublié?</Link>
+                            </h3>
                         </div>
                     </div>
                 </div>

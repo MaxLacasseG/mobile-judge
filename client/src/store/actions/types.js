@@ -41,3 +41,4 @@ export const UPDATE_REGION = "UPDATE_REGION";
 export const DELETE_REGION = "DELETE_REGION";
 
 export const GET_ERRORS = "GET_ERRORS";
+export const GET_MESSAGE = "GET_MESSAGE";

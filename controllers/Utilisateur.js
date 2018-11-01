@@ -136,9 +136,7 @@ controller.oubliMdp = (courriel, host) => {
                 text:
                     "Vous recevez ce courriel car vous (ou quelqu'un) a demandé de réinitialiser votre mot de passe pour l'application de jugement \n\n" +
                     "Cliquez sur le lien suivant pour réinitialiser votre mot de passe:\n\n" +
-                    "http://" +
-                    host +
-                    "/reinitialiser/" +
+                    "http://localhost:3000/modification-mot-de-passe/" +
                     user.resetToken +
                     "\n\n" +
                     "Si vous n'avez pas demandé de changement, ignorez ce courriel et votre mot de passe demeurera inchangé.\n"

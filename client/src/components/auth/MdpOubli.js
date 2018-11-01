@@ -1,15 +1,26 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 
-export default class MdpOubli extends Component {
+import { oubliMdp } from "../../store/actions/authActions";
+class MdpOubli extends Component {
     constructor(props) {
         super(props);
         this.state = {
             courriel: ""
         };
         this.onSubmit = this.onSubmit.bind(this);
+        this.onChange = this.onChange.bind(this);
     }
 
-    onSubmit() {}
+    onSubmit(e) {
+        e.preventDefault();
+        this.props.oubliMdp(this.state.courriel);
+        this.props.history.push("/admin-connexion");
+    }
+
+    onChange(e) {
+        this.setState({ [e.target.name]: e.target.value });
+    }
     render() {
         return (
             <div className="mdp-oubli">
@@ -37,3 +48,8 @@ export default class MdpOubli extends Component {
         );
     }
 }
+
+export default connect(
+    null,
+    { oubliMdp }
+)(MdpOubli);
