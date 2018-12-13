@@ -2,19 +2,21 @@
 import {} from "../actions/types";
 
 const initialState = {
-	finale: "",
-	prenom: "",
-	nom: "",
-	numero: "",
-	tel: "",
-	courriel: ""
+    isAuthenticated: false,
+    infos: {},
+    finale: "",
+    prenom: "",
+    nom: "",
+    numero: "",
+    tel: "",
+    courriel: ""
 };
 
 const jugeReducer = (state = initialState, action) => {
-	switch (action.type) {
-		default:
-			return state;
-	}
+    switch (action.type) {
+        default:
+            return state;
+    }
 };
 
 export default jugeReducer;

@@ -4,11 +4,13 @@ import finaleReducer from "./finaleReducer";
 import projetReducer from "./projetReducer";
 import jugeReducer from "./jugeReducer";
 import erreurReducer from "./erreurReducer";
+import messageReducer from "./messageReducer";
 
 export default combineReducers({
-	auth: authReducer,
-	finale: finaleReducer,
-	projet: projetReducer,
-	juge: jugeReducer,
-	erreur: erreurReducer
+    auth: authReducer,
+    finale: finaleReducer,
+    projet: projetReducer,
+    juge: jugeReducer,
+    erreur: erreurReducer,
+    message: messageReducer
 });
