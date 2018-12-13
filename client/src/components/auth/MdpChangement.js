@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { history } from "react-router-dom";
 import { changementMdp } from "../../store/actions/authActions";
 class MdpChangement extends Component {
     constructor(props) {

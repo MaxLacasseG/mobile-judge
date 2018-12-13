@@ -4,26 +4,28 @@
 
 `Admin`
 
+0. Se connecter
 1. Ajouter des utilisateurs
-2. Modifier des utilisateurs `Attribuer une région`
-3. Supprimer des utilisateurs
-4. Voir toutes les finales `actives ou archivées`
-5. Modifier une finale [en entrant son mdp]
+1. Modifier des utilisateurs `Attribuer une région`
+1. Supprimer des utilisateurs
+1. Voir toutes les finales `actives ou archivées`
+1. Modifier une finale [en entrant son mdp]
 
 ---
 
 `Responsable`
 
+0. Se connecter
 1. Créer une finale
-2. Importer la liste des juges/participants
-3. Importer l'attribution des participants
-4. Exporter les données de jugement
-5. Afficher le jumelage par juge par période
-6. Afficher le jumelage par projet par période
-7. Réattribuer manuellement un juge et un participant
-8. Réinitialiser la liste des juges/participants
-9. Réinitialiser le mdp d'un juge
-10. Archiver une finale
+1. Importer la liste des juges/participants
+1. Importer l'attribution des participants
+1. Exporter les données de jugement
+1. Afficher le jumelage par juge par période
+1. Afficher le jumelage par projet par période
+1. Réattribuer manuellement un juge et un participant
+1. Réinitialiser la liste des juges/participants
+1. Réinitialiser le mdp d'un juge
+1. Archiver une finale
 
 ---
 
