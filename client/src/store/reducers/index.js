@@ -1,16 +1,16 @@
 import { combineReducers } from "redux";
 import authReducer from "./authReducer";
-import finaleReducer from "./finaleReducer";
-import projetReducer from "./projetReducer";
-import jugeReducer from "./jugeReducer";
-import erreurReducer from "./erreurReducer";
+import finalReducer from "./finalReducer";
+import projectReducer from "./projectReducer";
+import judgeReducer from "./judgeReducer";
+import errorReducer from "./errorReducer";
 import messageReducer from "./messageReducer";
 
 export default combineReducers({
     auth: authReducer,
-    finale: finaleReducer,
-    projet: projetReducer,
-    juge: jugeReducer,
-    erreur: erreurReducer,
+    final: finalReducer,
+    project: projectReducer,
+    judge: judgeReducer,
+    error: errorReducer,
     message: messageReducer
 });

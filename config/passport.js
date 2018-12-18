@@ -16,6 +16,7 @@ module.exports = passport => {
                 .rechercherParId(jwt_payload.id)
                 .then(resultat => {
                     if (resultat) {
+                        //TODO:CHECK IF JUDGE OR USER
                         const user = {
                             _id: jwt_payload._id,
                             courriel: jwt_payload.courriel,

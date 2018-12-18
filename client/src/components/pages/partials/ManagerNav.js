@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { logoutUser } from "../../../store/actions/authActions";
 
-class Nav extends Component {
+class ManagerNav extends Component {
     constructor(props) {
         super(props);
         this.onLogout = this.onLogout.bind(this);
@@ -18,7 +18,7 @@ class Nav extends Component {
         return (
             <nav className="navbar navbar-expand-md navbar-dark bg-info">
                 <a className="navbar-brand" href="/">
-                    LOGO
+                    LOGO manager
                 </a>
 
                 {/* MENU PRINCIPAL*/}
@@ -45,4 +45,4 @@ const mapStateToProps = state => ({
 export default connect(
     mapStateToProps,
     { logoutUser }
-)(Nav);
+)(ManagerNav);

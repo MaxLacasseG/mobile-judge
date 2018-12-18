@@ -1,30 +1,39 @@
-import React, { Component } from "react";
 import "./App.css";
+import React, { Component } from "react";
 import { Provider } from "react-redux";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import store from "./store/store";
 import setAuthHeader from "./utils/setAuthHeaders";
 import jwt_decode from "jwt-decode";
+
 import { setCurrentUser, logoutUser } from "./store/actions/authActions";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import PrivateRoute from "./components/auth/PrivateRoute";
+
+//Routes Type
+import JudgeRoute from "./components/auth/Judge/JudgeRoute";
+import AdminRoute from "./components/auth/Manager/AdminRoute";
+import ManagerRoute from "./components/auth/Manager/ManagerRoute";
 
 //Components
-import Accueil from "./components/pages/Accueil";
-import Page404 from "./components/pages/Page404";
-import Navbar from "./components/pages/partials/Navbar";
+//PAGES COMPONENTS
+import NotFound from "./components/pages/Page404";
+import Nav from "./components/pages/partials/Nav";
 
-import Bienvenue from "./components/auth/Bienvenue";
-import Connexion from "./components/auth/ConnexionForm";
-import MdpOubli from "./components/auth/MdpOubli";
-import MdpChangement from "./components/auth/MdpChangement";
-
-import Finale from "./components/finales/Finale";
+//JUDGE COMPONENTS
+import JudgeLogin from "./components/auth/Judge/JudgeLogin";
+import JudgeDashboard from "./components/juges/JudgeDashboard";
+import Final from "./components/finales/Finale";
 import Importation from "./components/finales/Importation";
-import Assignation from "./components/finales/Assignation";
+import Attribution from "./components/finales/Assignation";
 import Exportation from "./components/finales/Exportation";
 
-import JugesAccueil from "./components/juges/ConnexionJuges";
-import SelectionFinale from "./components/finales/SelectionFinale";
+//MANAGER COMPONENTS
+import ManagerLogin from "./components/auth/Manager/ConnexionForm";
+import ForgotPwdForm from "./components/auth/Manager/MdpOubli";
+import ResetPwdForm from "./components/auth/Manager/MdpChangement";
+import ManagerDashboard from "./components/pages/Accueil";
+
+//ADMIN COMPONENTS
+import UserList from "./components/utilisateurs/UserList";
 
 //AUTH CHECK
 //if there is a token already in localstorage,
@@ -52,21 +61,27 @@ class App extends Component {
             <Provider store={store}>
                 <Router>
                     <div className="App">
-                        <Navbar />
-                        <Bienvenue />
+                        <Nav />
                         <div className="container">
                             <Switch>
-                                <Route exact path="/" component={JugesAccueil} />
-                                <Route exact path="/selection-finale" component={SelectionFinale} />
-                                <Route exact path="/admin" component={Accueil} />
-                                <Route exact path="/admin-connexion" component={Connexion} />
-                                <Route exact path="/oubli-mot-de-passe" component={MdpOubli} />
-                                <Route exact path="/modification-mot-de-passe/*" component={MdpChangement} />
-                                <PrivateRoute exact path="/selection-finale" component={Finale} />
-                                <PrivateRoute exact path="/importation" component={Importation} />
-                                <PrivateRoute exact path="/assignation" component={Assignation} />
-                                <PrivateRoute exact path="/exportation" component={Exportation} />
-                                <Route path="/*" component={Page404} />
+                                {/* JUDGE ROUTES */}
+                                <Route exact path="/" component={JudgeLogin} />
+                                <JudgeRoute exact path="/juge" component={JudgeDashboard} />
+
+                                {/* MANAGER ROUTES */}
+                                <Route exact path="/admin/admin-connexion" component={ManagerLogin} />
+                                <Route exact path="/admin/oubli-mot-de-passe" component={ForgotPwdForm} />
+                                <Route exact path="/admin/modification-mot-de-passe/*" component={ResetPwdForm} />
+                                <ManagerRoute exact path="/admin" component={ManagerDashboard} />
+                                <ManagerRoute exact path="/admin/selection-finale" component={Final} />
+                                <ManagerRoute exact path="/admin/importation" component={Importation} />
+                                <ManagerRoute exact path="/admin/assignation" component={Attribution} />
+                                <ManagerRoute exact path="/admin/exportation" component={Exportation} />
+
+                                {/* ADMIN ROUTES */}
+                                <AdminRoute exact path="/admin/utilisateur" component={UserList} />
+
+                                <Route path="/*" component={NotFound} />
                             </Switch>
                         </div>
                     </div>

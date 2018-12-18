@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-class Forgot extends Component {
+class ForgotForm extends Component {
     render() {
         return (
             <div>
@@ -8,12 +8,7 @@ class Forgot extends Component {
                     <legend />
                     <div className="form-group">
                         <label htmlFor="email">Courriel</label>
-                        <input
-                            type="email"
-                            className="form-control"
-                            name="email"
-                            autofocus
-                        />
+                        <input type="email" className="form-control" name="email" autofocus />
                     </div>
                     <button className="btn-primary btn" type="submit">
                         Réinitialiser le mot de passe
@@ -24,4 +19,4 @@ class Forgot extends Component {
     }
 }
 
-export default Forgot;
+export default ForgotForm;

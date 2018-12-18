@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { oubliMdp } from "../../store/actions/authActions";
+import { oubliMdp } from "../../../store/actions/authActions";
 class MdpOubli extends Component {
     constructor(props) {
         super(props);

@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { login } from "../../store/actions/authActions";
+import { login } from "../../../store/actions/authActions";
 import { withRouter } from "react-router-dom";
 
-class ConnexionJuges extends Component {
+class JudgeLogin extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -86,4 +86,4 @@ const mapStateToProps = state => ({
 export default connect(
     mapStateToProps,
     { login }
-)(withRouter(ConnexionJuges));
+)(withRouter(JudgeLogin));

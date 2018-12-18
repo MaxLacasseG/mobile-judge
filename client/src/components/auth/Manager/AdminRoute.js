@@ -9,10 +9,10 @@ const AdminRoute = ({ component: Component, auth, ...rest }) => (
                 auth.utilisateur.admin === true ? (
                     <Component {...props} />
                 ) : (
-                    <Redirect to="/" />
+                    <Redirect to="/admin-connexion" />
                 )
             ) : (
-                <Redirect to="/" />
+                <Redirect to="/admin-connexion" />
             )
         }
     />

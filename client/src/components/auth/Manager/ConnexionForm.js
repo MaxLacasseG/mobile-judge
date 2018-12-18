@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { login } from "../../store/actions/authActions";
+import { login } from "../../../store/actions/authActions";
 import { withRouter, Link } from "react-router-dom";
 
 class ConnexionForm extends Component {
