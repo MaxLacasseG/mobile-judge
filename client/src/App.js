@@ -16,6 +16,7 @@ import ManagerRoute from "./components/auth/Manager/ManagerRoute";
 //Components
 //PAGES COMPONENTS
 import NotFound from "./components/pages/Page404";
+import Header from "./components/pages/partials/Header";
 import Nav from "./components/pages/partials/Nav";
 
 //JUDGE COMPONENTS
@@ -27,10 +28,10 @@ import Attribution from "./components/finales/Assignation";
 import Exportation from "./components/finales/Exportation";
 
 //MANAGER COMPONENTS
-import ManagerLogin from "./components/auth/Manager/ConnexionForm";
+import ManagerLogin from "./components/auth/Manager/ManagerLoginForm";
 import ForgotPwdForm from "./components/auth/Manager/MdpOubli";
 import ResetPwdForm from "./components/auth/Manager/MdpChangement";
-import ManagerDashboard from "./components/pages/Accueil";
+import ManagerDashboard from "./components/managers/ManagerDashboard";
 
 //ADMIN COMPONENTS
 import UserList from "./components/utilisateurs/UserList";
@@ -61,6 +62,7 @@ class App extends Component {
             <Provider store={store}>
                 <Router>
                     <div className="App">
+                        <Header />
                         <Nav />
                         <div className="container">
                             <Switch>
@@ -69,10 +71,10 @@ class App extends Component {
                                 <JudgeRoute exact path="/juge" component={JudgeDashboard} />
 
                                 {/* MANAGER ROUTES */}
-                                <Route exact path="/admin/admin-connexion" component={ManagerLogin} />
+                                <Route exact path="/admin" component={ManagerLogin} />
                                 <Route exact path="/admin/oubli-mot-de-passe" component={ForgotPwdForm} />
                                 <Route exact path="/admin/modification-mot-de-passe/*" component={ResetPwdForm} />
-                                <ManagerRoute exact path="/admin" component={ManagerDashboard} />
+                                <ManagerRoute exact path="/admin/panneau-controle" component={ManagerDashboard} />
                                 <ManagerRoute exact path="/admin/selection-finale" component={Final} />
                                 <ManagerRoute exact path="/admin/importation" component={Importation} />
                                 <ManagerRoute exact path="/admin/assignation" component={Attribution} />

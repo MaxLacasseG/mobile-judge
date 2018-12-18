@@ -46,7 +46,8 @@ controller.connexion = data => {
                 nom: result.utilisateur.nom,
                 telephone: result.utilisateur.telephone,
                 region: result.utilisateur.region,
-                isAdmin: result.utilisateur.isAdmin
+                isAdmin: result.utilisateur.isAdmin,
+                isManager: true
             };
 
             const token = JWT.sign(payload, keys.secretOrKey, {

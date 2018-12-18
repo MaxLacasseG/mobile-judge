@@ -8,11 +8,12 @@ export const login = (userData, history) => dispatch => {
         .post("/api/utilisateur/connexion", userData)
         .then(result => {
             const { token } = result.data;
+
             localStorage.setItem("jwtToken", token);
             setAuthToken(token);
             const decoded = jwt_decode(token);
             dispatch(setCurrentUser(decoded));
-            history.push("/finale");
+            history.push("/admin/panneau-controle");
         })
         .catch(err => {
             dispatch({ type: GET_ERRORS, payload: err.response.data });
@@ -26,7 +27,7 @@ export const setCurrentUser = decoded => {
     };
 };
 
-export const logoutUser = () => dispatch => {
+export const logoutUser = history => dispatch => {
     //removes from localstorage
     localStorage.removeItem("jwtToken");
     //resets requests authorization header
@@ -35,7 +36,7 @@ export const logoutUser = () => dispatch => {
     //set isAuthenticated to false
     dispatch(setCurrentUser({}));
     //Redirects to login
-    window.location.href = "/connexion";
+    history.push("/admin");
 };
 
 export const oubliMdp = courriel => dispatch => {

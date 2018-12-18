@@ -1,26 +1,17 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { logoutUser } from "../../../store/actions/authActions";
 
 class ManagerNav extends Component {
-    constructor(props) {
-        super(props);
-        this.onLogout = this.onLogout.bind(this);
-    }
-
-    onLogout() {
-        this.props.logoutUser();
-    }
+    onLogout = () => {
+        this.props.logoutUser(this.props.history);
+    };
     render() {
         const isAuthenticated = this.props.auth.isAuthenticated;
 
         return (
-            <nav className="navbar navbar-expand-md navbar-dark bg-info">
-                <a className="navbar-brand" href="/">
-                    LOGO manager
-                </a>
-
+            <nav className="navbar navbar-expand-md navbar-dark bg-primary">
                 {/* MENU PRINCIPAL*/}
                 <div className="collapse navbar-collapse" id="menuPrincipal">
                     <div className="pull-right">
@@ -45,4 +36,4 @@ const mapStateToProps = state => ({
 export default connect(
     mapStateToProps,
     { logoutUser }
-)(ManagerNav);
+)(withRouter(ManagerNav));

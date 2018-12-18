@@ -17,8 +17,8 @@ class ConnexionForm extends Component {
     }
 
     componentDidMount() {
-        if (this.props.auth.isAuthenticated) {
-            this.props.history.push("/finale");
+        if (this.props.auth.isAuthenticated && this.props.auth.user.isManager) {
+            this.props.history.push("/admin/panneau-controle");
         }
     }
     onSubmit(e) {
