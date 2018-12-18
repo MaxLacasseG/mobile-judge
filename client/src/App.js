@@ -5,7 +5,7 @@ import store from "./store/store";
 import setAuthHeader from "./utils/setAuthHeaders";
 import jwt_decode from "jwt-decode";
 import { setCurrentUser, logoutUser } from "./store/actions/authActions";
-import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import PrivateRoute from "./components/auth/PrivateRoute";
 
 //Components
@@ -22,6 +22,9 @@ import Finale from "./components/finales/Finale";
 import Importation from "./components/finales/Importation";
 import Assignation from "./components/finales/Assignation";
 import Exportation from "./components/finales/Exportation";
+
+import JugesAccueil from "./components/juges/ConnexionJuges";
+import SelectionFinale from "./components/finales/SelectionFinale";
 
 //AUTH CHECK
 //if there is a token already in localstorage,
@@ -53,7 +56,9 @@ class App extends Component {
                         <Bienvenue />
                         <div className="container">
                             <Switch>
-                                <Route exact path="/" component={Accueil} />
+                                <Route exact path="/" component={JugesAccueil} />
+                                <Route exact path="/selection-finale" component={SelectionFinale} />
+                                <Route exact path="/admin" component={Accueil} />
                                 <Route exact path="/admin-connexion" component={Connexion} />
                                 <Route exact path="/oubli-mot-de-passe" component={MdpOubli} />
                                 <Route exact path="/modification-mot-de-passe/*" component={MdpChangement} />
@@ -61,8 +66,7 @@ class App extends Component {
                                 <PrivateRoute exact path="/importation" component={Importation} />
                                 <PrivateRoute exact path="/assignation" component={Assignation} />
                                 <PrivateRoute exact path="/exportation" component={Exportation} />
-                                <Route exact path="/non-trouve" component={Page404} />
-                                <Redirect exact from="/*" to="/" />
+                                <Route path="/*" component={Page404} />
                             </Switch>
                         </div>
                     </div>

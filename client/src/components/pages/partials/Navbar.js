@@ -31,13 +31,7 @@ class Nav extends Component {
                                         Déconnexion
                                     </Link>
                                 </li>
-                            ) : (
-                                <li className="nav-item">
-                                    <Link className="nav-link" to="/admin-connexion">
-                                        Connexion
-                                    </Link>
-                                </li>
-                            )}
+                            ) : null}
                         </ul>
                     </div>
                 </div>
