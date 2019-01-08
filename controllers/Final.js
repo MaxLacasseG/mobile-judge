@@ -1,9 +1,9 @@
 const logger = require("tracer").colorConsole();
-const Finale = require("../models/Finale");
+const Finale = require("../models/Final");
 const isEmpty = require("../utils/isEmpty");
 
-const ProjetController = require("./Projet");
-const JugeController = require("./Juge");
+const ProjetController = require("./Project");
+const JugeController = require("./Judge");
 const RegionController = require("./Region");
 
 const controller = {};

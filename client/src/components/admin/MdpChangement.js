@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { changementMdp } from "../../../store/actions/authActions";
+import { changementMdp } from "../../store/actions/authActions";
 class MdpChangement extends Component {
     constructor(props) {
         super(props);

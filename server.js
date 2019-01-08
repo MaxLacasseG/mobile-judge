@@ -9,11 +9,10 @@ const morgan = require("morgan");
 const db = require("./config/keys").mongoURI;
 
 //REQUIRE ROUTES
-const utilisateur = require("./routes/Utilisateur");
-const region = require("./routes/Region");
-const juge = require("./routes/Juge");
-const projet = require("./routes/Projet");
-const finale = require("./routes/Finale");
+const adminRoutes = require("./routes/Admin");
+const judgeRoutes = require("./routes/Judge");
+const projectRoutes = require("./routes/Project");
+const finalRoutes = require("./routes/Final");
 
 mongoose.connect(
     db,
@@ -23,6 +22,7 @@ mongoose.connect(
         logger.trace("Connecté à la base de donnée");
     }
 );
+
 //PASSPORT INIT, ADDS TO REQUESTS
 passport.initialize();
 require("./config/passport")(passport);
@@ -33,11 +33,10 @@ app.use(bodyParser.json());
 app.use(morgan("dev"));
 
 //ROUTES
-app.use("/api/utilisateur", utilisateur);
-app.use("/api/region", region);
-app.use("/api/juge", juge);
-app.use("/api/projet", projet);
-app.use("/api/finale", finale);
+app.use("/api/admin", adminRoutes);
+//app.use("/api/judge", judgeRoutes);
+//app.use("/api/project", projectRoutes);
+//app.use("/api/finalRoutes", finalRoutes);
 
 app.listen(port, err => {
     if (err) logger.log(err);

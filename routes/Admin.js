@@ -1,13 +1,11 @@
-const express = require("express");
-const router = express.Router();
-const passport = require("passport");
+const router = require("express").Router();
 const isEmpty = require("../utils/isEmpty");
 const logger = require("tracer").colorConsole();
 
-const UtilisateurController = require("../controllers/Utilisateur");
+const AdminController = require("../controllers/Admin");
 
 router.get("/tous", (req, res) => {
-    UtilisateurController.rechercher({})
+    AdminController.rechercher({})
         .then(resultat => {
             if (isEmpty(resultat)) throw { success: false, msg: "Aucun utilisateur trouvé" };
             res.status(200).json(resultat);
@@ -18,7 +16,7 @@ router.get("/tous", (req, res) => {
 });
 
 router.get("/courriel-existant", (req, res) => {
-    UtilisateurController.courrielExistant(req.query.courriel)
+    AdminController.courrielExistant(req.query.courriel)
         .then(resultat => {
             if (isEmpty(resultat)) throw { success: false, msg: "Aucun utilisateur trouvé" };
             res.status(200).json(resultat);
@@ -29,7 +27,7 @@ router.get("/courriel-existant", (req, res) => {
 });
 
 router.get("/id", (req, res) => {
-    UtilisateurController.rechercherParId(req.query.utilisateurId)
+    AdminController.rechercherParId(req.query.utilisateurId)
         .then(resultat => {
             if (isEmpty(resultat)) throw { success: false, msg: "Aucun utilisateur trouvé" };
             res.status(200).json(resultat);
@@ -39,40 +37,30 @@ router.get("/id", (req, res) => {
         });
 });
 
-router.get("/region", (req, res) => {
-    UtilisateurController.rechercher({ region: req.query.regionId })
-        .then(resultat => {
-            if (isEmpty(resultat)) throw { success: false, msg: "Aucun utilisateur trouvé" };
-
-            res.status(200).json(resultat);
-        })
-        .catch(err => {
-            res.status(200).json(err);
-        });
-});
-
-router.post("/creer", (req, res) => {
-    UtilisateurController.creer(req.body)
+router.post("/create", (req, res) => {
+    AdminController.CreateAdmin(req.body)
         .then(result => {
             res.status(200).json(result);
         })
         .catch(err => {
+            logger.log(err);
             res.status(400).json(err);
         });
 });
 
-router.post("/connexion", (req, res) => {
-    UtilisateurController.connexion(req.body)
+router.post("/connection", (req, res) => {
+    AdminController.ConnectAdmin(req.body)
         .then(resultat => {
             res.status(200).json(resultat);
         })
         .catch(err => {
+            logger.log(err);
             res.status(400).json(err);
         });
 });
 
 router.post("/oubli-mdp", (req, res) => {
-    UtilisateurController.oubliMdp(req.body.courriel, req.headers.host)
+    AdminController.oubliMdp(req.body.courriel, req.headers.host)
         .then(result => {
             res.status(200).json({
                 result,
@@ -86,10 +74,10 @@ router.post("/oubli-mdp", (req, res) => {
 });
 
 router.post("/reinit-mdp", (req, res) => {
-    UtilisateurController.trouverReinitToken(req.body.token)
+    AdminController.trouverReinitToken(req.body.token)
         .then(user => {
             if (!user) throw { msg: "Utilisateur non trouvé" };
-            return UtilisateurController.reinitMdp(user, req.body.mdp);
+            return AdminController.reinitMdp(user, req.body.mdp);
         })
         .then(resultat => {
             res.status(200).json({
@@ -113,18 +101,8 @@ router.put("/modifier", (req, res) => {
         });
 });
 
-router.put("/assigner-region", (req, res) => {
-    UtilisateurController.assignerRegion(req.query.utilisateurId, req.body.liste)
-        .then(result => {
-            res.status(200).json(result);
-        })
-        .catch(err => {
-            res.status(400).json(err);
-        });
-});
-
 router.delete("/supprimer/tous", (req, res) => {
-    UtilisateurController.supprimerTous()
+    AdminController.supprimerTous()
         .then(resultat => {
             if (isEmpty(resultat) || resultat.n === 0) {
                 throw {
@@ -140,7 +118,7 @@ router.delete("/supprimer/tous", (req, res) => {
 });
 
 router.delete("/supprimer", (req, res) => {
-    UtilisateurController.supprimerUn(req.query.utilisateurId)
+    AdminController.supprimerUn(req.query.utilisateurId)
         .then(resultat => {
             if (isEmpty(resultat) || resultat.n === 0) {
                 throw {
@@ -154,4 +132,5 @@ router.delete("/supprimer", (req, res) => {
             res.status(400).json(err);
         });
 });
+
 module.exports = router;

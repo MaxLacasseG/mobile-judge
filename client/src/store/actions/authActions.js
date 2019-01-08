@@ -5,7 +5,7 @@ import jwt_decode from "jwt-decode";
 
 export const login = (userData, history) => dispatch => {
     axios
-        .post("/api/utilisateur/connexion", userData)
+        .post("/api/admin/connection", userData)
         .then(result => {
             const { token } = result.data;
 

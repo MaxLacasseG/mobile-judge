@@ -1,5 +1,5 @@
 const logger = require("tracer").colorConsole();
-const Juge = require("../models/Juge");
+const Juge = require("../models/Judge");
 const controller = {};
 
 controller.rechercher = filtre => {

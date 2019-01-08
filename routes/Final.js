@@ -4,44 +4,12 @@ const passport = require("passport");
 const logger = require("tracer").colorConsole();
 const isEmpty = require("../utils/isEmpty");
 
-const JugeController = require("../controllers/Juge");
-
-//Ajouter les juges non inscrit dans SGI
+const FinaleController = require("../controllers/Final");
 
 router.get("/tous", (req, res) => {
-    JugeController.rechercherTous()
+    FinaleController.rechercherTous()
         .then(resultat => {
-            if (isEmpty(resultat))
-                throw { success: false, msg: "Aucun projet trouvé" };
-            res.status(200).json(resultat);
-        })
-        .catch(err => {
-            res.status(400).json(err);
-        });
-});
-
-router.get("/finale", (req, res) => {
-    JugeController.rechercher({ finale: req.query.finaleId })
-        .then(resultat => {
-            if (isEmpty(resultat))
-                throw { success: false, msg: "Aucun juge trouvé" };
-            res.status(200).json(resultat);
-        })
-        .catch(err => {
-            res.status(400).json(err);
-        });
-});
-
-router.get("/projet", (req, res) => {
-    const filtre = {
-        projetId: req.query.projetId,
-        finaleId: req.query.finaleId
-    };
-
-    JugeController.rechercher(filtre)
-        .then(resultat => {
-            if (isEmpty(resultat))
-                throw { success: false, msg: "Aucun projet trouvé" };
+            if (isEmpty(resultat)) throw { success: false, msg: "Aucune finale trouvée" };
             res.status(200).json(resultat);
         })
         .catch(err => {
@@ -50,10 +18,9 @@ router.get("/projet", (req, res) => {
 });
 
 router.get("/id", (req, res) => {
-    JugeController.rechercherId(req.query.jugeId)
+    FinaleController.rechercherId(req.query.finaleId)
         .then(resultat => {
-            if (isEmpty(resultat))
-                throw { success: false, msg: "Aucun juge trouvé" };
+            if (isEmpty(resultat)) throw { success: false, msg: "Aucune finale trouvée" };
             res.status(200).json(resultat);
         })
         .catch(err => {
@@ -61,10 +28,30 @@ router.get("/id", (req, res) => {
         });
 });
 
-//TODO: Ajouter tous les juges par région
+router.get("/actif", (req, res) => {
+    FinaleController.rechercher({ isActive: true })
+        .then(resultat => {
+            if (isEmpty(resultat)) throw { success: false, msg: "Aucune finale trouvée" };
+            res.status(200).json(resultat);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
+});
+
+router.get("/archive", (req, res) => {
+    FinaleController.rechercher({ isActive: false })
+        .then(resultat => {
+            if (isEmpty(resultat)) throw { success: false, msg: "Aucune finale trouvée" };
+            res.status(200).json(resultat);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
+});
 
 router.post("/creer", (req, res) => {
-    JugeController.creer(req.body)
+    FinaleController.creer(req.body)
         .then(resultat => {
             res.status(200).json(resultat);
         })
@@ -73,11 +60,10 @@ router.post("/creer", (req, res) => {
         });
 });
 
-//TODO: Gérer la connexion d'un juge
-router.post("/connexion", (req, res) => {});
+router.post("/importer-participants/:finaleId", (req, res) => {});
 
 router.put("/modifier", (req, res) => {
-    JugeController.modifier(req.body)
+    FinaleController.modifier(req.body)
         .then(resultat => {
             res.status(200).json(resultat);
         })
@@ -86,15 +72,9 @@ router.put("/modifier", (req, res) => {
         });
 });
 
-router.delete("/supprimer/tous", (req, res) => {
-    JugeController.supprimerTous()
+router.put("/reactiver", (req, res) => {
+    FinaleController.reactiver(req.query.finaleId)
         .then(resultat => {
-            if (isEmpty(resultat) || resultat.n === 0) {
-                throw {
-                    success: false,
-                    msg: "Impossible de supprimer l'élément demandé."
-                };
-            }
             res.status(200).json(resultat);
         })
         .catch(err => {
@@ -102,15 +82,14 @@ router.delete("/supprimer/tous", (req, res) => {
         });
 });
 
-router.delete("/supprimer/finale", (req, res) => {
-    JugeController.supprimerProjetsFinale(req.query.finaleId)
+//TODO:
+router.put("/assigner-participants", (req, res) => {
+    res.status(400).json("TODO");
+});
+
+router.delete("/archiver", (req, res) => {
+    FinaleController.archiver(req.query.finaleId)
         .then(resultat => {
-            if (isEmpty(resultat) || resultat.n === 0) {
-                throw {
-                    success: false,
-                    msg: "Impossible de supprimer l'élément demandé."
-                };
-            }
             res.status(200).json(resultat);
         })
         .catch(err => {
@@ -119,7 +98,23 @@ router.delete("/supprimer/finale", (req, res) => {
 });
 
 router.delete("/supprimer", (req, res) => {
-    JugeController.supprimerUn(req.query.jugeId)
+    FinaleController.supprimerUn(req.query.finaleId)
+        .then(resultat => {
+            if (isEmpty(resultat) || resultat.n === 0) {
+                throw {
+                    success: false,
+                    msg: "Impossible de supprimer l'élément demandé."
+                };
+            }
+            res.status(200).json(resultat);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
+});
+
+router.delete("/supprimer/tous", (req, res) => {
+    FinaleController.supprimerTous()
         .then(resultat => {
             if (isEmpty(resultat) || resultat.n === 0) {
                 throw {

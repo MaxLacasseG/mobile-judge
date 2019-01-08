@@ -2,54 +2,83 @@ const logger = require("tracer").colorConsole();
 const uuidv4 = require("uuid/v4");
 const isEmpty = require("../utils/isEmpty");
 const emailUtil = require("../utils/emailUtil");
-const Utilisateur = require("../models/Utilisateur");
+const Admin = require("../models/Admin");
+const Judge = require("../models/Judge");
+const adminConnectionValidator = require("../validators/AdminConnection");
 const bcrypt = require("bcrypt");
 const controller = {};
 const JWT = require("jsonwebtoken");
 const keys = require("../config/keys");
 
-controller.creer = async data => {
-    //TODOS:VALIDATION
-    return await controller.courrielExistant(data.courriel).then(async courrielExiste => {
-        if (courrielExiste) {
+controller.CreateJudge = async userInfos => {
+    //Check if final exist
+    //Check if judge number and username exist
+    //Validate info
+    //if not, create user and saves it
+};
+
+controller.CreateAdmin = async adminInfos => {
+    //Validate
+    //Checks if email exist
+    return await controller.CheckIfEmailExist(adminInfos.email).then(async emailExist => {
+        //logger.log(emailExist);
+        if (emailExist) {
             throw await {
                 success: false,
-                courriel: "Utilisateur existant"
+                email: "Utilisateur existant"
             };
         }
-        const utilisateur = new Utilisateur(data);
-        utilisateur.courriel = utilisateur.courriel.toLowerCase().trim();
 
-        return utilisateur.save();
+        const admin = new Admin(adminInfos);
+
+        return admin.save();
     });
 };
 
-controller.connexion = data => {
-    //VALIDATION
-    return Utilisateur.findOne({ courriel: data.courriel })
-        .then(utilisateur => {
-            if (isEmpty(utilisateur)) {
-                throw { success: false, msg: "Utilisateur inconnu" };
-            }
+//Check user type
+//Call appropriate connection method
+controller.ConnectJudge = credentials => {
+    //CHECK if final exist and is opened
+    // CHECKS IF USER EXISTS
+    // IF EXIST, CREATE PAYLOAD
+    // RETURN TOKEN
+};
+
+controller.ConnectAdmin = credentials => {
+    //logger.log(credentials);
+    //Validate && sanitize data
+    const { errors, isValid, sanitizedData } = adminConnectionValidator(credentials);
+    //logger.log(isValid);
+    logger.log(sanitizedData);
+    if (!isValid) throw { errors };
+
+    //Check if super admin
+    return Admin.findOne({ email: sanitizedData.email })
+        .then(admin => {
+            //If user is not found in DB
+            if (isEmpty(admin)) throw { success: false, msg: "Utilisateur inconnu" };
+
             return {
-                isMatch: bcrypt.compareSync(data.mdp, utilisateur.mdp),
-                utilisateur
+                isMatch: bcrypt.compareSync(sanitizedData.pwd, admin.pwd),
+                user: admin
             };
         })
         .then(result => {
+            //If pwd incorrect
             if (!result.isMatch) throw { success: false, msg: "Mot de passe erroné." };
 
+            // Object to be added to the token
             const payload = {
-                id: result.utilisateur._id,
-                courriel: result.utilisateur.courriel,
-                prenom: result.utilisateur.prenom,
-                nom: result.utilisateur.nom,
-                telephone: result.utilisateur.telephone,
-                region: result.utilisateur.region,
-                isAdmin: result.utilisateur.isAdmin,
-                isManager: true
+                id: result.user._id,
+                email: result.user.email,
+                firstName: result.user.firstName,
+                lastName: result.user.lastName,
+                phone: result.user.phone,
+                isAdmin: result.user.isAdmin,
+                type: result.user.type
             };
 
+            //Create the token, expires after 1 hour
             const token = JWT.sign(payload, keys.secretOrKey, {
                 expiresIn: 3600
             });
@@ -58,6 +87,7 @@ controller.connexion = data => {
                 throw { success: false, msg: "Impossible de générer le jeton" };
             }
 
+            //Return token
             return {
                 success: true,
                 msg: "Connecté",
@@ -69,8 +99,19 @@ controller.connexion = data => {
         });
 };
 
-controller.courrielExistant = courriel => {
-    return Utilisateur.find({ courriel: courriel.toLowerCase().trim() })
+controller.ConnectUser = credentials => {
+    switch (credentials.type) {
+        case "ADMIN":
+            return controller.ConnectAdmin(credentials);
+        case "JUDGE":
+            return controller.ConnectJudge(credentials);
+        default:
+            return { msg: "ERREUR CONNEXION | Type d'utilisateur inconnu" };
+    }
+};
+
+controller.CheckIfEmailExist = email => {
+    return Admin.find({ email: email.toLowerCase().trim() })
         .then(utilisateurs => {
             return utilisateurs.length > 0;
         })
@@ -79,15 +120,7 @@ controller.courrielExistant = courriel => {
         });
 };
 
-controller.assignerRegion = (utilisateurId, regionsAjout) => {
-    return controller.rechercherParId(utilisateurId).then(utilisateur => {
-        utilisateur.region = regionsAjout;
-
-        return utilisateur.save();
-    });
-};
-
-controller.inviter = function(data) {
+controller.Invite = function(data) {
     return controller
         .emailInUse(data.username)
         .then(function(inUse) {
@@ -97,7 +130,7 @@ controller.inviter = function(data) {
                     msg: i18n.__("signup.alreadyExists")
                 };
             }
-            var user = new User(data);
+            var user = new Admin(data);
             var email = user.username.toLowerCase().trim();
             user.emails.push({ email: email, confirmed: false });
 
@@ -108,16 +141,16 @@ controller.inviter = function(data) {
         });
 };
 
-controller.rechercher = filtre => {
-    return Utilisateur.find(filtre);
+controller.Find = filtre => {
+    return Admin.find(filtre);
 };
 
-controller.rechercherParId = id => {
-    return Utilisateur.findById(id);
+controller.FindById = id => {
+    return Admin.findById(id);
 };
 
-controller.oubliMdp = (courriel, host) => {
-    return Utilisateur.findOne({ courriel: courriel })
+controller.CheckForgottenPwd = (email, host) => {
+    return Admin.findOne({ email: email })
         .then(utilisateur => {
             //Creation d'un token réinitialisation
             if (!utilisateur) {
@@ -131,7 +164,7 @@ controller.oubliMdp = (courriel, host) => {
             //REFORMATER LE COURRIEL
             //Envoi d'un courriel de réinitialisation --> Infos du courriel dans le dossier CONFIG
             const mailOptions = {
-                to: user.courriel,
+                to: user.email,
                 from: keys.nodeMailerConfig.auth.user,
                 subject: "JUGEMENT MOBILE - Réinitialisation du mot de passe",
                 text:
@@ -156,25 +189,25 @@ controller.oubliMdp = (courriel, host) => {
         });
 };
 
-controller.trouverReinitToken = resetToken => {
-    return Utilisateur.findOne({ resetToken });
+controller.FindResetToken = resetToken => {
+    return Admin.findOne({ resetToken });
 };
 
-controller.reinitMdp = (user, mdp) => {
+controller.ResetPwd = (user, mdp) => {
     user.mdp = mdp;
     user.resetToken = null;
     user.resetTokenExpired = null;
     return user.save();
 };
 
-controller.supprimerUn = utilisateurId => {
-    return Utilisateur.findByIdAndDelete(utilisateurId);
+controller.DeleteOne = userId => {
+    return Admin.findByIdAndDelete(userId);
 };
 
-controller.supprimerTous = () => {
-    return Utilisateur.deleteMany({})
-        .then(resultats => {
-            return resultats;
+controller.DeleteAll = () => {
+    return Admin.deleteMany({})
+        .then(results => {
+            return results;
         })
         .catch(err => {
             throw err;

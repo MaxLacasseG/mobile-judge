@@ -1,4 +1,4 @@
-import "./App.css";
+import "./App.scss";
 import React, { Component } from "react";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
@@ -9,9 +9,8 @@ import jwt_decode from "jwt-decode";
 import { setCurrentUser, logoutUser } from "./store/actions/authActions";
 
 //Routes Type
-import JudgeRoute from "./components/auth/Judge/JudgeRoute";
-import AdminRoute from "./components/auth/Manager/AdminRoute";
-import ManagerRoute from "./components/auth/Manager/ManagerRoute";
+import SuperAdminRoute from "./components/routes/SuperAdminRoute";
+import AdminRoute from "./components/routes/AdminRoute";
 
 //Components
 //PAGES COMPONENTS
@@ -20,21 +19,12 @@ import Header from "./components/pages/partials/Header";
 import Nav from "./components/pages/partials/Nav";
 
 //JUDGE COMPONENTS
-import JudgeLogin from "./components/auth/Judge/JudgeLogin";
-import JudgeDashboard from "./components/juges/JudgeDashboard";
-import Final from "./components/finales/Finale";
-import Importation from "./components/finales/Importation";
-import Attribution from "./components/finales/Assignation";
-import Exportation from "./components/finales/Exportation";
-
-//MANAGER COMPONENTS
-import ManagerLogin from "./components/auth/Manager/ManagerLoginForm";
-import ForgotPwdForm from "./components/auth/Manager/MdpOubli";
-import ResetPwdForm from "./components/auth/Manager/MdpChangement";
-import ManagerDashboard from "./components/managers/ManagerDashboard";
 
 //ADMIN COMPONENTS
-import UserList from "./components/utilisateurs/UserList";
+import AdminLogin from "./components/admin/AdminLoginForm";
+import AdminDashboard from "./components/admin/AdminDashboard";
+
+//SUPERADMIN COMPONENTS
 
 //AUTH CHECK
 //if there is a token already in localstorage,
@@ -62,30 +52,15 @@ class App extends Component {
             <Provider store={store}>
                 <Router>
                     <div className="App">
-                        <Header />
-                        <Nav />
-                        <div className="container">
-                            <Switch>
-                                {/* JUDGE ROUTES */}
-                                <Route exact path="/" component={JudgeLogin} />
-                                <JudgeRoute exact path="/juge" component={JudgeDashboard} />
+                        <Switch>
+                            {/* JUDGE ROUTES */}
 
-                                {/* MANAGER ROUTES */}
-                                <Route exact path="/admin" component={ManagerLogin} />
-                                <Route exact path="/admin/oubli-mot-de-passe" component={ForgotPwdForm} />
-                                <Route exact path="/admin/modification-mot-de-passe/*" component={ResetPwdForm} />
-                                <ManagerRoute exact path="/admin/panneau-controle" component={ManagerDashboard} />
-                                <ManagerRoute exact path="/admin/selection-finale" component={Final} />
-                                <ManagerRoute exact path="/admin/importation" component={Importation} />
-                                <ManagerRoute exact path="/admin/assignation" component={Attribution} />
-                                <ManagerRoute exact path="/admin/exportation" component={Exportation} />
-
-                                {/* ADMIN ROUTES */}
-                                <AdminRoute exact path="/admin/utilisateur" component={UserList} />
-
-                                <Route path="/*" component={NotFound} />
-                            </Switch>
-                        </div>
+                            {/* MANAGER ROUTES */}
+                            <Route exact path="/admin" component={AdminLogin} />
+                            <Route exact path="/admin/panneau-controle" component={AdminDashboard} />
+                            {/* OTHER ROUTES*/}
+                            <Route path="/*" component={NotFound} />
+                        </Switch>
                     </div>
                 </Router>
             </Provider>

@@ -1,5 +1,5 @@
 const logger = require("tracer").colorConsole();
-const Projet = require("../models/Projet");
+const Projet = require("../models/Project");
 const controller = {};
 
 controller.rechercher = filtre => {

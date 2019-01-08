@@ -11,6 +11,6 @@ export default combineReducers({
     final: finalReducer,
     project: projectReducer,
     judge: judgeReducer,
-    error: errorReducer,
+    errors: errorReducer,
     message: messageReducer
 });

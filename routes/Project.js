@@ -4,13 +4,12 @@ const passport = require("passport");
 const logger = require("tracer").colorConsole();
 const isEmpty = require("../utils/isEmpty");
 
-const ProjetController = require("../controllers/Projet");
+const ProjetController = require("../controllers/Project");
 
 router.get("/tous", (req, res) => {
     ProjetController.rechercherTous()
         .then(resultat => {
-            if (isEmpty(resultat))
-                throw { success: false, msg: "Aucun projet trouvé" };
+            if (isEmpty(resultat)) throw { success: false, msg: "Aucun projet trouvé" };
             res.status(200).json(resultat);
         })
         .catch(err => {
@@ -21,8 +20,7 @@ router.get("/tous", (req, res) => {
 router.get("/finale", (req, res) => {
     ProjetController.rechercher({ finale: req.query.finaleId })
         .then(resultat => {
-            if (isEmpty(resultat))
-                throw { success: false, msg: "Aucun projet trouvé" };
+            if (isEmpty(resultat)) throw { success: false, msg: "Aucun projet trouvé" };
             res.status(200).json(resultat);
         })
         .catch(err => {
@@ -35,8 +33,7 @@ router.get("/juge", (req, res) => {
 
     RegionController.rechercher(filtre)
         .then(resultat => {
-            if (isEmpty(resultat))
-                throw { success: false, msg: "Aucun projet trouvé" };
+            if (isEmpty(resultat)) throw { success: false, msg: "Aucun projet trouvé" };
             res.status(200).json(resultat);
         })
         .catch(err => {
@@ -47,8 +44,7 @@ router.get("/juge", (req, res) => {
 router.get("/id", (req, res) => {
     ProjetController.rechercherId(req.query.projetId)
         .then(resultat => {
-            if (isEmpty(resultat))
-                throw { success: false, msg: "Aucun projet trouvé" };
+            if (isEmpty(resultat)) throw { success: false, msg: "Aucun projet trouvé" };
             res.status(200).json(resultat);
         })
         .catch(err => {
