@@ -1,2 +1,29 @@
-$font-title: "Staatliches", cursive;
+$font-title: "Oswald", cursive;
 $font-text: "Open Sans", sans-serif;
+
+h1,
+h2 {
+    font-family: $font-title;
+}
+
+h1 {
+    text-transform: uppercase;
+}
+
+h3,
+h4,
+h5,
+h6 {
+    font-family: $font-text;
+}
+
+.btn {
+    font-family: $font-title;
+}
+
+p,
+input,
+a,
+label {
+    font-family: $font-text;
+}

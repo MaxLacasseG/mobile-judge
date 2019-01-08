@@ -3,7 +3,6 @@ const isEmpty = require("../utils/isEmpty");
 const logger = require("tracer").colorConsole();
 
 const ValidateAdminLogin = adminInfos => {
-    logger.log(adminInfos);
     //Will contains errors, if any
     let errors = {};
 
@@ -27,7 +26,7 @@ const ValidateAdminLogin = adminInfos => {
         errors.pwd = "Vous devez fournir un mot de passe";
     }
 
-    logger.log(errors);
+    //logger.log(errors);
     //If error is empty, isValid === true && return sanetized data
     //If contains errors, sanetizedData === null
     return {

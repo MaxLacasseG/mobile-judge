@@ -1,0 +1,13 @@
+.nav {
+    background: url("/img/concrete_seamless.png");
+    color: $color-main;
+}
+
+a {
+    color: $color-main;
+    &:hover,
+    &:visited,
+    &:active {
+        color: darken($color-main, 10%);
+    }
+}

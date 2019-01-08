@@ -49,7 +49,7 @@ controller.ConnectAdmin = credentials => {
     //Validate && sanitize data
     const { errors, isValid, sanitizedData } = adminConnectionValidator(credentials);
     //logger.log(isValid);
-    logger.log(sanitizedData);
+
     if (!isValid) throw { errors };
 
     //Check if super admin

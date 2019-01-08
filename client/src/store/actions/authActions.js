@@ -3,7 +3,7 @@ import axios from "axios";
 import setAuthToken from "../../utils/setAuthHeaders";
 import jwt_decode from "jwt-decode";
 
-export const login = (userData, history) => dispatch => {
+export const adminLogin = (userData, history) => dispatch => {
     axios
         .post("/api/admin/connection", userData)
         .then(result => {

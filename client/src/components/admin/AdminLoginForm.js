@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { login } from "../../store/actions/authActions";
+import { adminLogin } from "../../store/actions/authActions";
 import { withRouter } from "react-router-dom";
 
 class ConnexionForm extends Component {
@@ -27,7 +27,7 @@ class ConnexionForm extends Component {
             type: "ADMIN"
         };
 
-        this.props.login(user, this.props.history);
+        this.props.adminLogin(user, this.props.history);
     };
 
     onChange = e => {
@@ -110,5 +110,5 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    { login }
+    { adminLogin }
 )(withRouter(ConnexionForm));
