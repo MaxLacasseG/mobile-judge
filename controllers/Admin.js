@@ -67,7 +67,7 @@ controller.ConnectAdmin = credentials => {
                 lastName: result.user.lastName,
                 phone: result.user.phone,
                 isAdmin: result.user.isAdmin,
-                type: result.user.type
+                type: result.user.isAdmin ? "SUPER_ADMIN" : "ADMIN"
             };
 
             //Create the token, expires after 1 hour

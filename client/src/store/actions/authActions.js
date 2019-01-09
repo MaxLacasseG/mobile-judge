@@ -12,7 +12,6 @@ export const adminLogin = (userData, history) => dispatch => {
             localStorage.setItem("jwtToken", token);
             setAuthToken(token);
             const decoded = jwt_decode(token);
-            decoded.type = decoded.isAdmin ? "SUPER_ADMIN" : "ADMIN";
 
             dispatch(setCurrentUser(decoded));
             history.push("/admin/panneau-controle");

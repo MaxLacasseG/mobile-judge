@@ -29,6 +29,7 @@ import AdminListPage from "./components/admin/adminManagement/AdminListPage";
 //if there is a token already in localstorage,
 //Allows to keep users info if page reloads
 if (localStorage.jwtToken) {
+    console.log("token");
     //Set authorization header for each request
     setAuthHeader(localStorage.jwtToken);
     //Decode user's token
@@ -41,7 +42,7 @@ if (localStorage.jwtToken) {
     if (decoded.exp < currentTime) {
         store.dispatch(logoutUser());
         //Redirects
-        window.location.href = "/connexion";
+        window.location.href = "/";
     }
 }
 
@@ -56,8 +57,8 @@ class App extends Component {
 
                             {/* MANAGER ROUTES */}
                             <Route exact path="/admin" component={AdminLogin} />
-                            <Route exact path="/admin/panneau-controle" component={AdminDashboard} />
-                            <Route exact path="/admin/liste-admin" component={AdminListPage} />
+                            <AdminRoute exact path="/admin/panneau-controle" component={AdminDashboard} />
+                            <SuperAdminRoute exact path="/admin/liste-admin" component={AdminListPage} />
                             {/* OTHER ROUTES*/}
                             <Route path="/*" component={NotFound} />
                         </Switch>

@@ -6,9 +6,7 @@ import { connect } from "react-redux";
 const SuperAdminRoute = ({ component: Component, auth, ...rest }) => (
     <Route
         {...rest}
-        render={props =>
-            auth.isAuthenticated === true && auth.type === "SUPERADMIN" ? <Component {...props} /> : <Redirect to="/admin-connexion" />
-        }
+        render={props => (auth.isAuthenticated === true && auth.user.type === "SUPER_ADMIN" ? <Component {...props} /> : <Redirect to="/admin" />)}
     />
 );
 
