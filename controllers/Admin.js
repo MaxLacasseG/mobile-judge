@@ -48,7 +48,7 @@ controller.ConnectAdmin = credentials => {
     return Admin.findOne({ email: credentials.email })
         .then(admin => {
             //If user is not found in DB
-            if (isEmpty(admin)) throw { success: false, msg: "Utilisateur inconnu" };
+            if (isEmpty(admin)) throw { success: false, email: "Utilisateur inconnu" };
 
             return {
                 isMatch: bcrypt.compareSync(credentials.pwd, admin.pwd),
@@ -57,7 +57,7 @@ controller.ConnectAdmin = credentials => {
         })
         .then(result => {
             //If pwd incorrect
-            if (!result.isMatch) throw { success: false, msg: "Mot de passe erroné." };
+            if (!result.isMatch) throw { success: false, pwd: "Mot de passe erroné." };
 
             // Object to be added to the token
             const payload = {

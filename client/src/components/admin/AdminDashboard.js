@@ -1,11 +1,15 @@
 import React, { Component } from "react";
+
 import AdminNav from "../pages/partials/AdminNav";
-export default class AdminDashboard extends Component {
+
+class AdminDashboard extends Component {
     render() {
         return (
             <div>
-                <AdminNav />
+                <AdminNav pageTitle="Vue de l'ensemble des finales" />
             </div>
         );
     }
 }
+
+export default AdminDashboard;

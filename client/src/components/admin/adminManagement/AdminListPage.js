@@ -5,7 +5,7 @@ class AdminListPage extends Component {
     render() {
         return (
             <Fragment>
-                <AdminNav />
+                <AdminNav pageTitle="Gestion des administrateurs" />
                 <div className="container ">
                     <div className="row py-5">
                         <div className="col-md-6 spliter">

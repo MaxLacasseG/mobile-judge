@@ -57,7 +57,7 @@ class App extends Component {
                             {/* MANAGER ROUTES */}
                             <Route exact path="/admin" component={AdminLogin} />
                             <Route exact path="/admin/panneau-controle" component={AdminDashboard} />
-                            <Route exact path="/admin/admin-list" component={AdminListPage} />
+                            <Route exact path="/admin/liste-admin" component={AdminListPage} />
                             {/* OTHER ROUTES*/}
                             <Route path="/*" component={NotFound} />
                         </Switch>

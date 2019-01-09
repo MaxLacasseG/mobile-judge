@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { adminLogin } from "../../store/actions/authActions";
+import { ClearErrors } from "../../store/actions/errorActions";
 import { withRouter } from "react-router-dom";
+
+import classnames from "classnames";
 
 class ConnexionForm extends Component {
     constructor(props) {
@@ -17,6 +20,10 @@ class ConnexionForm extends Component {
             this.props.history.push("/admin/panneau-controle");
         }
     };
+    componentWillUnmount = () => {
+        this.props.ClearErrors();
+    };
+
     onSubmit = e => {
         e.preventDefault();
 
@@ -63,7 +70,9 @@ class ConnexionForm extends Component {
                                     </label>
                                     <input
                                         type="text"
-                                        className="form-control"
+                                        className={classnames("form-control", {
+                                            "is-invalid": errors.email
+                                        })}
                                         name="email"
                                         id="emailInput"
                                         aria-describedby="helpId"
@@ -71,20 +80,23 @@ class ConnexionForm extends Component {
                                         value={this.state.email}
                                         onChange={this.onChange}
                                     />
+                                    {errors.email && <div className="invalid-feedback">{errors.email}</div>}
                                 </div>
                                 {/* PWD */}
                                 <div className="form-group">
                                     <label htmlFor="pwdInput">Mot de passe</label>
                                     <input
                                         type="password"
-                                        className="form-control"
+                                        className={classnames("form-control", {
+                                            "is-invalid": errors.pwd
+                                        })}
                                         name="password"
                                         id="pwdInput"
-                                        aria-describedby="pwdHelp"
                                         placeholder="Mot de passe"
                                         value={this.state.password}
                                         onChange={this.onChange}
                                     />
+                                    {errors.pwd && <div className="invalid-feedback">{errors.pwd}</div>}
                                 </div>
                                 {/* SUBMIT BTN */}
                                 <div className="form-group mt-5">
@@ -113,5 +125,5 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    { adminLogin }
+    { adminLogin, ClearErrors }
 )(withRouter(ConnexionForm));
