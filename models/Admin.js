@@ -14,6 +14,7 @@ const UserSchema = new Schema({
     firstName: { type: String, select: true },
     lastName: { type: String, select: true },
     phone: { type: String, select: true },
+    organization: { type: String, select: true },
     isAdmin: { type: Boolean, default: false },
     resetToken: { type: String, default: null },
     resetTokenExpired: { type: Number, default: null }

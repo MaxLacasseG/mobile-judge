@@ -5,6 +5,7 @@ import projectReducer from "./projectReducer";
 import judgeReducer from "./judgeReducer";
 import errorReducer from "./errorReducer";
 import messageReducer from "./messageReducer";
+import actionResponseReducer from "./actionResponseReducer";
 
 export default combineReducers({
     auth: authReducer,
@@ -12,5 +13,6 @@ export default combineReducers({
     project: projectReducer,
     judge: judgeReducer,
     errors: errorReducer,
-    message: messageReducer
+    message: messageReducer,
+    action: actionResponseReducer
 });

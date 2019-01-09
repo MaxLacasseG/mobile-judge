@@ -4,7 +4,7 @@ const isEmpty = require("../utils/isEmpty");
 const emailUtil = require("../utils/emailUtil");
 const Admin = require("../models/Admin");
 const Judge = require("../models/Judge");
-const adminConnectionValidator = require("../validators/AdminConnection");
+
 const bcrypt = require("bcrypt");
 const controller = {};
 const JWT = require("jsonwebtoken");
@@ -17,13 +17,12 @@ controller.CreateJudge = async userInfos => {
     //if not, create user and saves it
 };
 
-controller.CreateAdmin = async adminInfos => {
-    //Validate
+controller.RegisterAdmin = adminInfos => {
     //Checks if email exist
-    return await controller.CheckIfEmailExist(adminInfos.email).then(async emailExist => {
-        //logger.log(emailExist);
+    return controller.CheckIfEmailExist(adminInfos.email).then(emailExist => {
+        logger.log(emailExist);
         if (emailExist) {
-            throw await {
+            throw {
                 success: false,
                 email: "Utilisateur existant"
             };
@@ -45,21 +44,14 @@ controller.ConnectJudge = credentials => {
 };
 
 controller.ConnectAdmin = credentials => {
-    //logger.log(credentials);
-    //Validate && sanitize data
-    const { errors, isValid, sanitizedData } = adminConnectionValidator(credentials);
-    //logger.log(isValid);
-
-    if (!isValid) throw { errors };
-
     //Check if super admin
-    return Admin.findOne({ email: sanitizedData.email })
+    return Admin.findOne({ email: credentials.email })
         .then(admin => {
             //If user is not found in DB
             if (isEmpty(admin)) throw { success: false, msg: "Utilisateur inconnu" };
 
             return {
-                isMatch: bcrypt.compareSync(sanitizedData.pwd, admin.pwd),
+                isMatch: bcrypt.compareSync(credentials.pwd, admin.pwd),
                 user: admin
             };
         })

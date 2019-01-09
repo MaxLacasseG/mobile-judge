@@ -4,6 +4,9 @@ export const CLEAR_CURRENT_USER = "CLEAR_CURRENT_USER";
 export const UPDATE_USER = "UPDATE_USER";
 export const ARCHIVE_USER = "ARCHIVE_USER";
 
+//ADMIN
+export const ADD_NEW_ADMIN = "ADD_NEW_ADMIN";
+export const GET_ALL_ADMIN = "GET_ALL_ADMIN";
 //FINAL
 export const SET_FINAL = "SET_FINAL";
 export const GET_FINAL = "GET_FINAL";
@@ -41,4 +44,7 @@ export const UPDATE_REGION = "UPDATE_REGION";
 export const DELETE_REGION = "DELETE_REGION";
 
 export const GET_ERRORS = "GET_ERRORS";
+export const CLEAR_ERRORS = "CLEAR_ERRORS";
 export const GET_MESSAGE = "GET_MESSAGE";
+export const SET_ACTION_RESPONSE = "SET_ACTION_RESPONSE";
+export const CLEAR_ACTION_RESPONSE = "CLEAR_ACTION_RESPONSE";

@@ -4,6 +4,9 @@ const logger = require("tracer").colorConsole();
 
 const AdminController = require("../controllers/Admin");
 
+const adminConnectionValidator = require("../validators/AdminConnection");
+const adminRegistrationValidator = require("../validators/AdminRegistration");
+
 router.get("/tous", (req, res) => {
     AdminController.rechercher({})
         .then(resultat => {
@@ -37,25 +40,33 @@ router.get("/id", (req, res) => {
         });
 });
 
-router.post("/create", (req, res) => {
-    AdminController.CreateAdmin(req.body)
+router.post("/register", (req, res) => {
+    //Validate && sanitize data
+    const { errors, isValid, sanitizedData } = adminRegistrationValidator(req.body);
+    if (!isValid) return res.status(400).json(errors);
+
+    AdminController.RegisterAdmin(sanitizedData)
         .then(result => {
             res.status(200).json(result);
         })
         .catch(err => {
-            logger.log(err);
+            logger.log("test");
             res.status(400).json(err);
         });
 });
 
 router.post("/connection", (req, res) => {
-    AdminController.ConnectAdmin(req.body)
+    //Validate && sanitize data
+    const { errors, isValid, sanitizedData } = adminConnectionValidator(req.body);
+    if (!isValid) return res.status(400).json(errors);
+
+    AdminController.ConnectAdmin(sanitizedData)
         .then(resultat => {
-            res.status(200).json(resultat);
+            return res.status(200).json(resultat);
         })
         .catch(err => {
             logger.log(err);
-            res.status(400).json(err);
+            return res.status(400).json(err);
         });
 });
 

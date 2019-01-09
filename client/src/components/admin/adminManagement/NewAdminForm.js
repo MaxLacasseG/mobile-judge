@@ -1,4 +1,9 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { AddAdmin } from "../../../store/actions/adminActions";
+import { ClearResponse } from "../../../store/actions/responseActions";
+
+import classnames from "classnames";
 
 class NewAdminForm extends Component {
     constructor(props) {
@@ -6,6 +11,7 @@ class NewAdminForm extends Component {
         this.state = {
             email: "",
             pwd: "",
+            pwd2: "",
             firstName: "",
             lastName: "",
             phone: "",
@@ -15,33 +21,46 @@ class NewAdminForm extends Component {
         this.initialState = this.state;
     }
 
-    componentDidMount=()=>{
-        this.onReset();
-    }
-    onReset = () => {
-        this.setState(this.initialState, () => {
-            console.log("reset");
-        });
-    };
-    onSubmit = e => {
-        e.preventDefault();
-        this.onReset();
-       
+    componentWillUnmount = () => {
+        this.props.ClearResponse();
     };
 
-    onChange = e => {
+    componentDidUpdate = (prevProps, prevState) => {
+        if (this.props.action.response !== prevProps.action.response && this.props.action.response === "success") {
+            this.ResetForm();
+        }
+    };
+
+    ResetForm = () => {
+        this.setState(this.initialState);
+    };
+    OnSubmit = e => {
+        e.preventDefault();
+        this.props.AddAdmin(this.state);
+    };
+
+    OnChange = e => {
         this.setState({ [e.target.name]: e.target.value });
     };
 
-    onCheck = e=>{
-        this.setState({[e.target.name]:e.target.checked})
-    }
+    OnCheck = e => {
+        this.setState({ [e.target.name]: e.target.checked });
+    };
 
-    onSelect = e=>{
-        this.setState({[e.target.name]:e.target.selectedOptions[0].value})
-    }
-   
+    OnSelect = e => {
+        this.setState({ [e.target.name]: e.target.selectedOptions[0].value });
+    };
+
     render() {
+        const successMessage = (
+            <div className="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                Administrateur ajouté
+                <button type="button" className="close" data-dismiss="alert" aria-label="Close" onClick={this.props.ClearResponse}>
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        );
+        const errors = this.props.errors;
         const organizationList = [
             "Réseau Technoscience",
             "Technoscience Abitibi-Témiscamingue",
@@ -56,11 +75,16 @@ class NewAdminForm extends Component {
             "AEST"
         ];
         const organizationOptions = organizationList.map(org => {
-            return <option value={org} key={org}>{org}</option>;
+            return (
+                <option value={org} key={org}>
+                    {org}
+                </option>
+            );
         });
         return (
-            <form onSubmit={this.onSubmit} className="p-5" autoComplete="nope">
-            
+            <form onSubmit={this.OnSubmit} className="p-5" autoComplete="nope">
+                <input id="username" style={{ display: "none" }} type="text" name="fakeusernameremembered" />
+                <input id="password" style={{ display: "none" }} type="password" name="fakepasswordremembered" />
                 <h4 className="section-header">
                     <i className="fa fa-plus-circle" />
                     {"  "}
@@ -72,15 +96,13 @@ class NewAdminForm extends Component {
                     </div>
                     <div className="col-8">
                         <div className="form-check form-check-inline">
-                        <input type="hidden" value="no-password" />
                             <input
                                 className="form-check-input"
                                 type="checkbox"
                                 id="isAdmin"
                                 name="isAdmin"
-                                onChange={this.onCheck}
-                                value={this.state.isAdmin}
-                                
+                                onChange={this.OnCheck}
+                                checked={this.state.isAdmin}
                             />
                             <label className="form-check-label" htmlFor="isAdmin">
                                 Est super administrateur?
@@ -91,37 +113,126 @@ class NewAdminForm extends Component {
 
                 <div className="form-group">
                     <label htmlFor="email">Nom d'utilisateur</label>
-                    <input type="text" className="form-control" name="email" id="email" placeholder="Courriel" onChange={this.onChange} value={this.state.email} autoComplete="email"/>
+                    <input
+                        type="text"
+                        className={classnames("form-control", {
+                            "is-invalid": errors.email
+                        })}
+                        name="email"
+                        id="email"
+                        placeholder="Courriel"
+                        onChange={this.OnChange}
+                        value={this.state.email}
+                    />
+                    {errors.email && <div className="invalid-feedback">{errors.email}</div>}
                 </div>
                 <div className="form-group">
                     <label htmlFor="pwd">Mot de passe</label>
-                    <input type="password" className="form-control" name="pwd" id="pwd" placeholder="Mot de passe" onChange={this.onChange} value={this.state.pwd} autoComplete="new-password"/>
+                    <input
+                        type="password"
+                        className={classnames("form-control", {
+                            "is-invalid": errors.pwd
+                        })}
+                        name="pwd"
+                        id="pwd"
+                        placeholder="Mot de passe"
+                        onChange={this.OnChange}
+                        value={this.state.pwd}
+                    />
+                    {errors.pwd && <div className="invalid-feedback">{errors.pwd}</div>}
                 </div>
                 <div className="form-group">
+                    <label htmlFor="pwd">Veuillez confirmer le mot de passe</label>
+                    <input
+                        type="password"
+                        className={classnames("form-control", {
+                            "is-invalid": errors.pwd2
+                        })}
+                        name="pwd2"
+                        id="pwd"
+                        placeholder="Mot de passe"
+                        onChange={this.OnChange}
+                        value={this.state.pwd2}
+                    />
+                    {errors.pwd2 && <div className="invalid-feedback">{errors.pwd2}</div>}
+                </div>
+                <hr />
+                <div className="form-group">
                     <label htmlFor="firstName">Prénom</label>
-                    <input type="text" className="form-control" name="firstName" id="firstName" placeholder="Prénom" onChange={this.onChange} value={this.state.firstName}/>
+                    <input
+                        type="text"
+                        className={classnames("form-control", {
+                            "is-invalid": errors.firstName
+                        })}
+                        name="firstName"
+                        id="firstName"
+                        placeholder="Prénom"
+                        onChange={this.OnChange}
+                        value={this.state.firstName}
+                    />
+                    {errors.firstName && <div className="invalid-feedback">{errors.firstName}</div>}
                 </div>
                 <div className="form-group">
                     <label htmlFor="lastName">Nom de famille</label>
-                    <input type="text" className="form-control" name="lastName" id="lastName" placeholder="Nom de famille" onChange={this.onChange} value={this.state.lastName}/>
+                    <input
+                        type="text"
+                        className={classnames("form-control", {
+                            "is-invalid": errors.lastName
+                        })}
+                        name="lastName"
+                        id="lastName"
+                        placeholder="Nom de famille"
+                        onChange={this.OnChange}
+                        value={this.state.lastName}
+                    />
+                    {errors.lastName && <div className="invalid-feedback">{errors.lastName}</div>}
                 </div>
                 <div className="form-group">
                     <label htmlFor="phone">Numéro de téléphone à contacter durant la finale</label>
-                    <input type="tel" className="form-control" id="phone" name="phone" pattern="[0-9]{3} [0-9]{3}-[0-9]{4}" placeholder="222 222-2222" onChange={this.onChange} value={this.state.phone}/>
+                    <input
+                        type="tel"
+                        className={classnames("form-control", {
+                            "is-invalid": errors.phone
+                        })}
+                        id="phone"
+                        name="phone"
+                        pattern="[0-9]{3} [0-9]{3}-[0-9]{4}"
+                        placeholder="222 222-2222"
+                        onChange={this.OnChange}
+                        value={this.state.phone}
+                    />
+                    {errors.phone && <div className="invalid-feedback">{errors.phone}</div>}
                 </div>
                 <div className="form-group">
                     <label htmlFor="organization">Organisme régional</label>
-                    <select className="custom-select" name="organization" id="organization" value={this.state.organization} onChange={this.onSelect}>
+                    <select
+                        className={classnames("form-control custom-select", {
+                            "is-invalid": errors.organization
+                        })}
+                        name="organization"
+                        id="organization"
+                        value={this.state.organization}
+                        onChange={this.OnSelect}
+                    >
                         <option value="">Choisir un organisme</option>
                         {organizationOptions}
                     </select>
+                    {errors.organization && <div className="invalid-feedback">{errors.organization}</div>}
                 </div>
                 <button type="submit" className="btn form-control">
                     <i className="fa fa-plus-circle fa-lg" /> Créer l'utilisateur
                 </button>
+                {this.props.action.response === "success" ? successMessage : null}
             </form>
         );
     }
 }
 
-export default NewAdminForm;
+const mapStateToProps = state => ({
+    errors: state.errors,
+    action: state.action
+});
+export default connect(
+    mapStateToProps,
+    { AddAdmin, ClearResponse }
+)(NewAdminForm);
