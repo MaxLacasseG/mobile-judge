@@ -12,7 +12,9 @@ class AdminNav extends Component {
 
         return (
             <ul className="nav nav-bar justify-content-around align-items-center p-3">
-                <li>Logo</li>
+                <li>
+                    <img className="logo" src="/img/logo.png" alt="" />
+                </li>
                 <li className="text-center">
                     <h1>Portail gestionnaire</h1>
                     <h3>Vue d'ensemble des finales</h3>

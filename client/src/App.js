@@ -22,7 +22,7 @@ import Header from "./components/pages/partials/Header";
 //ADMIN COMPONENTS
 import AdminLogin from "./components/admin/AdminLoginForm";
 import AdminDashboard from "./components/admin/AdminDashboard";
-
+import AdminListPage from "./components/admin/adminManagement/AdminListPage";
 //SUPERADMIN COMPONENTS
 
 //AUTH CHECK
@@ -57,6 +57,7 @@ class App extends Component {
                             {/* MANAGER ROUTES */}
                             <Route exact path="/admin" component={AdminLogin} />
                             <Route exact path="/admin/panneau-controle" component={AdminDashboard} />
+                            <Route exact path="/admin/admin-list" component={AdminListPage} />
                             {/* OTHER ROUTES*/}
                             <Route path="/*" component={NotFound} />
                         </Switch>

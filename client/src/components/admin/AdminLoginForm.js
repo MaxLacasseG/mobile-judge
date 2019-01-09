@@ -40,11 +40,15 @@ class ConnexionForm extends Component {
             <div className="adminLogin p-5">
                 <div className="container">
                     <div className="row p-5">
-                        <div className="col-6 bg-primary offset-3 p-5">
-                            <h1>LOGO</h1>
+                        <div className="col-8 offset-2 text-center">
+                            <img className="logo" src="/img/logo.png" alt="logo" />
+                            <br />
+                            <h6>
+                                L'application du jugement <br /> des Expo-sciences Hydro-Québec
+                            </h6>
                         </div>
                     </div>
-                    <div className="row mb-5">
+                    <div className="row mb-3">
                         <div className="col-6 offset-3 text-center">
                             <h1>Connexion</h1>
                             <h3>Portail gestionnaire</h3>
