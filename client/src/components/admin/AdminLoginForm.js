@@ -8,8 +8,7 @@ class ConnexionForm extends Component {
         super(props);
         this.state = {
             email: "",
-            password: "",
-            errors: {}
+            password: ""
         };
     }
 
