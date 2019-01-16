@@ -1,10 +1,11 @@
 import "./App.scss";
 import React, { Component } from "react";
 import { Provider } from "react-redux";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Router, Route, Switch } from "react-router-dom";
 import store from "./store/store";
 import setAuthHeader from "./utils/setAuthHeaders";
 import jwt_decode from "jwt-decode";
+import createBrowserHistory from "history/createBrowserHistory";
 
 import { setCurrentUser, logoutUser } from "./store/actions/authActions";
 
@@ -24,12 +25,12 @@ import AdminLogin from "./components/admin/AdminLoginForm";
 import AdminDashboard from "./components/admin/AdminDashboard";
 import AdminListPage from "./components/admin/adminManagement/AdminListPage";
 //SUPERADMIN COMPONENTS
+export const history = createBrowserHistory();
 
 //AUTH CHECK
 //if there is a token already in localstorage,
 //Allows to keep users info if page reloads
 if (localStorage.jwtToken) {
-    console.log("token");
     //Set authorization header for each request
     setAuthHeader(localStorage.jwtToken);
     //Decode user's token
@@ -50,7 +51,7 @@ class App extends Component {
     render() {
         return (
             <Provider store={store}>
-                <Router>
+                <Router history={history}>
                     <div className="App">
                         <Switch>
                             {/* JUDGE ROUTES */}

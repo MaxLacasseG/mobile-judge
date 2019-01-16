@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { AddAdmin } from "../../../store/actions/adminActions";
 import { ClearResponse } from "../../../store/actions/responseActions";
-
+import PropTypes from "prop-types";
 import classnames from "classnames";
 
 class NewAdminForm extends Component {
@@ -52,6 +52,9 @@ class NewAdminForm extends Component {
     };
 
     render() {
+        const errors = this.props.errors;
+        const action = this.props.action;
+
         const successMessage = (
             <div className="alert alert-success alert-dismissible fade show mt-3" role="alert">
                 Administrateur ajouté
@@ -60,7 +63,7 @@ class NewAdminForm extends Component {
                 </button>
             </div>
         );
-        const errors = this.props.errors;
+
         const organizationList = [
             "Réseau Technoscience",
             "Technoscience Abitibi-Témiscamingue",
@@ -74,6 +77,7 @@ class NewAdminForm extends Component {
             "Boite à science",
             "AEST"
         ];
+
         const organizationOptions = organizationList.map(org => {
             return (
                 <option value={org} key={org}>
@@ -81,6 +85,7 @@ class NewAdminForm extends Component {
                 </option>
             );
         });
+
         return (
             <form onSubmit={this.OnSubmit} className="p-5" autoComplete="nope">
                 <input id="username" style={{ display: "none" }} type="text" name="fakeusernameremembered" />
@@ -222,7 +227,7 @@ class NewAdminForm extends Component {
                 <button type="submit" className="btn form-control">
                     <i className="fa fa-plus-circle fa-lg" /> Créer l'utilisateur
                 </button>
-                {this.props.action.response === "success" ? successMessage : null}
+                {action.type === "ADD_NEW_ADMIN" && action.response === "success" ? successMessage : null}
             </form>
         );
     }
@@ -232,6 +237,14 @@ const mapStateToProps = state => ({
     errors: state.errors,
     action: state.action
 });
+
+NewAdminForm.propTypes = {
+    errors: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
+    action: PropTypes.object.isRequired,
+    AddAdmin: PropTypes.func.isRequired,
+    ClearResponse: PropTypes.func.isRequired
+};
+
 export default connect(
     mapStateToProps,
     { AddAdmin, ClearResponse }

@@ -133,8 +133,8 @@ controller.Invite = function(data) {
         });
 };
 
-controller.Find = filtre => {
-    return Admin.find(filtre);
+controller.Find = filter => {
+    return Admin.find(filter).sort({ isAdmin: 1, lastName: 1 });
 };
 
 controller.FindById = id => {

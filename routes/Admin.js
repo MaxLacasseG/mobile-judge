@@ -7,14 +7,15 @@ const AdminController = require("../controllers/Admin");
 const adminConnectionValidator = require("../validators/AdminConnection");
 const adminRegistrationValidator = require("../validators/AdminRegistration");
 
-router.get("/tous", (req, res) => {
-    AdminController.rechercher({})
-        .then(resultat => {
-            if (isEmpty(resultat)) throw { success: false, msg: "Aucun utilisateur trouvé" };
-            res.status(200).json(resultat);
+router.get("/all", (req, res) => {
+    AdminController.Find({})
+        .then(result => {
+            if (isEmpty(result)) throw { success: false, msg: "Aucun utilisateur trouvé" };
+            return res.status(200).json(result);
         })
         .catch(err => {
-            res.status(400).json(err);
+            logger.log(err);
+            return res.status(400).json(err);
         });
 });
 
