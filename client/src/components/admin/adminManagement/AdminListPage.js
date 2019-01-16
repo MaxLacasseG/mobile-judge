@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import AdminNav from "../../pages/partials/AdminNav";
 import NewAdminForm from "./NewAdminForm";
+import AdminList from "./AdminList";
 class AdminListPage extends Component {
     render() {
         return (
@@ -12,7 +13,7 @@ class AdminListPage extends Component {
                             <NewAdminForm />
                         </div>
                         <div className="col-md-6">
-                            <p>UserList</p>
+                            <AdminList />
                         </div>
                     </div>
                 </div>
