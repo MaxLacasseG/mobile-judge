@@ -129,8 +129,9 @@ router.delete("/supprimer/tous", (req, res) => {
         });
 });
 
-router.delete("/supprimer", (req, res) => {
-    AdminController.supprimerUn(req.query.utilisateurId)
+router.delete("/id/", (req, res) => {
+    logger.log(req.query.adminId);
+    AdminController.DeleteOne(req.query.adminId)
         .then(resultat => {
             if (isEmpty(resultat) || resultat.n === 0) {
                 throw {
@@ -141,6 +142,7 @@ router.delete("/supprimer", (req, res) => {
             res.status(200).json(resultat);
         })
         .catch(err => {
+            logger.log(err);
             res.status(400).json(err);
         });
 });

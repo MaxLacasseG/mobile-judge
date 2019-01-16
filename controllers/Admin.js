@@ -20,7 +20,6 @@ controller.CreateJudge = async userInfos => {
 controller.RegisterAdmin = adminInfos => {
     //Checks if email exist
     return controller.CheckIfEmailExist(adminInfos.email).then(emailExist => {
-        logger.log(emailExist);
         if (emailExist) {
             throw {
                 success: false,
@@ -192,8 +191,9 @@ controller.ResetPwd = (user, mdp) => {
     return user.save();
 };
 
-controller.DeleteOne = userId => {
-    return Admin.findByIdAndDelete(userId);
+controller.DeleteOne = adminId => {
+    logger.log(adminId);
+    return Admin.findByIdAndRemove(adminId);
 };
 
 controller.DeleteAll = () => {

@@ -16,7 +16,6 @@ import AdminRoute from "./components/routes/AdminRoute";
 //Components
 //PAGES COMPONENTS
 import NotFound from "./components/pages/Page404";
-import Header from "./components/pages/partials/Header";
 
 //JUDGE COMPONENTS
 
