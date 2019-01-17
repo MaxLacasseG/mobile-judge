@@ -29,6 +29,7 @@ a {
 .spliter {
     border-right: 5px $color-accent1 solid;
 }
+
 .btn {
     border: none;
     background-color: $color-accent1;
@@ -40,6 +41,9 @@ a {
     &:active {
         background-color: darken($color-accent1, 30%);
         color: white;
+    }
+    &.btn-accent2 {
+        background-color: $color-accent3;
     }
 }
 

@@ -2,3 +2,4 @@
 /config/keys_dev.js
 .env*
 /dump
+/dummyData

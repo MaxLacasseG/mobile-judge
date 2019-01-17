@@ -5,7 +5,7 @@ import { Router, Route, Switch } from "react-router-dom";
 import store from "./store/store";
 import setAuthHeader from "./utils/setAuthHeaders";
 import jwt_decode from "jwt-decode";
-import createBrowserHistory from "history/createBrowserHistory";
+import { createBrowserHistory } from "history";
 
 import { setCurrentUser, logoutUser } from "./store/actions/authActions";
 
@@ -21,8 +21,8 @@ import NotFound from "./components/pages/Page404";
 
 //ADMIN COMPONENTS
 import AdminLogin from "./components/admin/AdminLoginForm";
-import AdminDashboard from "./components/admin/AdminDashboard";
 import AdminListPage from "./components/admin/adminManagement/AdminListPage";
+import FinalListPage from "./components/finals/FinalListPage";
 //SUPERADMIN COMPONENTS
 export const history = createBrowserHistory();
 
@@ -57,7 +57,7 @@ class App extends Component {
 
                             {/* MANAGER ROUTES */}
                             <Route exact path="/admin" component={AdminLogin} />
-                            <AdminRoute exact path="/admin/panneau-controle" component={AdminDashboard} />
+                            <AdminRoute exact path="/admin/panneau-controle" component={FinalListPage} />
                             <SuperAdminRoute exact path="/admin/liste-admin" component={AdminListPage} />
                             {/* OTHER ROUTES*/}
                             <Route path="/*" component={NotFound} />
