@@ -154,7 +154,7 @@ class NewAdminForm extends Component {
                             "is-invalid": errors.pwd2
                         })}
                         name="pwd2"
-                        id="pwd"
+                        id="pwd2"
                         placeholder="Mot de passe"
                         onChange={this.OnChange}
                         value={this.state.pwd2}

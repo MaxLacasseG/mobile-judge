@@ -133,11 +133,17 @@ controller.Invite = function(data) {
 };
 
 controller.Find = filter => {
-    return Admin.find(filter).sort({ isAdmin: 1, lastName: 1 });
+    return Admin.find(filter)
+        .select(["-pwd", "-resetToken", "-resetTokenExpired"])
+        .sort({ isAdmin: 1, lastName: 1 });
 };
 
 controller.FindById = id => {
     return Admin.findById(id);
+};
+
+controller.UpdateOne = adminInfos => {
+    return Admin.findByIdAndUpdate(adminInfos._id, adminInfos);
 };
 
 controller.CheckForgottenPwd = (email, host) => {
@@ -192,7 +198,6 @@ controller.ResetPwd = (user, mdp) => {
 };
 
 controller.DeleteOne = adminId => {
-    logger.log(adminId);
     return Admin.findByIdAndRemove(adminId);
 };
 

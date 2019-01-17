@@ -13,8 +13,6 @@ class UpdateAdminModal extends Component {
         super(props);
         this.state = {
             email: "",
-            pwd: "",
-            pwd2: "",
             firstName: "",
             lastName: "",
             phone: "",
@@ -24,14 +22,14 @@ class UpdateAdminModal extends Component {
         this.initialState = this.state;
     }
 
+    //#region LIFE CYCLE METHODS
     componentDidMount = () => {
-        console.log("Modal mount");
         this.SetAdminInfo(this.props.admin);
     };
-    componentWillUnmount = () => {
-        console.log("Modal unmount");
-    };
+    componentWillUnmount = () => {};
+    //#endregion
 
+    //#region COMPONENT METHODS
     SetAdminInfo = admin => {
         this.setState(admin);
     };
@@ -60,6 +58,9 @@ class UpdateAdminModal extends Component {
     OnSelect = e => {
         this.setState({ [e.target.name]: e.target.selectedOptions[0].value });
     };
+    //#endregion
+
+    //#region RENDER
     render() {
         const errors = this.props.errors;
         const organizationList = [
@@ -123,7 +124,7 @@ class UpdateAdminModal extends Component {
                                                 name="email"
                                                 id="email"
                                                 placeholder="Courriel"
-                                                onChange={this.OnChange}
+                                                disabled="disabled"
                                                 value={this.state.email}
                                             />
                                             {errors.email && <div className="invalid-feedback">{errors.email}</div>}
@@ -192,10 +193,10 @@ class UpdateAdminModal extends Component {
                                             {errors.organization && <div className="invalid-feedback">{errors.organization}</div>}
                                         </div>
                                         <hr />
-                                        <button className="btn mr-3" onClick={this.UpdateAdmin}>
+                                        <button className="btn mr-3" type="button" onClick={this.UpdateAdmin}>
                                             <i className="fas fa-save" /> Modifier l'utilisateur
                                         </button>
-                                        <button id="closeModalBtn" className="btn" data-dismiss="modal" onClick={this.ClearForm}>
+                                        <button id="closeModalBtn" className="btn btn-default" data-dismiss="modal" onClick={this.ClearForm}>
                                             <i className="fas fa-times" /> Annuler
                                         </button>
                                     </form>
@@ -208,6 +209,7 @@ class UpdateAdminModal extends Component {
         );
     }
 }
+//#endregion
 
 const mapStateToProps = state => ({
     action: state.action,

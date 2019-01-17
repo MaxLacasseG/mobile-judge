@@ -6,8 +6,10 @@ export const ARCHIVE_USER = "ARCHIVE_USER";
 
 //ADMIN
 export const ADD_NEW_ADMIN = "ADD_NEW_ADMIN";
+export const UPDATE_ADMIN = "UPDATE_ADMIN";
 export const GET_ALL_ADMIN = "GET_ALL_ADMIN";
 export const DELETE_ADMIN = "DELETE_ADMIN";
+export const CLEAR_SELECTED_ADMIN = "CLEAR_SELECTED_ADMIN";
 
 //FINAL
 export const SET_FINAL = "SET_FINAL";

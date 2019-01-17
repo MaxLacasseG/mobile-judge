@@ -103,13 +103,14 @@ router.post("/reinit-mdp", (req, res) => {
         });
 });
 
-router.put("/modifier", (req, res) => {
-    ProjetController.modifier(req.body)
-        .then(resultat => {
-            res.status(200).json(resultat);
+router.put("/update", (req, res) => {
+    //TODO: VALIDATE DATA
+    AdminController.UpdateOne(req.body)
+        .then(result => {
+            return res.status(200).json(result);
         })
         .catch(err => {
-            res.status(400).json(err);
+            return res.status(400).json(err);
         });
 });
 

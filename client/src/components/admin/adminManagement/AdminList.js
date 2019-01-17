@@ -2,11 +2,21 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import AdminListItem from "./AdminListItem";
 import UpdateAdminModal from "./UpdateAdminModal";
-import { GetAllAdmins, DeleteAdmin } from "../../../store/actions/adminActions";
+import { GetAllAdmins, DeleteAdmin, UpdateAdmin } from "../../../store/actions/adminActions";
 import { ClearResponse } from "../../../store/actions/responseActions";
 
 import PropTypes from "prop-types";
 
+/**
+ * Class the fetch all the admins, manage deletion and update infos
+ * @props admin         object  Admin reducer
+ * @props errors        object  Errors reducer
+ * @props message       object  Action response reducer, manages success message and alert to user
+ * @props GetAllAdmins  func    Redux action that fetch all admins from db
+ * @props DeleteAdmin,  func    Reduc action that deletes admin using it's id
+ * @props UpdateAdmin,  func    Redux action that updates infos returned from modal box
+ * @props ClearResponse func    Redux action that clear the success message after the alert is clicked
+ */
 class AdminList extends Component {
     constructor(props) {
         super(props);
@@ -17,21 +27,16 @@ class AdminList extends Component {
         this.initialState = this.state;
     }
 
+    //#region LIFE CYCLE METHODS
     componentDidMount = () => {
         this.props.GetAllAdmins();
     };
     componentWillUnmount = () => {
         this.props.ClearResponse();
     };
-    DeleteAdmin = admin => {
-        //Call delete action
-        this.props.DeleteAdmin(admin._id);
-    };
+    //#endregion
 
-    ClearModal = () => {
-        this.setState({ modal: "" });
-    };
-
+    //#region COMPONENT METHODS
     ShowUpdateModal = admin => {
         this.setState({ selectedAdmin: admin }, () => {
             const modal = <UpdateAdminModal admin={this.state.selectedAdmin} UpdateAdmin={this.UpdateAdmin} ClearModal={this.ClearModal} />;
@@ -43,8 +48,20 @@ class AdminList extends Component {
     };
 
     UpdateAdmin = newAdminInfos => {
-        console.log("Update", newAdminInfos);
+        this.props.UpdateAdmin(newAdminInfos);
     };
+
+    ClearModal = () => {
+        this.setState({ modal: "" });
+    };
+
+    DeleteAdmin = admin => {
+        //Call delete action
+        this.props.DeleteAdmin(admin._id);
+    };
+    //#endregion
+
+    //#region RENDER
     render() {
         const action = this.props.action;
         const adminList = this.props.admin.adminList;
@@ -53,9 +70,18 @@ class AdminList extends Component {
             return <AdminListItem admin={admin} UpdateAdmin={this.ShowUpdateModal} DeleteAdmin={this.DeleteAdmin} key={admin._id} />;
         });
 
-        const successMessage = (
+        const deleteSuccessMessage = (
             <div className="alert alert-success alert-dismissible fade show mt-3" role="alert">
                 Administrateur supprimé
+                <button type="button" className="close" data-dismiss="alert" aria-label="Close" onClick={this.props.ClearResponse}>
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        );
+
+        const updateSuccessMessage = (
+            <div className="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                Administrateur modifié
                 <button type="button" className="close" data-dismiss="alert" aria-label="Close" onClick={this.props.ClearResponse}>
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -77,12 +103,14 @@ class AdminList extends Component {
                     {"  "}
                     Liste des utilisateurs
                 </h4>
-                {action.type === "DELETE_ADMIN" && action.response === "success" ? successMessage : null}
+                {action.type === "DELETE_ADMIN" && action.response === "success" ? deleteSuccessMessage : null}
+                {action.type === "UPDATE_ADMIN" && action.response === "success" ? updateSuccessMessage : null}
                 <div className="list-group list-group-flush">{adminListItems}</div>
             </div>
         );
     }
 }
+//#endregion
 
 const mapStateToProps = state => ({
     admin: state.admin,
@@ -91,6 +119,7 @@ const mapStateToProps = state => ({
 });
 
 AdminList.propTypes = {
+    admin: PropTypes.object.isRequired,
     errors: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
     action: PropTypes.object.isRequired,
     DeleteAdmin: PropTypes.func.isRequired,
@@ -100,5 +129,5 @@ AdminList.propTypes = {
 
 export default connect(
     mapStateToProps,
-    { GetAllAdmins, DeleteAdmin, ClearResponse }
+    { GetAllAdmins, DeleteAdmin, UpdateAdmin, ClearResponse }
 )(AdminList);

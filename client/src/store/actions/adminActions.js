@@ -1,4 +1,4 @@
-import { ADD_NEW_ADMIN, SET_ACTION_RESPONSE, GET_ERRORS, CLEAR_ERRORS, GET_ALL_ADMIN, DELETE_ADMIN } from "./types";
+import { ADD_NEW_ADMIN, SET_ACTION_RESPONSE, GET_ERRORS, CLEAR_ERRORS, GET_ALL_ADMIN, DELETE_ADMIN, UPDATE_ADMIN } from "./types";
 
 import axios from "axios";
 
@@ -13,6 +13,21 @@ export const AddAdmin = adminInfos => dispatch => {
         })
         .catch(err => {
             dispatch({ type: SET_ACTION_RESPONSE, payload: { type: ADD_NEW_ADMIN, response: "fail" } });
+            dispatch({ type: GET_ERRORS, payload: err.response.data });
+        });
+};
+
+export const UpdateAdmin = adminInfos => dispatch => {
+    axios
+        .put("/api/admin/update", adminInfos)
+        .then(modifiedAdmin => {
+            dispatch({ type: SET_ACTION_RESPONSE, payload: { type: UPDATE_ADMIN, response: "success" } });
+            dispatch({ type: CLEAR_ERRORS });
+            dispatch({ type: UPDATE_ADMIN, payload: modifiedAdmin.data });
+            dispatch(GetAllAdmins());
+        })
+        .catch(err => {
+            dispatch({ type: SET_ACTION_RESPONSE, payload: { type: UPDATE_ADMIN, response: "fail" } });
             dispatch({ type: GET_ERRORS, payload: err.response.data });
         });
 };
