@@ -12,7 +12,8 @@ const FinaleSchema = new Schema({
     region: { type: Number },
     level: { type: String },
     judges: [{ type: Schema.Types.ObjectId, ref: "Judge" }],
-    projects: [{ type: Schema.Types.ObjectId, ref: "Project" }]
+    projects: [{ type: Schema.Types.ObjectId, ref: "Project" }],
+    adminId: { type: Schema.Types.ObjectId, ref: "Admin" }
 });
 
 module.exports = mongoose.model("Finale", FinaleSchema);

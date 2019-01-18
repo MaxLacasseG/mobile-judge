@@ -6,14 +6,12 @@ export const CreateFinal = finalInfos => dispatch => {
     axios
         .post("/api/final/create", finalInfos)
         .then(newFinal => {
-            console.log(newFinal);
             dispatch({ type: SET_ACTION_RESPONSE, payload: { type: CREATE_FINAL, response: "success" } });
             dispatch({ type: CLEAR_ERRORS });
             dispatch({ type: CREATE_FINAL, payload: newFinal.data });
             dispatch(GetAllFinals());
         })
         .catch(err => {
-            console.log(err.response);
             dispatch({ type: SET_ACTION_RESPONSE, payload: { type: CREATE_FINAL, response: err } });
             dispatch({ type: GET_ERRORS, payload: err.response.data });
         });

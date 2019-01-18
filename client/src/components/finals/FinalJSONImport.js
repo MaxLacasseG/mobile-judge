@@ -1,10 +1,14 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
+
 import NewFinalModal from "./NewFinalModal";
+
 import { CreateFinal } from "../../store/actions/finalActions";
 import { ClearErrors } from "../../store/actions/errorActions";
 import { ClearResponse } from "../../store/actions/responseActions";
+
 import isEmpty from "../../validation/isEmpty";
+import PropTypes from "prop-types";
 
 class FinalJSONImport extends Component {
     constructor(props) {
@@ -31,13 +35,11 @@ class FinalJSONImport extends Component {
         this.props.CreateFinal(finalInfos);
     };
     OnFileSelect = e => {
-        console.log(e.target.files[0].name);
         this.setState({ file: e.target.files[0] });
     };
 
     OnImportData = () => {
         if (this.state.file === "" || this.state.file === undefined) return;
-        console.log("read file");
         var reader = new FileReader();
         var that = this;
         reader.onload = event => {
@@ -146,6 +148,16 @@ const mapStateToProps = state => ({
     errors: state.errors,
     final: state.final
 });
+
+FinalJSONImport.propTypes = {
+    action: PropTypes.object.isRequired,
+    errors: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
+    final: PropTypes.object.isRequired,
+    CreateFinal: PropTypes.func.isRequired,
+    ClearResponse: PropTypes.func.isRequired,
+    ClearErrors: PropTypes.func.isRequired
+};
+
 export default connect(
     mapStateToProps,
     { ClearResponse, ClearErrors, CreateFinal }

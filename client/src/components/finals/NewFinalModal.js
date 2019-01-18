@@ -25,12 +25,18 @@ class NewFinalModal extends Component {
 
     //#region LIFE CYCLE METHODS
     componentDidMount = () => {
-        console.log("Modal mounted");
         this.SetFinalInfo(this.props.finalInfos);
     };
-    componentWillUnmount = () => {
-        console.log("Modal unmounted");
+    componentWillUnmount = () => {};
+
+    componentDidUpdate = (prevProps, prevState) => {
+        if (prevProps.errors !== this.props.errors) {
+            if (this.props.errors.hasOwnProperty("msg")) {
+                this.CloseModal();
+            }
+        }
     };
+
     //#endregion
 
     //#region COMPONENT METHODS
@@ -41,6 +47,7 @@ class NewFinalModal extends Component {
     FormatFinalInfos = () => {
         const eventFieldsToKeep = ["_id", "eventDate", "location", "longName", "program", "region", "level"];
         const newEvent = this.CopyObject(this.state.event, eventFieldsToKeep);
+        newEvent.adminId = this.props.auth.user.id;
 
         const judgeFieldsToKeep = ["_id", "information", "number"];
         const newJudgesList = this.state.judges.map(judge => {
@@ -58,7 +65,7 @@ class NewFinalModal extends Component {
         });
 
         const newFinal = { event: newEvent, judges: newJudgesList, projects: newProjectsList, participants: newParticipantsList };
-
+        console.log(newEvent);
         return newFinal;
     };
 
@@ -238,33 +245,39 @@ class NewFinalModal extends Component {
                                             </h5>
                                         </div>
                                         <div className="col-md-12 form-group">
-                                            <div className="form-check form-check-inline">
+                                            <div className="custom-control custom-radio">
                                                 <input
-                                                    className="form-check-input"
+                                                    className={classnames("custom-control-input", {
+                                                        "is-invalid": errors.level
+                                                    })}
                                                     type="radio"
                                                     name="level"
                                                     id="elementaryLvl"
                                                     value="elementary"
                                                     onChange={this.OnChange}
                                                 />
-                                                <label className="form-check-label" htmlFor="elementaryLvl">
+                                                <label className="custom-control-label" htmlFor="elementaryLvl">
                                                     Volet primaire
                                                 </label>
                                             </div>
-                                            <div className="form-check form-check-inline">
+                                            <div className="custom-control custom-radio">
                                                 <input
-                                                    className="form-check-input"
+                                                    className={classnames("custom-control-input mb-2", {
+                                                        "is-invalid": errors.level
+                                                    })}
                                                     type="radio"
                                                     name="level"
                                                     id="highschoolLvl"
                                                     value="highschool"
                                                     onChange={this.OnChange}
                                                 />
-                                                <label className="form-check-label" htmlFor="highschoolLvl">
+                                                <label className="custom-control-label" htmlFor="highschoolLvl">
                                                     Volet secondaire/collégial
                                                 </label>
+                                                {errors.level && <div className="invalid-feedback">{errors.level}</div>}
                                             </div>
                                         </div>
+
                                         <button className="btn mr-3" type="button" onClick={this.CreateFinal}>
                                             <i className="fas fa-save" /> Créer la finale
                                         </button>
@@ -284,6 +297,7 @@ class NewFinalModal extends Component {
 //#endregion
 
 const mapStateToProps = state => ({
+    auth: state.auth,
     action: state.action,
     errors: state.errors
 });

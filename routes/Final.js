@@ -5,11 +5,12 @@ const logger = require("tracer").colorConsole();
 const isEmpty = require("../utils/isEmpty");
 
 const FinalController = require("../controllers/Final");
+const finalCreationValidator = require("../validators/FinalCreation");
 
 router.get("/all", (req, res) => {
     FinalController.FindAll()
         .then(result => {
-            if (isEmpty(result)) throw { success: false, msg: "Aucune finale trouvée" };
+            if (isEmpty(result)) throw { success: false, noFinal: "Aucune finale trouvée" };
             res.status(200).json(result);
         })
         .catch(err => {
@@ -52,9 +53,10 @@ router.get("/archived", (req, res) => {
 });
 
 router.post("/create", (req, res) => {
-    //TODO:Validation
+    const { errors, isValid, sanitizedData } = finalCreationValidator(req.body);
+    if (!isValid) return res.status(400).json(errors);
 
-    FinalController.Create(req.body)
+    FinalController.Create(sanitizedData)
         .then(resultat => {
             return res.status(200).json(resultat);
         })
