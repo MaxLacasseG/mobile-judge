@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 /**
  * Class showing an admin item from the list
- * @props function  UpdateAdmin(id)     Update the admin
+ * @props function  UpdateAdmin(id)     Updates the admin
  * @props function  DeleteAdmin(id)     Deletes the admin
  * @props object    admin               the admin infos
  */

@@ -22,6 +22,7 @@ import NotFound from "./components/pages/Page404";
 import AdminLogin from "./components/admin/auth/AdminLoginForm";
 import AdminListPage from "./components/admin/adminManagement/AdminListPage";
 import FinalListPage from "./components/finals/FinalListPage";
+import FinalDashBoard from "./components/finals/finalManagement/FinalDashBoard";
 //SUPERADMIN COMPONENTS
 
 //AUTH CHECK
@@ -56,6 +57,7 @@ class App extends Component {
                             {/* MANAGER ROUTES */}
                             <Route exact path="/admin" component={AdminLogin} />
                             <AdminRoute exact path="/admin/panneau-controle" component={FinalListPage} />
+                            <AdminRoute exact path="/admin/finale/*" component={FinalDashBoard} />
                             <SuperAdminRoute exact path="/admin/liste-admin" component={AdminListPage} />
                             {/* OTHER ROUTES*/}
                             <Route path="/*" component={NotFound} />
