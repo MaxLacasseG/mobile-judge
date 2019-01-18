@@ -35,6 +35,11 @@ class NewFinalModal extends Component {
                 this.CloseModal();
             }
         }
+        if (prevProps.action !== this.props.action) {
+            if (this.props.action.type === "CREATE_FINAL" && this.props.action.response === "success") {
+                this.CloseModal();
+            }
+        }
     };
 
     //#endregion

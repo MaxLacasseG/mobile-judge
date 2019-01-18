@@ -61,9 +61,6 @@ const ValidateFinalCreation = finalInfos => {
     }
 
     //level
-    if (validator.isIn(finalInfos.level, ["elementary", "highschool"])) {
-        errors.level = "Valeur du volet incorrect";
-    }
 
     if (validator.isEmpty(finalInfos.level)) {
         errors.level = "Volet de la finale inconnu";
