@@ -4,6 +4,7 @@ import { AddAdmin } from "../../../store/actions/adminActions";
 import { ClearResponse } from "../../../store/actions/responseActions";
 import PropTypes from "prop-types";
 import classnames from "classnames";
+import regionList from "../../../enums/regions";
 
 class NewAdminForm extends Component {
     constructor(props) {
@@ -64,24 +65,10 @@ class NewAdminForm extends Component {
             </div>
         );
 
-        const organizationList = [
-            "Réseau Technoscience",
-            "Technoscience Abitibi-Témiscamingue",
-            "Technoscience Est-du-Québec",
-            "Technoscience Saguenay–Lac-Saint-Jean",
-            "Technoscience Mauricie, Centre-du-Québec",
-            "Technoscience Estrie",
-            "Technoscience Région métropolitaine",
-            "Technoscience Côte-Nord",
-            "Technoscience Outaouais",
-            "Boite à science",
-            "AEST"
-        ];
-
-        const organizationOptions = organizationList.map(org => {
+        const organizationOptions = regionList.map(org => {
             return (
-                <option value={org} key={org}>
-                    {org}
+                <option value={org.name} key={org.id}>
+                    {org.name}
                 </option>
             );
         });

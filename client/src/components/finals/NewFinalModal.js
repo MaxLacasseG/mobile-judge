@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import classnames from "classnames";
+import regionList from "../../enums/regions";
 
 /**
  * @props CreateFinal    function    Updates the admin profile
@@ -37,13 +38,45 @@ class NewFinalModal extends Component {
         this.setState(finalInfos);
     };
 
+    FormatFinalInfos = () => {
+        const eventFieldsToKeep = ["_id", "eventDate", "location", "longName", "program", "region", "level"];
+        const newEvent = this.CopyObject(this.state.event, eventFieldsToKeep);
+
+        const judgeFieldsToKeep = ["_id", "information", "number"];
+        const newJudgesList = this.state.judges.map(judge => {
+            return this.CopyObject(judge, judgeFieldsToKeep);
+        });
+
+        const projectFieldsToKeep = ["_id", "classification", "information", "members", "number"];
+        const newProjectsList = this.state.projects.map(project => {
+            return this.CopyObject(project, projectFieldsToKeep);
+        });
+
+        const participantFieldsToKeep = ["_id", "information", "project", "program"];
+        const newParticipantsList = this.state.participants.map(participant => {
+            return this.CopyObject(participant, participantFieldsToKeep);
+        });
+
+        const newFinal = { event: newEvent, judges: newJudgesList, projects: newProjectsList, participants: newParticipantsList };
+
+        return newFinal;
+    };
+
     CreateFinal = e => {
+        const newFinal = this.FormatFinalInfos();
+        this.props.CreateFinal(newFinal.event);
+    };
+
+    SaveFinal = () => {};
+
+    CloseModal = () => {
         document.getElementById("closeModalBtn").click();
-        this.props.CreateFinal(this.state);
     };
 
     ClearForm = () => {
         this.setState(this.initialState);
+
+        //Destroys the modal object via the parent
         this.props.ClearModal();
     };
 
@@ -65,7 +98,20 @@ class NewFinalModal extends Component {
         event[e.target.name] = e.target.selectedOptions[0].value;
         this.setState({ event });
     };
+    //#endregion
 
+    //#region UTILS METHODS
+    CopyObject = (obj, fields) => {
+        var newObj = {};
+        fields.map(field => {
+            if (obj.hasOwnProperty(field)) {
+                newObj[field] = obj[field];
+            }
+            return field;
+        });
+
+        return newObj;
+    };
     RenderDate = date => {
         return new Date(date).toLocaleDateString("fr-CA", { timeZone: "UTC" });
     };
@@ -76,24 +122,10 @@ class NewFinalModal extends Component {
         const errors = this.props.errors;
         const { event, judges, participants, projects } = this.state;
 
-        const organizationList = [
-            "Réseau Technoscience",
-            "Technoscience Abitibi-Témiscamingue",
-            "Technoscience Est-du-Québec",
-            "Technoscience Saguenay–Lac-Saint-Jean",
-            "Technoscience Mauricie, Centre-du-Québec",
-            "Technoscience Estrie",
-            "Technoscience Région métropolitaine",
-            "Technoscience Côte-Nord",
-            "Technoscience Outaouais",
-            "Boite à science",
-            "AEST"
-        ];
-
-        const organizationOptions = organizationList.map(org => {
+        const organizationOptions = regionList.map(org => {
             return (
-                <option value={org} key={org}>
-                    {org}
+                <option value={org.id} key={org.id}>
+                    {org.name}
                 </option>
             );
         });
@@ -181,6 +213,23 @@ class NewFinalModal extends Component {
                                                 />
                                             </div>
                                         </div>
+                                        <div className="form-group">
+                                            <label htmlFor="organization">Organisme régional</label>
+                                            <select
+                                                className={classnames("form-control custom-select", {
+                                                    "is-invalid": errors.organization
+                                                })}
+                                                name="organization"
+                                                id="organization"
+                                                value={this.state.event.region}
+                                                onChange={this.OnSelect}
+                                                disabled={true}
+                                            >
+                                                <option value={""}>Choisir un organisme</option>
+                                                {organizationOptions}
+                                            </select>
+                                            {errors.organization && <div className="invalid-feedback">{errors.organization}</div>}
+                                        </div>
                                         <hr />
                                         <div className="col-md-12">
                                             <h5>
@@ -193,12 +242,12 @@ class NewFinalModal extends Component {
                                                 <input
                                                     className="form-check-input"
                                                     type="radio"
-                                                    name="volet"
-                                                    id="voletPrimaire"
-                                                    value="primaire"
+                                                    name="level"
+                                                    id="elementaryLvl"
+                                                    value="elementary"
                                                     onChange={this.OnChange}
                                                 />
-                                                <label className="form-check-label" htmlFor="voletPrimaire">
+                                                <label className="form-check-label" htmlFor="elementaryLvl">
                                                     Volet primaire
                                                 </label>
                                             </div>
@@ -206,31 +255,15 @@ class NewFinalModal extends Component {
                                                 <input
                                                     className="form-check-input"
                                                     type="radio"
-                                                    name="volet"
-                                                    id="voletSecondaire"
-                                                    value="secondaire"
+                                                    name="level"
+                                                    id="highschoolLvl"
+                                                    value="highschool"
                                                     onChange={this.OnChange}
                                                 />
-                                                <label className="form-check-label" htmlFor="voletSecondaire">
+                                                <label className="form-check-label" htmlFor="highschoolLvl">
                                                     Volet secondaire/collégial
                                                 </label>
                                             </div>
-                                        </div>
-                                        <div className="form-group">
-                                            <label htmlFor="organization">Organisme régional</label>
-                                            <select
-                                                className={classnames("form-control custom-select", {
-                                                    "is-invalid": errors.organization
-                                                })}
-                                                name="organization"
-                                                id="organization"
-                                                value={this.state.event.organization}
-                                                onChange={this.OnSelect}
-                                            >
-                                                <option value="">Choisir un organisme</option>
-                                                {organizationOptions}
-                                            </select>
-                                            {errors.organization && <div className="invalid-feedback">{errors.organization}</div>}
                                         </div>
                                         <button className="btn mr-3" type="button" onClick={this.CreateFinal}>
                                             <i className="fas fa-save" /> Créer la finale

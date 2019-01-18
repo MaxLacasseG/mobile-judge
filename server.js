@@ -34,9 +34,9 @@ app.use(morgan("dev"));
 
 //ROUTES
 app.use("/api/admin", adminRoutes);
-//app.use("/api/judge", judgeRoutes);
-//app.use("/api/project", projectRoutes);
-//app.use("/api/finalRoutes", finalRoutes);
+app.use("/api/judge", judgeRoutes);
+app.use("/api/project", projectRoutes);
+app.use("/api/final", finalRoutes);
 
 app.listen(port, err => {
     if (err) logger.log(err);

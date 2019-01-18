@@ -1,57 +1,53 @@
 const logger = require("tracer").colorConsole();
-const Finale = require("../models/Final");
+const Final = require("../models/Final");
 const isEmpty = require("../utils/isEmpty");
 
-const ProjetController = require("./Project");
-const JugeController = require("./Judge");
-const RegionController = require("./Region");
+const ProjectController = require("./Project");
+const JudgeController = require("./Judge");
 
 const controller = {};
 
-controller.rechercher = filtre => {
-    return Finale.find(filtre);
+controller.Find = filtre => {
+    return Final.find(filtre);
 };
 
-controller.rechercherId = finaleId => {
-    return Finale.findById(finaleId);
+controller.FindById = finaleId => {
+    return Final.findById(finaleId);
 };
 
-controller.rechercherTous = () => {
-    return Finale.find({});
+controller.FindAll = () => {
+    return Final.find({});
 };
 
-controller.creer = finaleInfos => {
-    //TODO: Validation
-    const newFinale = new Finale(finaleInfos);
-
-    return newFinale.save();
+controller.Create = finalInfos => {
+    const newFinal = new Final(finalInfos);
+    return newFinal.save();
 };
 
-controller.modifier = finaleInfos => {
-    //TODO: Validation
-    return Finale.findByIdAndUpdate(finaleInfos._id, finaleInfos, {
+controller.Update = finalInfos => {
+    return Final.findByIdAndUpdate(finalInfos._id, finalInfos, {
         new: true
     });
 };
 
-controller.supprimerUn = finaleId => {
-    return Finale.findByIdAndDelete(finaleId);
+controller.DeleteOne = finalId => {
+    return Final.findByIdAndDelete(finalId);
 };
 
-controller.supprimerTous = () => {
-    return Finale.deleteMany({});
+controller.DeleteAll = () => {
+    return Final.deleteMany({});
 };
 
-controller.archiver = async finaleId => {
+controller.Archive = async finalId => {
     return controller
-        .rechercherId(finaleId)
-        .then(finaleArchive => {
-            if (finaleArchive === null || finaleArchive === undefined) {
+        .FindById(finalId)
+        .then(finalArchive => {
+            if (finalArchive === null || finalArchive === undefined) {
                 throw { success: false, msg: "Finale non trouvée" };
             }
 
-            finaleArchive.isActive = false;
-            return finaleArchive.save();
+            finalArchive.isActive = false;
+            return finalArchive.save();
         })
         .catch(err => {
             console.log(err);
@@ -59,16 +55,16 @@ controller.archiver = async finaleId => {
         });
 };
 
-controller.reactiver = async finaleId => {
+controller.UnArchive = async finalId => {
     return controller
-        .rechercherId(finaleId)
-        .then(finaleArchive => {
-            if (finaleArchive === null || finaleArchive === undefined) {
+        .FindById(finalId)
+        .then(finalArchive => {
+            if (finalArchive === null || finalArchive === undefined) {
                 throw { success: false, msg: "Finale non trouvée" };
             }
 
-            finaleArchive.isActive = true;
-            return finaleArchive.save();
+            finalArchive.isActive = true;
+            return finalArchive.save();
         })
         .catch(err => {
             console.log(err);
@@ -76,15 +72,15 @@ controller.reactiver = async finaleId => {
         });
 };
 
-controller.exporterResultatsFinale = finaleId => {
+controller.ExportFinalResults = finalId => {
     return true;
 };
 
-controller.exporterResultatsActif = () => {
+controller.ExportActiveFinalResults = () => {
     return true;
 };
 
-controller.exporterResultatsTout = () => {
+controller.ExportAllFinalResults = () => {
     return true;
 };
 

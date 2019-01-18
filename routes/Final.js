@@ -4,10 +4,10 @@ const passport = require("passport");
 const logger = require("tracer").colorConsole();
 const isEmpty = require("../utils/isEmpty");
 
-const FinaleController = require("../controllers/Final");
+const FinalController = require("../controllers/Final");
 
-router.get("/tous", (req, res) => {
-    FinaleController.rechercherTous()
+router.get("/all", (req, res) => {
+    FinalController.rechercherTous()
         .then(resultat => {
             if (isEmpty(resultat)) throw { success: false, msg: "Aucune finale trouvée" };
             res.status(200).json(resultat);
@@ -18,7 +18,7 @@ router.get("/tous", (req, res) => {
 });
 
 router.get("/id", (req, res) => {
-    FinaleController.rechercherId(req.query.finaleId)
+    FinalController.rechercherId(req.query.finaleId)
         .then(resultat => {
             if (isEmpty(resultat)) throw { success: false, msg: "Aucune finale trouvée" };
             res.status(200).json(resultat);
@@ -28,8 +28,8 @@ router.get("/id", (req, res) => {
         });
 });
 
-router.get("/actif", (req, res) => {
-    FinaleController.rechercher({ isActive: true })
+router.get("/active", (req, res) => {
+    FinalController.rechercher({ isActive: true })
         .then(resultat => {
             if (isEmpty(resultat)) throw { success: false, msg: "Aucune finale trouvée" };
             res.status(200).json(resultat);
@@ -39,8 +39,8 @@ router.get("/actif", (req, res) => {
         });
 });
 
-router.get("/archive", (req, res) => {
-    FinaleController.rechercher({ isActive: false })
+router.get("/archived", (req, res) => {
+    FinalController.rechercher({ isActive: false })
         .then(resultat => {
             if (isEmpty(resultat)) throw { success: false, msg: "Aucune finale trouvée" };
             res.status(200).json(resultat);
@@ -50,8 +50,23 @@ router.get("/archive", (req, res) => {
         });
 });
 
-router.post("/creer", (req, res) => {
-    FinaleController.creer(req.body)
+router.post("/create", (req, res) => {
+    //TODO:Validation
+
+    FinalController.Create(req.body)
+        .then(resultat => {
+            return res.status(200).json(resultat);
+        })
+        .catch(err => {
+            logger.log(err);
+            return res.status(400).json(err);
+        });
+});
+
+router.post("/import-participants/:finaleId", (req, res) => {});
+
+router.put("/update", (req, res) => {
+    FinalController.modifier(req.body)
         .then(resultat => {
             res.status(200).json(resultat);
         })
@@ -60,20 +75,8 @@ router.post("/creer", (req, res) => {
         });
 });
 
-router.post("/importer-participants/:finaleId", (req, res) => {});
-
-router.put("/modifier", (req, res) => {
-    FinaleController.modifier(req.body)
-        .then(resultat => {
-            res.status(200).json(resultat);
-        })
-        .catch(err => {
-            res.status(400).json(err);
-        });
-});
-
-router.put("/reactiver", (req, res) => {
-    FinaleController.reactiver(req.query.finaleId)
+router.put("/unarchive", (req, res) => {
+    FinalController.reactiver(req.query.finaleId)
         .then(resultat => {
             res.status(200).json(resultat);
         })
@@ -83,12 +86,12 @@ router.put("/reactiver", (req, res) => {
 });
 
 //TODO:
-router.put("/assigner-participants", (req, res) => {
+router.put("/assign-participants", (req, res) => {
     res.status(400).json("TODO");
 });
 
-router.delete("/archiver", (req, res) => {
-    FinaleController.archiver(req.query.finaleId)
+router.put("/archive", (req, res) => {
+    FinalController.archiver(req.query.finaleId)
         .then(resultat => {
             res.status(200).json(resultat);
         })
@@ -97,8 +100,8 @@ router.delete("/archiver", (req, res) => {
         });
 });
 
-router.delete("/supprimer", (req, res) => {
-    FinaleController.supprimerUn(req.query.finaleId)
+router.delete("/delete", (req, res) => {
+    FinalController.supprimerUn(req.query.finaleId)
         .then(resultat => {
             if (isEmpty(resultat) || resultat.n === 0) {
                 throw {
@@ -113,8 +116,8 @@ router.delete("/supprimer", (req, res) => {
         });
 });
 
-router.delete("/supprimer/tous", (req, res) => {
-    FinaleController.supprimerTous()
+router.delete("/delete/all", (req, res) => {
+    FinalController.supprimerTous()
         .then(resultat => {
             if (isEmpty(resultat) || resultat.n === 0) {
                 throw {

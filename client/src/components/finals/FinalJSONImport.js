@@ -1,7 +1,10 @@
 import React, { Component, Fragment } from "react";
+import { connect } from "react-redux";
 import NewFinalModal from "./NewFinalModal";
+import { CreateFinal } from "../../store/actions/finalActions";
 import { ClearResponse } from "../../store/actions/responseActions";
 import isEmpty from "../../validation/isEmpty";
+
 class FinalJSONImport extends Component {
     constructor(props) {
         super(props);
@@ -24,7 +27,7 @@ class FinalJSONImport extends Component {
     };
 
     CreateFinal = finalInfos => {
-        console.log("Final created");
+        this.props.CreateFinal(finalInfos);
     };
     OnFileSelect = e => {
         console.log(e.target.files[0].name);
@@ -81,7 +84,7 @@ class FinalJSONImport extends Component {
                         </div>
                         <hr />
                         <div className="row py-3">
-                            <div className="col">
+                            <div className="col-md-6 offset-3">
                                 <p>
                                     <small>Nom du fichier sélectionné</small>
                                     <br />
@@ -90,7 +93,7 @@ class FinalJSONImport extends Component {
                             </div>
                         </div>
                         <div className="row">
-                            <div className="col">
+                            <div className="col-md-6 offset-3">
                                 <input
                                     type="submit"
                                     className="btn"
@@ -115,4 +118,10 @@ class FinalJSONImport extends Component {
         );
     }
 }
-export default FinalJSONImport;
+const mapStateToProps = state => ({
+    final: state.final
+});
+export default connect(
+    mapStateToProps,
+    { ClearResponse, CreateFinal }
+)(FinalJSONImport);

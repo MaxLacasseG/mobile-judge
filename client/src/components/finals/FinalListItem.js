@@ -31,8 +31,7 @@ class FinalListItem extends Component {
                         {name}- {isActive ? <span className="text-info">Actif</span> : <span className="text-muted">Inactif</span>}
                     </p>
                     <small>
-                        Volet {level === "elementary" ? "primaire" : level === "highschool" ? "secondaire/collégial" : null} - Jugement{" "}
-                        {this.RenderDate(date)}
+                        Volet {level === "elementary" ? "primaire" : level === "highschool" ? "secondaire/collégial" : null} - {this.RenderDate(date)}
                     </small>
                 </div>
                 <div className="col d-flex flew-row justify-content-around align-items-start">

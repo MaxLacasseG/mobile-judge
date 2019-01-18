@@ -2,14 +2,17 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const FinaleSchema = new Schema({
+    _id: { type: Schema.Types.ObjectId },
+    isArchived: { type: Boolean, default: false },
     isActive: { type: Boolean, default: false },
-    isOpen: { type: Boolean, default: false },
-    date: { type: Date },
-    nom: { type: String },
-    lieu: { type: String },
-    region: { type: Schema.Types.ObjectId, ref: "Region" },
-    juges: [{ type: Schema.Types.ObjectId, ref: "Juge" }],
-    projets: [{ type: Schema.Types.ObjectId, ref: "Projet" }]
+    eventDate: { type: Date },
+    longName: { type: String },
+    program: { type: Number },
+    location: { type: String },
+    region: { type: Number },
+    level: { type: String },
+    judges: [{ type: Schema.Types.ObjectId, ref: "Judge" }],
+    projects: [{ type: Schema.Types.ObjectId, ref: "Project" }]
 });
 
 module.exports = mongoose.model("Finale", FinaleSchema);

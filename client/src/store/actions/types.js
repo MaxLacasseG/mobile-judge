@@ -13,9 +13,10 @@ export const CLEAR_SELECTED_ADMIN = "CLEAR_SELECTED_ADMIN";
 
 //FINAL
 export const SET_FINAL = "SET_FINAL";
+export const CLEAR_FINAL = "CLEAR_FINAL";
 export const GET_FINAL = "GET_FINAL";
 export const GET_ALL_FINALS = "GET_ALL_FINALS";
-export const ADD_FINAL = "ADD_FINAL";
+export const CREATE_FINAL = "CREATE_FINAL";
 export const UPDATE_FINAL = "UPDATE_FINAL";
 export const ARCHIVE_FINAL = "ARCHIVE_FINAL";
 export const DELETE_FINAL = "DELETE_FINAL";

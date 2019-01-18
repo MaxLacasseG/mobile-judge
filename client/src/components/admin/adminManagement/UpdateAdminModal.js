@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import classnames from "classnames";
+import regionList from "../../../enums/regions";
 
 /**
  * @props UpdateAdmin(newAdminInfos)    function    Updates the admin profile
@@ -63,23 +64,11 @@ class UpdateAdminModal extends Component {
     //#region RENDER
     render() {
         const errors = this.props.errors;
-        const organizationList = [
-            "Réseau Technoscience",
-            "Technoscience Abitibi-Témiscamingue",
-            "Technoscience Est-du-Québec",
-            "Technoscience Saguenay–Lac-Saint-Jean",
-            "Technoscience Mauricie, Centre-du-Québec",
-            "Technoscience Estrie",
-            "Technoscience Région métropolitaine",
-            "Technoscience Côte-Nord",
-            "Technoscience Outaouais",
-            "Boite à science",
-            "AEST"
-        ];
-        const organizationOptions = organizationList.map(org => {
+
+        const organizationOptions = regionList.map(org => {
             return (
-                <option value={org} key={org}>
-                    {org}
+                <option value={org.name} key={org.id}>
+                    {org.name}
                 </option>
             );
         });
