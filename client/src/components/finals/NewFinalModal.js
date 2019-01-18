@@ -11,7 +11,14 @@ import classnames from "classnames";
 class NewFinalModal extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            event: {},
+            participants: {},
+            projects: {},
+            judges: {},
+            volet: "",
+            organization: ""
+        };
         this.initialState = this.state;
     }
 
@@ -44,7 +51,9 @@ class NewFinalModal extends Component {
         e.preventDefault();
     };
     OnChange = e => {
-        this.setState({ [e.target.name]: e.target.value });
+        const event = this.state.event;
+        event[e.target.name] = e.target.value;
+        this.setState({ event });
     };
 
     OnCheck = e => {
@@ -52,11 +61,12 @@ class NewFinalModal extends Component {
     };
 
     OnSelect = e => {
-        this.setState({ [e.target.name]: e.target.selectedOptions[0].value });
+        const event = this.state.event;
+        event[e.target.name] = e.target.selectedOptions[0].value;
+        this.setState({ event });
     };
 
     RenderDate = date => {
-        console.log(date);
         return new Date(date).toLocaleDateString("fr-CA", { timeZone: "UTC" });
     };
     //#endregion
@@ -110,16 +120,10 @@ class NewFinalModal extends Component {
                                                     className="form-control"
                                                     name="finalName"
                                                     id="finalName"
-                                                    value={event ? event.longName : ""}
+                                                    defaultValue={event ? event.longName : ""}
                                                     disabled="disabled"
                                                 />
                                             </div>
-                                            {/** TODO: Modal*/}
-                                            <label class="custom-control custom-radio">
-                                                <input type="radio" name="" id="" value="checkedValue" class="custom-control-input" />
-                                                <span class="custom-control-indicator" />
-                                                <span class="custom-control-description" />
-                                            </label>
                                             <div className="form-group col-md-6">
                                                 <label htmlFor="finalName">Date de début</label>
                                                 <input
@@ -178,6 +182,40 @@ class NewFinalModal extends Component {
                                             </div>
                                         </div>
                                         <hr />
+                                        <div className="col-md-12">
+                                            <h5>
+                                                <i className="fas fa-exclamation-triangle text-danger" />
+                                                Veuillez compléter les informations suivantes
+                                            </h5>
+                                        </div>
+                                        <div className="col-md-12 form-group">
+                                            <div className="form-check form-check-inline">
+                                                <input
+                                                    className="form-check-input"
+                                                    type="radio"
+                                                    name="volet"
+                                                    id="voletPrimaire"
+                                                    value="primaire"
+                                                    onChange={this.OnChange}
+                                                />
+                                                <label className="form-check-label" htmlFor="voletPrimaire">
+                                                    Volet primaire
+                                                </label>
+                                            </div>
+                                            <div className="form-check form-check-inline">
+                                                <input
+                                                    className="form-check-input"
+                                                    type="radio"
+                                                    name="volet"
+                                                    id="voletSecondaire"
+                                                    value="secondaire"
+                                                    onChange={this.OnChange}
+                                                />
+                                                <label className="form-check-label" htmlFor="voletSecondaire">
+                                                    Volet secondaire/collégial
+                                                </label>
+                                            </div>
+                                        </div>
                                         <div className="form-group">
                                             <label htmlFor="organization">Organisme régional</label>
                                             <select
@@ -186,7 +224,7 @@ class NewFinalModal extends Component {
                                                 })}
                                                 name="organization"
                                                 id="organization"
-                                                value={this.state.organization}
+                                                value={this.state.event.organization}
                                                 onChange={this.OnSelect}
                                             >
                                                 <option value="">Choisir un organisme</option>

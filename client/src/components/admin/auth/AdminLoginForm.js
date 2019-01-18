@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { adminLogin } from "../../store/actions/authActions";
-import { ClearErrors } from "../../store/actions/errorActions";
+import { adminLogin } from "../../../store/actions/authActions";
+import { ClearErrors } from "../../../store/actions/errorActions";
 import { withRouter } from "react-router-dom";
 
 import classnames from "classnames";

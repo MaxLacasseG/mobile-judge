@@ -28,7 +28,7 @@ export const setCurrentUser = decoded => {
     };
 };
 
-export const logoutUser = history => dispatch => {
+export const logoutUser = () => dispatch => {
     //removes from localstorage
     localStorage.removeItem("jwtToken");
     //resets requests authorization header
@@ -37,7 +37,7 @@ export const logoutUser = history => dispatch => {
     //set isAuthenticated to false
     dispatch(setCurrentUser({}));
     //Redirects to login
-    history.push("/admin");
+    window.location.href = "/admin";
 };
 
 export const oubliMdp = courriel => dispatch => {

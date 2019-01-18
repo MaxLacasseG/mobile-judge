@@ -1,11 +1,10 @@
 import "./App.scss";
 import React, { Component } from "react";
 import { Provider } from "react-redux";
-import { Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import store from "./store/store";
 import setAuthHeader from "./utils/setAuthHeaders";
 import jwt_decode from "jwt-decode";
-import { createBrowserHistory } from "history";
 
 import { setCurrentUser, logoutUser } from "./store/actions/authActions";
 
@@ -20,11 +19,10 @@ import NotFound from "./components/pages/Page404";
 //JUDGE COMPONENTS
 
 //ADMIN COMPONENTS
-import AdminLogin from "./components/admin/AdminLoginForm";
+import AdminLogin from "./components/admin/auth/AdminLoginForm";
 import AdminListPage from "./components/admin/adminManagement/AdminListPage";
 import FinalListPage from "./components/finals/FinalListPage";
 //SUPERADMIN COMPONENTS
-export const history = createBrowserHistory();
 
 //AUTH CHECK
 //if there is a token already in localstorage,
@@ -50,7 +48,7 @@ class App extends Component {
     render() {
         return (
             <Provider store={store}>
-                <Router history={history}>
+                <Router>
                     <div className="App">
                         <Switch>
                             {/* JUDGE ROUTES */}
