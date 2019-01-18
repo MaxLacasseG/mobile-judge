@@ -1,16 +1,21 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import FinalListItem from "./FinalListItem";
-export default class FinalsList extends Component {
+import { GetAllFinals, GetFinalsFromUser } from "../../store/actions/finalActions";
+
+/**
+ * Class that lists all the finals linked to a specific user
+ */
+class FinalsList extends Component {
+    componentDidMount = () => {
+        this.props.auth.user.isAdmin ? this.props.GetAllFinals() : this.props.GetFinalsFromUser(this.props.auth.user.id);
+    };
+
     ToggleActivationFinal = id => {
         console.log(id);
     };
     render() {
-        const dummyFinal = [
-            { _id: "135454", name: "TEST", isActive: true, level: "elementary", date: "2019-03-25" },
-            { _id: "455647", name: "TEST", isActive: false, level: "elementary", date: "2019-03-25" }
-        ];
-
-        const finalListItems = dummyFinal.map(final => {
+        const finalListItems = this.props.final.finalList.map(final => {
             return <FinalListItem key={final._id} final={final} ToggleActivationFinal={this.ToggleActivationFinal} />;
         });
         return (
@@ -25,3 +30,12 @@ export default class FinalsList extends Component {
         );
     }
 }
+const mapStateToProps = state => ({
+    auth: state.auth,
+    final: state.final
+});
+
+export default connect(
+    mapStateToProps,
+    { GetAllFinals, GetFinalsFromUser }
+)(FinalsList);

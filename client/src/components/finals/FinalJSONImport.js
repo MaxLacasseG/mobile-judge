@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import NewFinalModal from "./NewFinalModal";
 import { CreateFinal } from "../../store/actions/finalActions";
+import { ClearErrors } from "../../store/actions/errorActions";
 import { ClearResponse } from "../../store/actions/responseActions";
 import isEmpty from "../../validation/isEmpty";
 
@@ -53,6 +54,24 @@ class FinalJSONImport extends Component {
     };
 
     render() {
+        const { action, errors } = this.props;
+        const errorMessage = (
+            <div className="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                {errors.msg}
+                <button type="button" className="close" data-dismiss="alert" aria-label="Close" onClick={this.props.ClearErrors}>
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        );
+        const createFinalSuccessAlert = (
+            <div className="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                Finale ajoutée
+                <button type="button" className="close" data-dismiss="alert" aria-label="Close" onClick={this.props.ClearResponse}>
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        );
+
         return (
             <Fragment>
                 {this.state.modal}
@@ -106,6 +125,10 @@ class FinalJSONImport extends Component {
                         </div>
                     </form>
                     <hr />
+                    {/* MESSAGE SECTIONS */}
+                    {errors.msg && errorMessage}
+                    {action.type === "CREATE_FINAL" && action.response === "success" ? createFinalSuccessAlert : null}
+
                     <button
                         id="createModalBtn"
                         className="icon-button"
@@ -119,9 +142,11 @@ class FinalJSONImport extends Component {
     }
 }
 const mapStateToProps = state => ({
+    action: state.action,
+    errors: state.errors,
     final: state.final
 });
 export default connect(
     mapStateToProps,
-    { ClearResponse, CreateFinal }
+    { ClearResponse, ClearErrors, CreateFinal }
 )(FinalJSONImport);

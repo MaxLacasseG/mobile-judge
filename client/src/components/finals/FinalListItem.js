@@ -23,15 +23,16 @@ class FinalListItem extends Component {
         return renderedDate;
     };
     render() {
-        const { _id, name, isActive, level, date } = this.props.final;
+        const { _id, longName, isActive, level, eventDate } = this.props.final;
         return (
             <div className="row border-bottom">
                 <div className="col-9">
                     <p className="p-0 m-0">
-                        {name}- {isActive ? <span className="text-info">Actif</span> : <span className="text-muted">Inactif</span>}
+                        {longName}- {isActive ? <span className="text-info">Actif</span> : <span className="text-muted">Inactif</span>}
                     </p>
                     <small>
-                        Volet {level === "elementary" ? "primaire" : level === "highschool" ? "secondaire/collégial" : null} - {this.RenderDate(date)}
+                        Volet {level === "elementary" ? "primaire" : level === "highschool" ? "secondaire/collégial" : null} -{" "}
+                        {this.RenderDate(eventDate)}
                     </small>
                 </div>
                 <div className="col d-flex flew-row justify-content-around align-items-start">

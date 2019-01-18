@@ -6,13 +6,15 @@ export const CreateFinal = finalInfos => dispatch => {
     axios
         .post("/api/final/create", finalInfos)
         .then(newFinal => {
+            console.log(newFinal);
             dispatch({ type: SET_ACTION_RESPONSE, payload: { type: CREATE_FINAL, response: "success" } });
             dispatch({ type: CLEAR_ERRORS });
             dispatch({ type: CREATE_FINAL, payload: newFinal.data });
-            dispatch(GET_ALL_FINALS());
+            dispatch(GetAllFinals());
         })
         .catch(err => {
-            dispatch({ type: SET_ACTION_RESPONSE, payload: { type: CREATE_FINAL, response: "fail" } });
+            console.log(err.response);
+            dispatch({ type: SET_ACTION_RESPONSE, payload: { type: CREATE_FINAL, response: err } });
             dispatch({ type: GET_ERRORS, payload: err.response.data });
         });
 };
@@ -24,7 +26,7 @@ export const UpdateAdmin = adminInfos => dispatch => {
             dispatch({ type: SET_ACTION_RESPONSE, payload: { type: UPDATE_FINAL, response: "success" } });
             dispatch({ type: CLEAR_ERRORS });
             dispatch({ type: UPDATE_FINAL, payload: modifiedAdmin.data });
-            dispatch(GetAllFinals());
+            //dispatch(GetAllFinals());
         })
         .catch(err => {
             dispatch({ type: SET_ACTION_RESPONSE, payload: { type: UPDATE_FINAL, response: "fail" } });
@@ -50,6 +52,19 @@ export const DeleteAdmin = adminId => dispatch => {
 export const GetAllFinals = () => dispatch => {
     axios
         .get("/api/final/all")
+        .then(finalList => {
+            dispatch({ type: CLEAR_ERRORS });
+            dispatch({ type: GET_ALL_FINALS, payload: finalList.data });
+        })
+        .catch(err => {
+            dispatch({ type: SET_ACTION_RESPONSE, payload: { type: GET_ALL_FINALS, response: "fail" } });
+            dispatch({ type: GET_ERRORS, payload: err.response.data });
+        });
+};
+
+export const GetFinalsFromUser = userId => dispatch => {
+    axios
+        .get("/api/final/userId", { params: { userId } })
         .then(finalList => {
             dispatch({ type: CLEAR_ERRORS });
             dispatch({ type: GET_ALL_FINALS, payload: finalList.data });

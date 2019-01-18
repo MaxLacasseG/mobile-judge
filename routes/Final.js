@@ -7,12 +7,13 @@ const isEmpty = require("../utils/isEmpty");
 const FinalController = require("../controllers/Final");
 
 router.get("/all", (req, res) => {
-    FinalController.rechercherTous()
-        .then(resultat => {
-            if (isEmpty(resultat)) throw { success: false, msg: "Aucune finale trouvée" };
-            res.status(200).json(resultat);
+    FinalController.FindAll()
+        .then(result => {
+            if (isEmpty(result)) throw { success: false, msg: "Aucune finale trouvée" };
+            res.status(200).json(result);
         })
         .catch(err => {
+            logger.log(err);
             res.status(400).json(err);
         });
 });
@@ -58,7 +59,11 @@ router.post("/create", (req, res) => {
             return res.status(200).json(resultat);
         })
         .catch(err => {
-            logger.log(err);
+            //Checks if final already exists
+            if (err.code === 11000 && err.name === "MongoError") {
+                return res.status(400).json({ success: false, msg: "Impossible d'importer la finale. Finale déjà existante" });
+            }
+
             return res.status(400).json(err);
         });
 });
