@@ -1,5 +1,5 @@
 // import action
-import { CREATE_JUDGE } from "../actions/types";
+import { CREATE_JUDGE, CLEAR_JUDGES_LIST } from "../actions/types";
 
 const initialState = {
 	selectedJudge: {
@@ -18,8 +18,9 @@ const initialState = {
 const jugeReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case CREATE_JUDGE:
-			const list = this.state.judgesList.push(action.payload);
-			return { ...state, judgesList: list };
+			return { ...state, judgesList: [...state.judgesList, action.payload] };
+		case CLEAR_JUDGES_LIST:
+			return { ...state, judgesList: [] };
 		default:
 			return state;
 	}

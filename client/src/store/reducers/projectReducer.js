@@ -1,5 +1,5 @@
 // import action
-import { CREATE_PROJECT } from "../actions/types";
+import { CREATE_PROJECT, CLEAR_PROJECTS_LIST } from "../actions/types";
 
 const initialState = {
 	selectedProject: {
@@ -12,14 +12,15 @@ const initialState = {
 		titre: "",
 		jugement: {}
 	},
-	projectList: []
+	projectsList: []
 };
 
 const projectReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case CREATE_PROJECT:
-			const list = this.state.projectList.push(action.payload);
-			return { ...state, projectList: list };
+			return { ...state, projectsList: [...state.projectsList, action.payload] };
+		case CLEAR_PROJECTS_LIST:
+			return { ...state, projectsList: [] };
 		default:
 			return state;
 	}

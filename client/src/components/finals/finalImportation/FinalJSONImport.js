@@ -4,8 +4,8 @@ import { connect } from "react-redux";
 import NewFinalModal from "./NewFinalModal";
 
 import { CreateFinal } from "../../../store/actions/finalActions";
-import { CreateJudge } from "../../../store/actions/judgeActions";
-import { CreateProject } from "../../../store/actions/projectActions";
+import { CreateJudge, ClearJudgesList } from "../../../store/actions/judgeActions";
+import { CreateProject, ClearProjectsList } from "../../../store/actions/projectActions";
 import { ClearErrors } from "../../../store/actions/errorActions";
 import { ClearResponse } from "../../../store/actions/responseActions";
 
@@ -30,6 +30,8 @@ class FinalJSONImport extends Component {
 				CreateJudge={this.CreateJudge}
 				CreateProject={this.CreateProject}
 				ClearModal={this.ClearModal}
+				ClearJudgesList={this.props.ClearJudgesList}
+				ClearProjectsList={this.props.ClearProjectsList}
 			/>
 		);
 		this.setState({ modal }, () => {
@@ -203,5 +205,13 @@ FinalJSONImport.propTypes = {
 
 export default connect(
 	mapStateToProps,
-	{ ClearResponse, ClearErrors, CreateFinal, CreateJudge, CreateProject }
+	{
+		ClearResponse,
+		ClearErrors,
+		CreateFinal,
+		CreateJudge,
+		CreateProject,
+		ClearJudgesList,
+		ClearProjectsList
+	}
 )(FinalJSONImport);

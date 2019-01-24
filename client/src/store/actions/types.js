@@ -28,6 +28,7 @@ export const EXPORT_LIST = "EXPORT_LIST";
 export const SET_JUDGE = "SET_JUDGE";
 export const GET_JUDGE = "GET_JUDGE";
 export const GET_ALL_JUDGES = "GET_ALL_JUDGES";
+export const CLEAR_JUDGES_LIST = "CLEAR_JUDGES_LIST";
 export const CREATE_JUDGE = "CREATE_JUDGE";
 export const UPDATE_JUDGE = "UPDATE_JUDGE";
 export const DELETE_JUDGE = "DELETE_JUDGE";
@@ -37,6 +38,7 @@ export const SET_PROJECT = "SET_PROJECT";
 export const GET_PROJECT = "GET_PROJECT";
 export const GET_ALL_PROJECTS = "GET_ALL_PROJECTS";
 export const CREATE_PROJECT = "CREATE_PROJECT";
+export const CLEAR_PROJECTS_LIST = "CLEAR_PROJECTS_LIST";
 export const UPDATE_PROJECT = "UPDATE_PROJECT";
 export const DELETE_PROJECT = "DELETE_PROJECT";
 

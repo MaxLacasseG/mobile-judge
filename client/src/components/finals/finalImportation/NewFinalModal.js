@@ -123,6 +123,10 @@ class NewFinalModal extends Component {
 	};
 
 	CreateFinal = e => {
+		//CLEAR REDUCER FIRST
+		this.props.ClearJudgesList();
+		this.props.ClearProjectsList();
+
 		const that = this;
 		const newFinal = this.FormatFinalInfos();
 		this.props.CreateFinal(newFinal.event);

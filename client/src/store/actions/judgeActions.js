@@ -3,6 +3,7 @@ import {
 	GET_ERRORS,
 	GET_MESSAGE,
 	CREATE_JUDGE,
+	CLEAR_JUDGES_LIST,
 	SET_ACTION_RESPONSE,
 	CLEAR_ERRORS
 } from "./types";
@@ -71,18 +72,23 @@ export const CreateJudge = judgeInfos => dispatch => {
 	axios
 		.post("/api/judge/create", judgeInfos)
 		.then(newJudge => {
+			dispatch({ type: CREATE_JUDGE, payload: newJudge.data });
 			dispatch({
 				type: SET_ACTION_RESPONSE,
 				payload: { type: CREATE_JUDGE, response: "success" }
 			});
 			dispatch({ type: CLEAR_ERRORS });
-			dispatch({ type: CREATE_JUDGE, payload: newJudge.data });
 		})
 		.catch(err => {
+			console.log(err);
 			dispatch({
 				type: SET_ACTION_RESPONSE,
 				payload: { type: CREATE_JUDGE, response: "fail" }
 			});
 			dispatch({ type: GET_ERRORS, payload: err.response.data });
 		});
+};
+
+export const ClearJudgesList = () => dispatch => {
+	dispatch({ type: CLEAR_JUDGES_LIST });
 };

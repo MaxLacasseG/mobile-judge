@@ -1,41 +1,57 @@
 const logger = require("tracer").colorConsole();
-const Juge = require("../models/Judge");
+const Judge = require("../models/Judge");
+const isEmpty = require("../utils/isEmpty");
 const controller = {};
 
-controller.rechercher = filtre => {
-	return Juge.find(filtre);
+controller.Find = filtre => {
+	return Judge.find(filtre);
 };
 
 controller.rechercherId = jugeId => {
-	return Juge.findById(jugeId);
+	return Judge.findById(jugeId);
 };
 
 controller.rechercherFinale = finaleId => {
-	return Juge.find({ finale: finaleId });
+	return Judge.find({ finale: finaleId });
 };
 
 controller.rechercherTous = () => {
-	return Juge.find({});
+	return Judge.find({});
 };
 
-controller.Create = jugeInfos => {
-	const newJuge = new Juge(jugeInfos);
-	return newJuge.save();
+controller.Create = judgeInfos => {
+	//Checks if exists
+	return Judge.find({ finalId: judgeInfos.finalId, judgeId: judgeInfos.judgeId }).then(result => {
+		//If new, create judge, else update infos
+		if (result.length === 0) {
+			const newJuge = new Judge(judgeInfos);
+			return newJuge.save({ new: true });
+		} else {
+			return Judge.findOneAndUpdate({ _id: result[0]._id }, result[0], { new: true })
+				.then(updatedJudge => {
+					//logger.log("UPDATE");
+					return updatedJudge;
+				})
+				.catch(err => {
+					throw err;
+				});
+		}
+	});
 };
 
 controller.modifier = jugeId => {
 	//TODO: Validation
-	return Juge.findByIdAndUpdate(jugeId._id, jugeId, { new: true });
+	return Judge.findByIdAndUpdate(jugeId._id, jugeId, { new: true });
 };
 
 controller.supprimerUn = jugeId => {
-	return Juge.findByIdAndDelete(jugeId);
+	return Judge.findByIdAndDelete(jugeId);
 };
 
 controller.supprimerJugesFinale = finaleId => {
-	return Juge.deleteMany({ finale: finaleId })
+	return Judge.deleteMany({ finale: finaleId })
 		.then(resultats => {
-			return Juge.deleteMany(resultats);
+			return Judge.deleteMany(resultats);
 		})
 		.catch(err => {
 			throw err;
@@ -43,7 +59,7 @@ controller.supprimerJugesFinale = finaleId => {
 };
 
 controller.supprimerTous = () => {
-	return Juge.deleteMany({})
+	return Judge.deleteMany({})
 		.then(resultats => {
 			return resultats;
 		})
