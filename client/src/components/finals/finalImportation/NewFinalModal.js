@@ -10,317 +10,418 @@ import regionList from "../../../enums/regions";
  * @props final                         object      the final
  */
 class NewFinalModal extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            event: {},
-            participants: {},
-            projects: {},
-            judges: {},
-            volet: "",
-            organization: ""
-        };
-        this.initialState = this.state;
-    }
+	constructor(props) {
+		super(props);
+		this.state = {
+			event: {},
+			participants: {},
+			projects: {},
+			judges: {},
+			volet: "",
+			organization: ""
+		};
+		this.initialState = this.state;
+	}
 
-    //#region LIFE CYCLE METHODS
-    componentDidMount = () => {
-        this.SetFinalInfo(this.props.finalInfos);
-    };
-    componentWillUnmount = () => {};
+	//#region LIFE CYCLE METHODS
+	componentDidMount = () => {
+		this.SetFinalInfo(this.props.finalInfos);
+	};
+	componentWillUnmount = () => {};
 
-    componentDidUpdate = (prevProps, prevState) => {
-        if (prevProps.errors !== this.props.errors) {
-            if (this.props.errors.hasOwnProperty("msg")) {
-                this.CloseModal();
-            }
-        }
-        if (prevProps.action !== this.props.action) {
-            if (this.props.action.type === "CREATE_FINAL" && this.props.action.response === "success") {
-                this.CreateJudges();
-                //this.CloseModal();
-            }
-        }
-    };
+	componentDidUpdate = (prevProps, prevState) => {
+		if (prevProps.errors !== this.props.errors) {
+			if (this.props.errors.hasOwnProperty("msg")) {
+				this.CloseModal();
+			}
+		}
+		if (prevProps.action !== this.props.action) {
+			if (
+				this.props.action.type === "CREATE_FINAL" &&
+				this.props.action.response === "success"
+			) {
+				this.CloseModal();
+			}
+		}
+	};
 
-    //#endregion
+	//#endregion
 
-    //#region COMPONENT METHODS
-    SetFinalInfo = finalInfos => {
-        this.setState(finalInfos);
-    };
+	//#region COMPONENT METHODS
+	SetFinalInfo = finalInfos => {
+		this.setState(finalInfos);
+	};
 
-    FormatFinalInfos = () => {
-        const eventFieldsToKeep = ["_id", "eventDate", "location", "longName", "program", "region", "level"];
-        const newEvent = this.CopyObject(this.state.event, eventFieldsToKeep);
-        newEvent.adminId = this.props.auth.user.id;
+	FormatFinalInfos = () => {
+		//FORMATS EVENT
+		const eventFieldsToKeep = [
+			"_id",
+			"eventDate",
+			"location",
+			"longName",
+			"program",
+			"region",
+			"level"
+		];
+		const newEvent = this.CopyObject(this.state.event, eventFieldsToKeep);
+		newEvent.adminId = this.props.auth.user.id;
 
-        const judgeFieldsToKeep = ["_id", "information", "number"];
-        const newJudgesList = this.state.judges.map(judge => {
-            return this.CopyObject(judge, judgeFieldsToKeep);
-        });
+		//Add all the judges ids to the event
+		newEvent.judges = this.state.judges.map(judge => {
+			return judge._id;
+		});
 
-        const projectFieldsToKeep = ["_id", "classification", "information", "members", "number"];
-        const newProjectsList = this.state.projects.map(project => {
-            return this.CopyObject(project, projectFieldsToKeep);
-        });
+		//Add all the projects ids to the event
+		newEvent.projects = this.state.projects.map(project => {
+			return project._id;
+		});
 
-        const participantFieldsToKeep = ["_id", "information", "project", "program"];
-        const newParticipantsList = this.state.participants.map(participant => {
-            return this.CopyObject(participant, participantFieldsToKeep);
-        });
+		//FORMATS JUDGES
+		const newJudgesList = this.state.judges.map(judge => {
+			const newJudge = {};
+			newJudge.number = judge.number;
+			newJudge.information = this.CopyObject(judge.information, [
+				"education",
+				"generalInformation",
+				"judgingPreference",
+				"work"
+			]);
+			newJudge.judgeId = judge._id;
+			newJudge.finalId = this.state.event._id;
+			return newJudge;
+		});
 
-        const newFinal = { event: newEvent, judges: newJudgesList, projects: newProjectsList, participants: newParticipantsList };
-        console.log(newEvent);
-        return newFinal;
-    };
+		//FORMATS PROJECTS
+		const newProjectsList = this.state.projects.map(project => {
+			project.participants = this.state.participants.filter(participant => {
+				return participant.project === project._id;
+			});
 
-    CreateFinal = e => {
-        const newFinal = this.FormatFinalInfos();
-        this.props.CreateFinal(newFinal.event);
-    };
+			project.participants = project.participants.map(participant => {
+				return this.CopyObject(participant, ["_id", "information"]);
+			});
+			project.projectId = project._id;
+			project.finalId = this.state.event._id;
 
-    CreateJudges = () => {
-        const that = this;
-        this.state.judges.map(judge => {
-            that.props.CreateJudge(judge, that.props.final.selectedFinal._id);
-            return null;
-        });
-    };
+			return this.CopyObject(project, [
+				"projectId",
+				"classification",
+				"participants",
+				"information",
+				"number",
+				"finalId"
+			]);
+		});
 
-    SaveFinal = () => {};
+		//RETURN THE OBJECTS
+		const newFinal = {
+			event: newEvent,
+			judges: newJudgesList,
+			projects: newProjectsList
+		};
+		return newFinal;
+	};
 
-    CloseModal = () => {
-        document.getElementById("closeModalBtn").click();
-    };
+	CreateFinal = e => {
+		const that = this;
+		const newFinal = this.FormatFinalInfos();
+		this.props.CreateFinal(newFinal.event);
 
-    ClearForm = () => {
-        this.setState(this.initialState);
+		newFinal.judges.map(judge => {
+			that.props.CreateJudge(judge);
+			return null;
+		});
 
-        //Destroys the modal object via the parent
-        this.props.ClearModal();
-    };
+		newFinal.projects.map(project => {
+			that.props.CreateProject(project);
+			return null;
+		});
+	};
 
-    OnSubmit = e => {
-        e.preventDefault();
-    };
-    OnChange = e => {
-        const event = this.state.event;
-        event[e.target.name] = e.target.value;
-        this.setState({ event });
-    };
+	SaveFinal = () => {};
 
-    OnCheck = e => {
-        this.setState({ [e.target.name]: e.target.checked });
-    };
+	CloseModal = () => {
+		document.getElementById("closeModalBtn").click();
+	};
 
-    OnSelect = e => {
-        const event = this.state.event;
-        event[e.target.name] = e.target.selectedOptions[0].value;
-        this.setState({ event });
-    };
-    //#endregion
+	ClearForm = () => {
+		this.setState(this.initialState);
 
-    //#region UTILS METHODS
-    CopyObject = (obj, fields) => {
-        var newObj = {};
-        fields.map(field => {
-            if (obj.hasOwnProperty(field)) {
-                newObj[field] = obj[field];
-            }
-            return field;
-        });
+		//Destroys the modal object via the parent
+		this.props.ClearModal();
+	};
 
-        return newObj;
-    };
-    RenderDate = date => {
-        return new Date(date).toLocaleDateString("fr-CA", { timeZone: "UTC" });
-    };
-    //#endregion
+	OnSubmit = e => {
+		e.preventDefault();
+	};
+	OnChange = e => {
+		const event = this.state.event;
+		event[e.target.name] = e.target.value;
+		this.setState({ event });
+	};
 
-    //#region RENDER
-    render() {
-        const errors = this.props.errors;
-        const { event, judges, participants, projects } = this.state;
+	OnCheck = e => {
+		this.setState({ [e.target.name]: e.target.checked });
+	};
 
-        const organizationOptions = regionList.map(org => {
-            return (
-                <option value={org.id} key={org.id}>
-                    {org.name}
-                </option>
-            );
-        });
+	OnSelect = e => {
+		const event = this.state.event;
+		event[e.target.name] = e.target.selectedOptions[0].value;
+		this.setState({ event });
+	};
+	//#endregion
 
-        return (
-            <Fragment>
-                <div className="container">
-                    <div className="modal fade" id="createFinalModal" role="dialog" data-backdrop="static" data-keyboard="false">
-                        <div className="modal-dialog modal-lg">
-                            <div className="modal-content">
-                                <div className="modal-body">
-                                    {/* ======== */}
-                                    {/* FORM BEGINNING */}
-                                    {/* ======== */}
-                                    <form onSubmit={this.OnSubmit}>
-                                        <div className="row">
-                                            <div className="col-md-12">
-                                                <h5>Confirmation des informations</h5>
-                                            </div>
-                                            <div className="form-group col-md-12">
-                                                <label htmlFor="finalName">Nom de la finale</label>
-                                                <input
-                                                    type="text"
-                                                    className="form-control"
-                                                    name="finalName"
-                                                    id="finalName"
-                                                    defaultValue={event ? event.longName : ""}
-                                                    disabled="disabled"
-                                                />
-                                            </div>
-                                            <div className="form-group col-md-6">
-                                                <label htmlFor="finalName">Date de début</label>
-                                                <input
-                                                    type="text"
-                                                    className="form-control"
-                                                    name="finalName"
-                                                    id="finalName"
-                                                    value={event ? this.RenderDate(event.eventDateStart) : ""}
-                                                    disabled="disabled"
-                                                />
-                                            </div>
-                                            <div className="form-group col-md-6">
-                                                <label htmlFor="finalName">Date de fin</label>
-                                                <input
-                                                    type="text"
-                                                    className="form-control"
-                                                    name="finalName"
-                                                    id="finalName"
-                                                    value={event ? this.RenderDate(event.eventDateEnd) : ""}
-                                                    disabled="disabled"
-                                                />
-                                            </div>
-                                            <hr />
-                                            <div className="form-group col-md-4">
-                                                <label htmlFor="finalName">Nb de participants</label>
-                                                <input
-                                                    type="text"
-                                                    className="form-control"
-                                                    name="finalName"
-                                                    id="finalName"
-                                                    value={projects ? projects.length + " projets" : ""}
-                                                    disabled="disabled"
-                                                />
-                                            </div>
-                                            <div className="form-group col-md-4">
-                                                <label htmlFor="finalName">Nb de projets</label>
-                                                <input
-                                                    type="text"
-                                                    className="form-control"
-                                                    name="finalName"
-                                                    id="finalName"
-                                                    value={participants ? participants.length + " participants" : ""}
-                                                    disabled="disabled"
-                                                />
-                                            </div>
-                                            <div className="form-group col-md-4">
-                                                <label htmlFor="finalName">Nb de juges</label>
-                                                <input
-                                                    type="text"
-                                                    className="form-control"
-                                                    name="finalName"
-                                                    id="finalName"
-                                                    value={judges ? judges.length + " juges" : ""}
-                                                    disabled="disabled"
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="form-group">
-                                            <label htmlFor="organization">Organisme régional</label>
-                                            <select
-                                                className={classnames("form-control custom-select", {
-                                                    "is-invalid": errors.organization
-                                                })}
-                                                name="organization"
-                                                id="organization"
-                                                value={this.state.event.region}
-                                                onChange={this.OnSelect}
-                                                disabled={true}
-                                            >
-                                                <option value={""}>Choisir un organisme</option>
-                                                {organizationOptions}
-                                            </select>
-                                            {errors.organization && <div className="invalid-feedback">{errors.organization}</div>}
-                                        </div>
-                                        <hr />
-                                        <div className="col-md-12">
-                                            <h5>
-                                                <i className="fas fa-exclamation-triangle text-danger" />
-                                                Veuillez compléter les informations suivantes
-                                            </h5>
-                                        </div>
-                                        <div className="col-md-12 form-group">
-                                            <div className="custom-control custom-radio">
-                                                <input
-                                                    className={classnames("custom-control-input", {
-                                                        "is-invalid": errors.level
-                                                    })}
-                                                    type="radio"
-                                                    name="level"
-                                                    id="elementaryLvl"
-                                                    value="elementary"
-                                                    onChange={this.OnChange}
-                                                />
-                                                <label className="custom-control-label" htmlFor="elementaryLvl">
-                                                    Volet primaire
-                                                </label>
-                                            </div>
-                                            <div className="custom-control custom-radio">
-                                                <input
-                                                    className={classnames("custom-control-input mb-2", {
-                                                        "is-invalid": errors.level
-                                                    })}
-                                                    type="radio"
-                                                    name="level"
-                                                    id="highschoolLvl"
-                                                    value="highschool"
-                                                    onChange={this.OnChange}
-                                                />
-                                                <label className="custom-control-label" htmlFor="highschoolLvl">
-                                                    Volet secondaire/collégial
-                                                </label>
-                                                {errors.level && <div className="invalid-feedback">{errors.level}</div>}
-                                            </div>
-                                        </div>
+	//#region UTILS METHODS
+	CopyObject = (obj, fields) => {
+		var newObj = {};
+		fields.map(field => {
+			if (obj.hasOwnProperty(field)) {
+				newObj[field] = obj[field];
+			}
+			return field;
+		});
 
-                                        <button className="btn mr-3" type="button" onClick={this.CreateFinal}>
-                                            <i className="fas fa-save" /> Créer la finale
-                                        </button>
-                                        <button id="closeModalBtn" className="btn btn-default" data-dismiss="modal" onClick={this.ClearForm}>
-                                            <i className="fas fa-times" /> Annuler
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </Fragment>
-        );
-    }
+		return newObj;
+	};
+	RenderDate = date => {
+		return new Date(date).toLocaleDateString("fr-CA", { timeZone: "UTC" });
+	};
+	//#endregion
+
+	//#region RENDER
+	render() {
+		const errors = this.props.errors;
+		const { event, judges, participants, projects } = this.state;
+
+		const organizationOptions = regionList.map(org => {
+			return (
+				<option value={org.id} key={org.id}>
+					{org.name}
+				</option>
+			);
+		});
+
+		return (
+			<Fragment>
+				<div className="container">
+					<div
+						className="modal fade"
+						id="createFinalModal"
+						role="dialog"
+						data-backdrop="static"
+						data-keyboard="false"
+					>
+						<div className="modal-dialog modal-lg">
+							<div className="modal-content">
+								<div className="modal-body">
+									{/* ======== */}
+									{/* FORM BEGINNING */}
+									{/* ======== */}
+									<form onSubmit={this.OnSubmit}>
+										<div className="row">
+											<div className="col-md-12">
+												<h5>Confirmation des informations</h5>
+											</div>
+											<div className="form-group col-md-12">
+												<label htmlFor="finalName">Nom de la finale</label>
+												<input
+													type="text"
+													className="form-control"
+													name="finalName"
+													id="finalName"
+													defaultValue={event ? event.longName : ""}
+													disabled="disabled"
+												/>
+											</div>
+											<div className="form-group col-md-6">
+												<label htmlFor="finalName">Date de début</label>
+												<input
+													type="text"
+													className="form-control"
+													name="finalName"
+													id="finalName"
+													value={
+														event
+															? this.RenderDate(event.eventDateStart)
+															: ""
+													}
+													disabled="disabled"
+												/>
+											</div>
+											<div className="form-group col-md-6">
+												<label htmlFor="finalName">Date de fin</label>
+												<input
+													type="text"
+													className="form-control"
+													name="finalName"
+													id="finalName"
+													value={
+														event
+															? this.RenderDate(event.eventDateEnd)
+															: ""
+													}
+													disabled="disabled"
+												/>
+											</div>
+											<hr />
+											<div className="form-group col-md-4">
+												<label htmlFor="finalName">
+													Nb de participants
+												</label>
+												<input
+													type="text"
+													className="form-control"
+													name="finalName"
+													id="finalName"
+													value={
+														participants
+															? participants.length + " participants"
+															: ""
+													}
+													disabled="disabled"
+												/>
+											</div>
+											<div className="form-group col-md-4">
+												<label htmlFor="finalName">Nb de projets</label>
+												<input
+													type="text"
+													className="form-control"
+													name="finalName"
+													id="finalName"
+													value={
+														projects ? projects.length + " projets" : ""
+													}
+													disabled="disabled"
+												/>
+											</div>
+											<div className="form-group col-md-4">
+												<label htmlFor="finalName">Nb de juges</label>
+												<input
+													type="text"
+													className="form-control"
+													name="finalName"
+													id="finalName"
+													value={judges ? judges.length + " juges" : ""}
+													disabled="disabled"
+												/>
+											</div>
+										</div>
+										<div className="form-group">
+											<label htmlFor="organization">Organisme régional</label>
+											<select
+												className={classnames(
+													"form-control custom-select",
+													{
+														"is-invalid": errors.organization
+													}
+												)}
+												name="organization"
+												id="organization"
+												value={this.state.event.region}
+												onChange={this.OnSelect}
+												disabled={true}
+											>
+												<option value={""}>Choisir un organisme</option>
+												{organizationOptions}
+											</select>
+											{errors.organization && (
+												<div className="invalid-feedback">
+													{errors.organization}
+												</div>
+											)}
+										</div>
+										<hr />
+										<div className="col-md-12">
+											<h5>
+												<i className="fas fa-exclamation-triangle text-danger" />
+												Veuillez compléter les informations suivantes
+											</h5>
+										</div>
+										<div className="col-md-12 form-group">
+											<div className="custom-control custom-radio">
+												<input
+													className={classnames("custom-control-input", {
+														"is-invalid": errors.level
+													})}
+													type="radio"
+													name="level"
+													id="elementaryLvl"
+													value="elementary"
+													onChange={this.OnChange}
+												/>
+												<label
+													className="custom-control-label"
+													htmlFor="elementaryLvl"
+												>
+													Volet primaire
+												</label>
+											</div>
+											<div className="custom-control custom-radio">
+												<input
+													className={classnames(
+														"custom-control-input mb-2",
+														{
+															"is-invalid": errors.level
+														}
+													)}
+													type="radio"
+													name="level"
+													id="highschoolLvl"
+													value="highschool"
+													onChange={this.OnChange}
+												/>
+												<label
+													className="custom-control-label"
+													htmlFor="highschoolLvl"
+												>
+													Volet secondaire/collégial
+												</label>
+												{errors.level && (
+													<div className="invalid-feedback">
+														{errors.level}
+													</div>
+												)}
+											</div>
+										</div>
+
+										<button
+											className="btn mr-3"
+											type="button"
+											onClick={this.CreateFinal}
+										>
+											<i className="fas fa-save" /> Créer la finale
+										</button>
+										<button
+											id="closeModalBtn"
+											className="btn btn-default"
+											data-dismiss="modal"
+											onClick={this.ClearForm}
+										>
+											<i className="fas fa-times" /> Annuler
+										</button>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</Fragment>
+		);
+	}
 }
 //#endregion
 
 const mapStateToProps = state => ({
-    auth: state.auth,
-    action: state.action,
-    errors: state.errors,
-    final: state.final
+	auth: state.auth,
+	action: state.action,
+	errors: state.errors,
+	final: state.final
 });
 
 NewFinalModal.propTypes = {
-    finalInfos: PropTypes.object.isRequired,
-    CreateFinal: PropTypes.func.isRequired,
-    ClearModal: PropTypes.func.isRequired
+	finalInfos: PropTypes.object.isRequired,
+	CreateFinal: PropTypes.func.isRequired,
+	ClearModal: PropTypes.func.isRequired
 };
 
 export default connect(mapStateToProps)(NewFinalModal);

@@ -1,22 +1,28 @@
 // import action
-import {} from "../actions/types";
+import { CREATE_JUDGE } from "../actions/types";
 
 const initialState = {
-    isAuthenticated: false,
-    infos: {},
-    finale: "",
-    prenom: "",
-    nom: "",
-    numero: "",
-    tel: "",
-    courriel: ""
+	selectedJudge: {
+		isAuthenticated: false,
+		infos: {},
+		finale: "",
+		prenom: "",
+		nom: "",
+		numero: "",
+		tel: "",
+		courriel: ""
+	},
+	judgesList: []
 };
 
 const jugeReducer = (state = initialState, action) => {
-    switch (action.type) {
-        default:
-            return state;
-    }
+	switch (action.type) {
+		case CREATE_JUDGE:
+			const list = this.state.judgesList.push(action.payload);
+			return { ...state, judgesList: list };
+		default:
+			return state;
+	}
 };
 
 export default jugeReducer;
