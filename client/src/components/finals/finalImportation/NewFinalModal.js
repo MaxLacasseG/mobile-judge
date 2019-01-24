@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import classnames from "classnames";
-import regionList from "../../enums/regions";
+import regionList from "../../../enums/regions";
 
 /**
  * @props CreateFinal    function    Updates the admin profile
@@ -37,7 +37,8 @@ class NewFinalModal extends Component {
         }
         if (prevProps.action !== this.props.action) {
             if (this.props.action.type === "CREATE_FINAL" && this.props.action.response === "success") {
-                this.CloseModal();
+                this.CreateJudges();
+                //this.CloseModal();
             }
         }
     };
@@ -77,6 +78,14 @@ class NewFinalModal extends Component {
     CreateFinal = e => {
         const newFinal = this.FormatFinalInfos();
         this.props.CreateFinal(newFinal.event);
+    };
+
+    CreateJudges = () => {
+        const that = this;
+        this.state.judges.map(judge => {
+            that.props.CreateJudge(judge, that.props.final.selectedFinal._id);
+            return null;
+        });
     };
 
     SaveFinal = () => {};
@@ -304,7 +313,8 @@ class NewFinalModal extends Component {
 const mapStateToProps = state => ({
     auth: state.auth,
     action: state.action,
-    errors: state.errors
+    errors: state.errors,
+    final: state.final
 });
 
 NewFinalModal.propTypes = {

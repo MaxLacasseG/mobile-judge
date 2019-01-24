@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import AdminNav from "../pages/partials/AdminNav";
 import FinalList from "./FinalList";
-import FinalJSONImport from "./FinalJSONImport";
+import FinalJSONImport from "./finalImportation/FinalJSONImport";
 class AdminListPage extends Component {
     render() {
         return (

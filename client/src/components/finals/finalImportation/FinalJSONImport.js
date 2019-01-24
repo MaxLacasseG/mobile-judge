@@ -3,11 +3,12 @@ import { connect } from "react-redux";
 
 import NewFinalModal from "./NewFinalModal";
 
-import { CreateFinal } from "../../store/actions/finalActions";
-import { ClearErrors } from "../../store/actions/errorActions";
-import { ClearResponse } from "../../store/actions/responseActions";
+import { CreateFinal } from "../../../store/actions/finalActions";
+import { CreateJudge } from "../../../store/actions/judgeActions";
+import { ClearErrors } from "../../../store/actions/errorActions";
+import { ClearResponse } from "../../../store/actions/responseActions";
 
-import isEmpty from "../../validation/isEmpty";
+import isEmpty from "../../../validation/isEmpty";
 import PropTypes from "prop-types";
 
 class FinalJSONImport extends Component {
@@ -21,7 +22,14 @@ class FinalJSONImport extends Component {
     }
 
     ShowCreateFinalModal = admin => {
-        const modal = <NewFinalModal finalInfos={this.state.finalInfos} CreateFinal={this.CreateFinal} ClearModal={this.ClearModal} />;
+        const modal = (
+            <NewFinalModal
+                finalInfos={this.state.finalInfos}
+                CreateFinal={this.CreateFinal}
+                CreateJudge={this.CreateJudge}
+                ClearModal={this.ClearModal}
+            />
+        );
         this.setState({ modal }, () => {
             //Show modal box
             document.getElementById("createModalBtn").click();
@@ -34,6 +42,11 @@ class FinalJSONImport extends Component {
     CreateFinal = finalInfos => {
         this.props.CreateFinal(finalInfos);
     };
+
+    CreateJudge = (judgeInfos, finalId) => {
+        this.props.CreateJudge(judgeInfos, finalId);
+    };
+
     OnFileSelect = e => {
         this.setState({ file: e.target.files[0] });
     };
@@ -160,5 +173,5 @@ FinalJSONImport.propTypes = {
 
 export default connect(
     mapStateToProps,
-    { ClearResponse, ClearErrors, CreateFinal }
+    { ClearResponse, ClearErrors, CreateFinal, CreateJudge }
 )(FinalJSONImport);

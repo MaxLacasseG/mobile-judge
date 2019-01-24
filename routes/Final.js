@@ -65,7 +65,7 @@ router.post("/create", (req, res) => {
             if (err.code === 11000 && err.name === "MongoError") {
                 return res.status(400).json({ success: false, msg: "Impossible d'importer la finale. Finale déjà existante" });
             }
-
+            logger.log(err);
             return res.status(400).json(err);
         });
 });

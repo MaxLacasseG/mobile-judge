@@ -59,3 +59,7 @@ export const changementMdp = (token, mdp) => dispatch => {
             dispatch({ type: GET_ERRORS, payload: err.response.data });
         });
 };
+
+export const CreateJudge = (judgeInfos, finalId) => dispatch => {
+    console.log(judgeInfos);
+};

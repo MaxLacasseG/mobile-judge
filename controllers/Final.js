@@ -1,5 +1,6 @@
 const logger = require("tracer").colorConsole();
 const Final = require("../models/Final");
+const Judge = require("../models/Judge");
 const isEmpty = require("../utils/isEmpty");
 
 const ProjectController = require("./Project");
@@ -21,7 +22,15 @@ controller.FindAll = () => {
 
 controller.Create = finalInfos => {
     const newFinal = new Final(finalInfos);
-    return newFinal.save();
+
+    return newFinal
+        .save()
+        .then(final => {
+            return final;
+        })
+        .catch(err => {
+            throw err;
+        });
 };
 
 controller.Update = finalInfos => {

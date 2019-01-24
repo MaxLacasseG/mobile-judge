@@ -13,7 +13,7 @@ const ValidateFinalCreation = finalInfos => {
     //STRINGS,INT,ID
     finalInfos.adminId = !isEmpty(finalInfos.adminId) ? validator.escape(finalInfos.adminId).trim(finalInfos.adminId) : "";
     finalInfos.eventDate = !isEmpty(finalInfos.eventDate) ? validator.escape(finalInfos.eventDate).trim(finalInfos.eventDate) : "";
-    finalInfos.longName = !isEmpty(finalInfos.longName) ? validator.escape(finalInfos.longName).trim(finalInfos.longName) : "";
+    finalInfos.longName = !isEmpty(finalInfos.longName) ? validator.trim(finalInfos.longName) : "";
     finalInfos.program = !isEmpty(finalInfos.program) ? validator.escape(finalInfos.program.toString()).trim(finalInfos.program.toString()) : "";
     finalInfos.location = !isEmpty(finalInfos.location) ? validator.escape(finalInfos.location).trim(finalInfos.location.toString()) : "";
     finalInfos.region = !isEmpty(finalInfos.region) ? validator.escape(finalInfos.region.toString()).trim(finalInfos.region) : "";
