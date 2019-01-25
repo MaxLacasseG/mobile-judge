@@ -1,9 +1,15 @@
 import React, { Component, Fragment } from "react";
+import { connect } from "react-redux";
+import { SelectFinalById } from "../../../store/actions/finalActions";
+
 import FinalNav from "../../pages/partials/FinalNav";
 
 class FinalViewInfos extends Component {
+	componentDidMount = () => {
+		this.props.SelectFinalById(this.props.match.params[0]);
+	};
+
 	render() {
-		console.log(this.props.match.params);
 		const id = this.props.match.params[0];
 		return (
 			<Fragment>
@@ -18,4 +24,7 @@ class FinalViewInfos extends Component {
 	}
 }
 
-export default FinalViewInfos;
+export default connect(
+	null,
+	{ SelectFinalById }
+)(FinalViewInfos);

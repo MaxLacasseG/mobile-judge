@@ -12,7 +12,7 @@ export const DELETE_ADMIN = "DELETE_ADMIN";
 export const CLEAR_SELECTED_ADMIN = "CLEAR_SELECTED_ADMIN";
 
 //FINAL
-export const SET_FINAL = "SET_FINAL";
+export const SELECT_FINAL = "SELECT_FINAL";
 export const CLEAR_FINAL = "CLEAR_FINAL";
 export const GET_FINAL = "GET_FINAL";
 export const GET_ALL_FINALS = "GET_ALL_FINALS";

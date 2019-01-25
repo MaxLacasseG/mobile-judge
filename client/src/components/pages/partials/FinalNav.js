@@ -13,29 +13,32 @@ class FinalNav extends Component {
 		this.props.logoutUser(this.props.history);
 	};
 	render() {
-		const final = this.props.final.selectedFinal;
 		const { isAuthenticated } = this.props.auth;
-		const { isAdmin } = this.props.auth.user;
 
 		const AdminMenu = (
 			<ul className="nav nav-bar justify-content-around align-items-center px-5 py-3">
-				<Link to="/admin/panneau-controle" className="px-3">
-					Retour
+				<Link to="/admin/panneau-controle" className="px-3 icon-button">
+					<strong>
+						<i className="fas fa-reply-all" /> Retour
+					</strong>
 				</Link>
 				<Link
-					to={{ pathName: `/admin/finale/${this.props.id}/vue-projets` }}
-					className="px-3"
+					to={`/admin/finale/${this.props.id}/vue-projets`}
+					className="px-3 icon-button"
 				>
-					Vue par projets
+					<i className="fas fa-user-friends " /> Vue par projets
 				</Link>
-				<Link to={`/admin/finale/${this.props.id}/vue-juges`} className="px-3">
-					Vue par juges
+				<Link to={`/admin/finale/${this.props.id}/vue-juges`} className="px-3 icon-button">
+					<i className="fas fa-clipboard-list" /> Vue par juges
 				</Link>
-				<Link to={`/admin/finale/${this.props.id}/vue-periodes`} className="px-3">
-					Vue par périodes de jugement
+				<Link
+					to={`/admin/finale/${this.props.id}/vue-periodes`}
+					className="px-3 icon-button"
+				>
+					<i className="fas fa-stopwatch" /> Vue par périodes de jugement
 				</Link>
-				<Link to={`/admin/finale/${this.props.id}/infos`} className="px-3">
-					Modifier les infos de la finale
+				<Link to={`/admin/finale/${this.props.id}/infos`} className="px-3 icon-button">
+					<i className="fas fa-cogs" /> Modifier les infos de la finale
 				</Link>
 			</ul>
 		);
@@ -48,6 +51,7 @@ class FinalNav extends Component {
 					<li className="text-center">
 						<h1>Portail gestionnaire</h1>
 						<h3>{this.props.pageTitle}</h3>
+						<h6>{this.props.finalName}</h6>
 					</li>
 					{isAuthenticated ? (
 						<li className="nav-item text-right ">
@@ -75,8 +79,7 @@ class FinalNav extends Component {
 	}
 }
 const mapStateToProps = state => ({
-	auth: state.auth,
-	final: state.final
+	auth: state.auth
 });
 export default connect(
 	mapStateToProps,

@@ -26,7 +26,6 @@ import FinalViewProjects from "./components/finals/finalPanels/FinalViewProjects
 import AdminLogin from "./components/admin/auth/AdminLoginForm";
 import AdminListPage from "./components/admin/adminManagement/AdminListPage";
 import FinalListPage from "./components/finals/FinalListPage";
-import FinalDashBoard from "./components/finals/finalManagement/FinalDashBoard";
 //SUPERADMIN COMPONENTS
 
 //AUTH CHECK
