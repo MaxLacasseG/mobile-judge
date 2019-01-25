@@ -2,8 +2,8 @@ const logger = require("tracer").colorConsole();
 const Project = require("../models/Project");
 const controller = {};
 
-controller.rechercher = filtre => {
-	return Project.find(filtre);
+controller.Find = filter => {
+	return Project.find(filter).sort({ number: 1 });
 };
 
 controller.rechercherId = projetId => {

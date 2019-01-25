@@ -4,10 +4,10 @@ const passport = require("passport");
 const logger = require("tracer").colorConsole();
 const isEmpty = require("../utils/isEmpty");
 
-const ProjetController = require("../controllers/Project");
+const ProjectController = require("../controllers/Project");
 
 router.get("/tous", (req, res) => {
-	ProjetController.rechercherTous()
+	ProjectController.rechercherTous()
 		.then(resultat => {
 			if (isEmpty(resultat)) throw { success: false, msg: "Aucun projet trouvé" };
 			res.status(200).json(resultat);
@@ -18,7 +18,7 @@ router.get("/tous", (req, res) => {
 });
 
 router.get("/finale", (req, res) => {
-	ProjetController.rechercher({ finale: req.query.finaleId })
+	ProjectController.rechercher({ finale: req.query.finaleId })
 		.then(resultat => {
 			if (isEmpty(resultat)) throw { success: false, msg: "Aucun projet trouvé" };
 			res.status(200).json(resultat);
@@ -42,7 +42,18 @@ router.get("/juge", (req, res) => {
 });
 
 router.get("/id", (req, res) => {
-	ProjetController.rechercherId(req.query.projetId)
+	ProjectController.rechercherId(req.query.projetId)
+		.then(resultat => {
+			if (isEmpty(resultat)) throw { success: false, msg: "Aucun projet trouvé" };
+			res.status(200).json(resultat);
+		})
+		.catch(err => {
+			res.status(400).json(err);
+		});
+});
+
+router.get("/final-id", (req, res) => {
+	ProjectController.Find({ finalId: req.query.finalId })
 		.then(resultat => {
 			if (isEmpty(resultat)) throw { success: false, msg: "Aucun projet trouvé" };
 			res.status(200).json(resultat);
@@ -53,7 +64,7 @@ router.get("/id", (req, res) => {
 });
 
 router.post("/create", (req, res) => {
-	ProjetController.Create(req.body)
+	ProjectController.Create(req.body)
 		.then(result => {
 			return res.status(200).json(result);
 		})
@@ -64,7 +75,7 @@ router.post("/create", (req, res) => {
 });
 
 router.put("/modifier", (req, res) => {
-	ProjetController.modifier(req.body)
+	ProjectController.modifier(req.body)
 		.then(resultat => {
 			res.status(200).json(resultat);
 		})
@@ -74,7 +85,7 @@ router.put("/modifier", (req, res) => {
 });
 
 router.delete("/supprimer/tous", (req, res) => {
-	ProjetController.supprimerTous()
+	ProjectController.supprimerTous()
 		.then(resultat => {
 			if (isEmpty(resultat) || resultat.n === 0) {
 				throw {
@@ -90,7 +101,7 @@ router.delete("/supprimer/tous", (req, res) => {
 });
 
 router.delete("/supprimer/finale", (req, res) => {
-	ProjetController.supprimerProjetsFinale(req.query.finaleId)
+	ProjectController.supprimerProjetsFinale(req.query.finaleId)
 		.then(resultat => {
 			if (isEmpty(resultat) || resultat.n === 0) {
 				throw {
@@ -106,7 +117,7 @@ router.delete("/supprimer/finale", (req, res) => {
 });
 
 router.delete("/supprimer", (req, res) => {
-	ProjetController.supprimerUn(req.query.projetId)
+	ProjectController.supprimerUn(req.query.projetId)
 		.then(resultat => {
 			if (isEmpty(resultat) || resultat.n === 0) {
 				throw {
