@@ -4,7 +4,8 @@ import {
 	GET_ERRORS,
 	CLEAR_ERRORS,
 	GET_ALL_FINALS,
-	SELECT_FINAL
+	SELECT_FINAL,
+	SAVE_FINAL_PAIRING
 } from "./types";
 
 import axios from "axios";
@@ -73,6 +74,25 @@ export const GetFinalsFromUser = userId => dispatch => {
 			dispatch({
 				type: SET_ACTION_RESPONSE,
 				payload: { type: GET_ALL_FINALS, response: "fail" }
+			});
+			dispatch({ type: GET_ERRORS, payload: err.response.data });
+		});
+};
+
+export const SaveFinalPairing = pairingInfos => dispatch => {
+	axios
+		.post("/api/final/pairing", pairingInfos)
+		.then(finalInfos => {
+			dispatch({
+				type: SET_ACTION_RESPONSE,
+				payload: { type: SAVE_FINAL_PAIRING, response: "success" }
+			});
+			dispatch(SelectFinalById(finalInfos.data._id));
+		})
+		.catch(err => {
+			dispatch({
+				type: SET_ACTION_RESPONSE,
+				payload: { type: SAVE_FINAL_PAIRING, response: "fail" }
 			});
 			dispatch({ type: GET_ERRORS, payload: err.response.data });
 		});

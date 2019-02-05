@@ -13,7 +13,8 @@ const FinalSchema = new Schema({
 	level: { type: String },
 	judges: [{ type: Schema.Types.ObjectId, ref: "Judge" }],
 	projects: [{ type: Schema.Types.ObjectId, ref: "Project" }],
-	adminId: { type: Schema.Types.ObjectId, ref: "Admin" }
+	adminId: { type: Schema.Types.ObjectId, ref: "Admin" },
+	pairing: { type: Object }
 });
 
 module.exports = mongoose.model("Final", FinalSchema);
