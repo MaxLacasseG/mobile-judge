@@ -4,8 +4,14 @@ import { SelectFinalById } from "../../../store/actions/finalActions";
 import { SelectProjectsByFinalId } from "../../../store/actions/projectActions";
 
 import FinalNav from "../../pages/partials/FinalNav";
-
+import AttributionRow from "../../projects/AttributionRow";
+import isEmpty from "../../../validation/isEmpty";
 class FinalViewProjects extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {};
+	}
+
 	componentDidMount = () => {
 		this.props.SelectFinalById(this.props.match.params[0]);
 		this.props.SelectProjectsByFinalId(this.props.match.params[0]);
@@ -57,10 +63,12 @@ class FinalViewProjects extends Component {
 		const projects = this.props.project.projectsList;
 
 		const projectsList = projects.map(project => {
+			const attributionInfos = isEmpty(final.pairing) ? {} : final.pairing[project.number];
+
 			return (
 				<Fragment key={project.projectId}>
 					<div className="projectsListItem row">
-						<div className="col-md-1">
+						<div className="col-md-3">
 							<strong>
 								{project.number === null ? (
 									<i
@@ -70,25 +78,23 @@ class FinalViewProjects extends Component {
 								) : (
 									project.number
 								)}
-							</strong>
-						</div>
-						<div className="col-md-7">
+							</strong>{" "}
 							{project.information.projectInformation.title}{" "}
-						</div>
-						<div className="col-md-1">
 							{this.FormatCategory(
 								project.information.projectInformation.category,
 								true
-							)}
-						</div>
-						<div className="col-md-1">
-							{this.FormatType(project.information.projectInformation.type, true)}
-						</div>
-						<div className="col-md">
+							)}{" "}
+							{this.FormatType(project.information.projectInformation.type, true)}{" "}
 							<strong>
 								<i className="fas fa-ellipsis-v" />
 							</strong>
 						</div>
+
+						<AttributionRow
+							number={project.number}
+							attributionInfos={attributionInfos}
+							minJudges="5"
+						/>
 					</div>
 				</Fragment>
 			);
@@ -101,13 +107,7 @@ class FinalViewProjects extends Component {
 					<div className="row py-5">
 						<div className="col-md-6">{final.longName}</div>
 					</div>
-					<div className="row">
-						{/* Left column */}
-						<div className="col-2">
-							<div className="d-flex flex-column">{projectsList}</div>
-						</div>
-						<div className="col-10" />
-					</div>
+					{projectsList}
 				</div>
 			</Fragment>
 		);
