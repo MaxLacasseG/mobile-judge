@@ -14,14 +14,10 @@ const judgeRoutes = require("./routes/Judge");
 const projectRoutes = require("./routes/Project");
 const finalRoutes = require("./routes/Final");
 
-mongoose.connect(
-    db,
-    { useNewUrlParser: true },
-    err => {
-        if (err) logger.log(err);
-        logger.trace("Connecté à la base de donnée");
-    }
-);
+mongoose.connect(db, { useNewUrlParser: true }, err => {
+	if (err) return logger.log(err);
+	logger.trace("Connecté à la base de donnée");
+});
 
 //PASSPORT INIT, ADDS TO REQUESTS
 passport.initialize();
@@ -39,6 +35,6 @@ app.use("/api/project", projectRoutes);
 app.use("/api/final", finalRoutes);
 
 app.listen(port, err => {
-    if (err) logger.log(err);
-    logger.trace(`listening on ${port}`);
+	if (err) logger.log(err);
+	logger.trace(`listening on ${port}`);
 });

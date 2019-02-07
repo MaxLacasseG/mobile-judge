@@ -1,6 +1,9 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { SelectFinalById } from "../../../store/actions/finalActions";
+import { DeleteAllFinalJudges } from "../../../store/actions/judgeActions";
+import { DeleteAllFinalProjects } from "../../../store/actions/projectActions";
+import { DeleteFinal } from "../../../store/actions/finalActions";
 
 import FinalNav from "../../pages/partials/FinalNav";
 import PairingImportation from "../judgeProjectPairing/PairingFileImportation";
@@ -12,24 +15,45 @@ class FinalViewInfos extends Component {
 		this.props.SelectFinalById(this.props.match.params[0]);
 	};
 
+	DeleteFinal = () => {
+		this.props.DeleteAllFinalJudges(this.props.final.selectedFinal._id);
+		this.props.DeleteAllFinalProjects(this.props.final.selectedFinal._id);
+		this.props.DeleteFinal(
+			this.props.final.selectedFinal._id,
+			this.props.history,
+			this.props.auth.user.id,
+			this.props.auth.user.isAdmin
+		);
+	};
+
 	render() {
 		const id = this.props.match.params[0];
-		const selectedFinal = this.props.final.selectedFinal;
-
-		const emptyAlert = isEmpty(selectedFinal.pairing) ? (
-			<p className="alert alert-danger col-md-6 offset-3">
-				<i className="fas fa-exclammation-triangle" />
-				Aucun pairage n'est enregistré pour cette finale
-			</p>
-		) : null;
-
 		return (
 			<Fragment>
-				<FinalNav pageTitle="Finale - Infos" id={id} />
 				<div className="container ">
-					<div className="row py-5">
-						{emptyAlert}
-						<PairingImportation finalId={this.props.match.params[0]} />
+					<FinalNav pageTitle="Finale - Infos" id={id} />
+					<div className="row">
+						<div className="mx-auto">
+							<PairingImportation finalId={this.props.match.params[0]} />
+						</div>
+					</div>
+					<div className="row">
+						<div className="alert alert-danger mx-auto text-center">
+							<span>
+								<i className="fas fa-exclamation-triangle" />
+								&emsp;Attention, toutes les données seront effacées définitivement!
+							</span>
+						</div>
+					</div>
+					<div className="row">
+						<div className="col-md-4 offset-md-4">
+							<div className="btn btn-block" onClick={this.DeleteFinal}>
+								<span>
+									<i className="fas fa-trash" />
+								</span>
+								&emsp; EFFACER LA FINALE
+							</div>
+						</div>
 					</div>
 				</div>
 			</Fragment>
@@ -37,9 +61,10 @@ class FinalViewInfos extends Component {
 	}
 }
 const mapStateToProps = state => ({
+	auth: state.auth,
 	final: state.final
 });
 export default connect(
 	mapStateToProps,
-	{ SelectFinalById }
+	{ SelectFinalById, DeleteAllFinalJudges, DeleteAllFinalProjects, DeleteFinal }
 )(FinalViewInfos);

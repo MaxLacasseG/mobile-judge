@@ -10,7 +10,6 @@ const finalCreationValidator = require("../validators/FinalCreation");
 router.get("/all", (req, res) => {
 	FinalController.FindAll()
 		.then(result => {
-			if (isEmpty(result)) throw { success: false, noFinal: "Aucune finale trouvée" };
 			res.status(200).json(result);
 		})
 		.catch(err => {
@@ -121,8 +120,8 @@ router.put("/archive", (req, res) => {
 		});
 });
 
-router.delete("/delete", (req, res) => {
-	FinalController.supprimerUn(req.query.finaleId)
+router.delete("/", (req, res) => {
+	FinalController.DeleteOne(req.query.finalId)
 		.then(resultat => {
 			if (isEmpty(resultat) || resultat.n === 0) {
 				throw {
@@ -130,10 +129,11 @@ router.delete("/delete", (req, res) => {
 					msg: "Impossible de supprimer l'élément demandé."
 				};
 			}
-			res.status(200).json(resultat);
+			return res.status(200).json(resultat);
 		})
 		.catch(err => {
-			res.status(400).json(err);
+			logger.log(err);
+			return res.status(400).json(err);
 		});
 });
 

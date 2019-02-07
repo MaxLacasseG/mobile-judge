@@ -72,6 +72,24 @@ class PairingFileImportation extends Component {
 
 	render() {
 		const { action, errors } = this.props;
+		const selectedFinal = this.props.final.selectedFinal;
+
+		const emptyAlert = isEmpty(selectedFinal.pairing) ? (
+			<div className="alert alert-warning mx-auto text-center">
+				<span>
+					<i className="fas fa-exclamation-triangle" />
+					&emsp; Aucun pairage n'est actuellement enregistré pour cette finale
+				</span>
+			</div>
+		) : (
+			<div className="alert mx-auto text-center">
+				<span>
+					<i className="fas fa-check" />
+					&emsp; Pairage importé
+				</span>
+			</div>
+		);
+
 		const errorMessage = (
 			<div className="alert alert-danger alert-dismissible fade show mt-3" role="alert">
 				{errors.msg}
@@ -109,6 +127,7 @@ class PairingFileImportation extends Component {
 						{"  "}
 						Importer le fichier de pairage
 					</h4>
+					{emptyAlert}
 					<form onSubmit={this.OnSubmit}>
 						<div className="row text-center">
 							<div className="col">
@@ -129,7 +148,7 @@ class PairingFileImportation extends Component {
 								/>
 								<small>
 									<i className="fas fa-exclamation-circle fa-sm" /> Veuiller
-									choisir le fichier JSON depuis le logiciel Répartition dans le
+									choisir le fichier .txt depuis le logiciel Répartition dans le
 									dossier version
 								</small>
 							</div>

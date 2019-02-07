@@ -5,6 +5,7 @@ const logger = require("tracer").colorConsole();
 const isEmpty = require("../utils/isEmpty");
 
 const ProjectController = require("../controllers/Project");
+const FinalController = require("../controllers/Final");
 
 router.get("/tous", (req, res) => {
 	ProjectController.rechercherTous()
@@ -129,6 +130,41 @@ router.delete("/supprimer", (req, res) => {
 		})
 		.catch(err => {
 			res.status(400).json(err);
+		});
+});
+
+router.delete("/delete-final-all", (req, res) => {
+	FinalController.FindById(req.query.finalId)
+		.then(final => {
+			if (isEmpty(final)) {
+				throw {
+					success: false,
+					msg: "Finale non trouvée"
+				};
+			}
+
+			if (isEmpty(final.projects)) {
+				return res.status(404).json({
+					success: false,
+					msg: "Aucun projet à supprimer"
+				});
+			}
+
+			return ProjectController.DeleteMany(final.projects);
+		})
+		.then(resultat => {
+			if (isEmpty(resultat) || resultat.n === 0) {
+				throw {
+					success: false,
+					msg: "Aucun projet supprimé"
+				};
+			}
+
+			return res.status(200).json(resultat);
+		})
+		.catch(err => {
+			console.log(err);
+			return res.status(400).json(err);
 		});
 });
 

@@ -5,11 +5,13 @@ import {
 	CREATE_JUDGE,
 	CLEAR_JUDGES_LIST,
 	SET_ACTION_RESPONSE,
-	CLEAR_ERRORS
+	CLEAR_ERRORS,
+	DELETE_JUDGE
 } from "./types";
 import axios from "axios";
 import setAuthToken from "../../utils/setAuthHeaders";
 import jwt_decode from "jwt-decode";
+import { SelectFinalById } from "./finalActions";
 
 export const judgeLogin = (userData, history) => dispatch => {
 	axios
@@ -91,4 +93,24 @@ export const CreateJudge = judgeInfos => dispatch => {
 
 export const ClearJudgesList = () => dispatch => {
 	dispatch({ type: CLEAR_JUDGES_LIST });
+};
+
+export const DeleteAllFinalJudges = finalId => dispatch => {
+	axios
+		.delete("/api/judge/delete-final-all", { params: { finalId } })
+		.then(response => {
+			dispatch({
+				type: SET_ACTION_RESPONSE,
+				payload: { type: DELETE_JUDGE, response: "success" }
+			});
+			dispatch({ type: CLEAR_ERRORS });
+		})
+		.catch(err => {
+			console.log(err);
+			dispatch({
+				type: SET_ACTION_RESPONSE,
+				payload: { type: DELETE_JUDGE, response: "fail" }
+			});
+			dispatch({ type: GET_ERRORS, payload: err.response.data });
+		});
 };

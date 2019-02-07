@@ -12,34 +12,28 @@ class AttributionRow extends Component {
 	};
 
 	render() {
-		var col = "";
-
+		let cols = [];
 		if (isEmpty(this.props.attributionInfos)) {
-			col = (
-				<Fragment>
-					<div className="col-md-1">1</div>
-					<div className="col-md-1">2</div>
-					<div className="col-md-1">3</div>
-					<div className="col-md-1">4</div>
-					<div className="col-md-1">5</div>
-					<div className="col-md-1">6</div>
-					<div className="col-md-1">7</div>
-					<div className="col-md-1">8</div>
-				</Fragment>
-			);
+			for (let i = 0; i < 8; i++) {
+				cols.push(
+					<div className="col-md grid-cell" key={i}>
+						{" - "}
+					</div>
+				);
+			}
 		} else {
-			col = Object.keys(this.props.attributionInfos).map((period, index) => {
+			cols = Object.keys(this.props.attributionInfos).map((period, index) => {
 				console.log(this.props.attributionInfos[period]);
 				return (
-					<div key={index} className="col-md-1 border border-red">
+					<div key={index} className="col-md grid-cell">
 						{isEmpty(this.props.attributionInfos[period].judge)
-							? ""
+							? " - "
 							: this.props.attributionInfos[period].judge}
 					</div>
 				);
 			});
 		}
-		return <Fragment>{col}</Fragment>;
+		return <Fragment>{cols}</Fragment>;
 	}
 }
 

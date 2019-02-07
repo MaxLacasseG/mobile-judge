@@ -2,6 +2,7 @@ const logger = require("tracer").colorConsole();
 const Judge = require("../models/Judge");
 const isEmpty = require("../utils/isEmpty");
 const controller = {};
+const mongoose = require("mongoose");
 
 controller.Find = filtre => {
 	return Judge.find(filtre);
@@ -48,12 +49,13 @@ controller.supprimerUn = jugeId => {
 	return Judge.findByIdAndDelete(jugeId);
 };
 
-controller.supprimerJugesFinale = finaleId => {
-	return Judge.deleteMany({ finale: finaleId })
-		.then(resultats => {
-			return Judge.deleteMany(resultats);
+controller.DeleteMany = judgesList => {
+	return Judge.remove({ judgeId: { $in: judgesList } })
+		.then(result => {
+			return result;
 		})
 		.catch(err => {
+			logger.log(err);
 			throw err;
 		});
 };

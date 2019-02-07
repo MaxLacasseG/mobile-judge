@@ -5,9 +5,9 @@ import {
 	CLEAR_ERRORS,
 	GET_ALL_FINALS,
 	SELECT_FINAL,
-	SAVE_FINAL_PAIRING
+	SAVE_FINAL_PAIRING,
+	DELETE_FINAL
 } from "./types";
-
 import axios from "axios";
 
 export const CreateFinal = finalInfos => dispatch => {
@@ -93,6 +93,24 @@ export const SaveFinalPairing = pairingInfos => dispatch => {
 			dispatch({
 				type: SET_ACTION_RESPONSE,
 				payload: { type: SAVE_FINAL_PAIRING, response: "fail" }
+			});
+			dispatch({ type: GET_ERRORS, payload: err.response.data });
+		});
+};
+
+export const DeleteFinal = (finalId, history, userId, isAdmin) => dispatch => {
+	axios
+		.delete("/api/final", { params: { finalId } })
+		.then(result => {
+			dispatch({ type: CLEAR_ERRORS });
+			isAdmin ? dispatch(GetAllFinals()) : dispatch(GetFinalsFromUser(userId));
+
+			history.push("/admin/panneau-controle");
+		})
+		.catch(err => {
+			dispatch({
+				type: SET_ACTION_RESPONSE,
+				payload: { type: DELETE_FINAL, response: "fail" }
 			});
 			dispatch({ type: GET_ERRORS, payload: err.response.data });
 		});

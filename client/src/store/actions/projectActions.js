@@ -4,7 +4,8 @@ import {
 	SET_ACTION_RESPONSE,
 	CLEAR_ERRORS,
 	GET_PROJECTS_LIST,
-	CLEAR_PROJECTS_LIST
+	CLEAR_PROJECTS_LIST,
+	DELETE_PROJECT
 } from "./types";
 import axios from "axios";
 
@@ -52,4 +53,24 @@ export const SelectProjectsByFinalId = finalId => dispatch => {
 
 export const ClearProjectsList = () => dispatch => {
 	dispatch({ type: CLEAR_PROJECTS_LIST });
+};
+
+export const DeleteAllFinalProjects = finalId => dispatch => {
+	axios
+		.delete("/api/project/delete-final-all", { params: { finalId } })
+		.then(response => {
+			dispatch({
+				type: SET_ACTION_RESPONSE,
+				payload: { type: DELETE_PROJECT, response: "success" }
+			});
+			dispatch({ type: CLEAR_ERRORS });
+		})
+		.catch(err => {
+			console.log(err);
+			dispatch({
+				type: SET_ACTION_RESPONSE,
+				payload: { type: DELETE_PROJECT, response: "fail" }
+			});
+			dispatch({ type: GET_ERRORS, payload: err.response.data });
+		});
 };

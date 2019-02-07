@@ -57,6 +57,19 @@ class FinalViewProjects extends Component {
 		return formattedCategory;
 	};
 
+	CreateTableHeader = () => {
+		let cols = [];
+		for (let i = 0; i < 8; i++) {
+			cols.push(
+				<div key={i} className="col-md grid-cell-header">
+					{" "}
+					Période {i + 1}
+				</div>
+			);
+		}
+		return cols;
+	};
+
 	render() {
 		const id = this.props.match.params[0];
 		const final = this.props.final.selectedFinal;
@@ -68,33 +81,47 @@ class FinalViewProjects extends Component {
 			return (
 				<Fragment key={project.projectId}>
 					<div className="projectsListItem row">
-						<div className="col-md-3">
-							<strong>
-								{project.number === null ? (
-									<i
-										className="fas fa-exclamation-triangle text-danger"
-										title="Numéro non attribué"
-									/>
-								) : (
-									project.number
+						{/** PROJECT INFOS COLUMN */}
+						<div className="col-md-3 row">
+							<div className="col-1">
+								<strong>
+									{project.number === null ? (
+										<i
+											className="fas fa-exclamation-triangle text-danger"
+											title="Numéro non attribué"
+										/>
+									) : (
+										project.number
+									)}
+								</strong>
+							</div>
+							<div className="col-md">
+								{project.information.projectInformation.title}
+							</div>
+							<div className="col-md-1">
+								{this.FormatCategory(
+									project.information.projectInformation.category,
+									true
 								)}
-							</strong>{" "}
-							{project.information.projectInformation.title}{" "}
-							{this.FormatCategory(
-								project.information.projectInformation.category,
-								true
-							)}{" "}
-							{this.FormatType(project.information.projectInformation.type, true)}{" "}
-							<strong>
-								<i className="fas fa-ellipsis-v" />
-							</strong>
+							</div>
+							<div className="col-md-1">
+								{this.FormatType(project.information.projectInformation.type, true)}
+							</div>
+							<div className="col-md-1">
+								<strong>
+									<i className="fas fa-ellipsis-v" />
+								</strong>
+							</div>
 						</div>
 
-						<AttributionRow
-							number={project.number}
-							attributionInfos={attributionInfos}
-							minJudges="5"
-						/>
+						{/** PAIRING COLUMNS */}
+						<div className="col-md row">
+							<AttributionRow
+								number={project.number}
+								attributionInfos={attributionInfos}
+								minJudges="5"
+							/>
+						</div>
 					</div>
 				</Fragment>
 			);
@@ -106,6 +133,11 @@ class FinalViewProjects extends Component {
 				<div className="p-5 ">
 					<div className="row py-5">
 						<div className="col-md-6">{final.longName}</div>
+					</div>
+					{/* HEADER */}
+					<div className="row">
+						<div className="col-md-3 row" />
+						<div className="col-md row">{this.CreateTableHeader()}</div>
 					</div>
 					{projectsList}
 				</div>

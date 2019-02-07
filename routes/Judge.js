@@ -5,6 +5,7 @@ const logger = require("tracer").colorConsole();
 const isEmpty = require("../utils/isEmpty");
 
 const JudgeController = require("../controllers/Judge");
+const FinalController = require("../controllers/Final");
 
 //Ajouter les juges non inscrit dans SGI
 
@@ -126,6 +127,41 @@ router.delete("/supprimer", (req, res) => {
 		})
 		.catch(err => {
 			res.status(400).json(err);
+		});
+});
+
+router.delete("/delete-final-all", (req, res) => {
+	FinalController.FindById(req.query.finalId)
+		.then(final => {
+			if (isEmpty(final)) {
+				throw {
+					success: false,
+					msg: "Juge non trouvé"
+				};
+			}
+
+			if (isEmpty(final.judges)) {
+				return res.status(404).json({
+					success: false,
+					msg: "Aucun juge à supprimer"
+				});
+			}
+
+			return JudgeController.DeleteMany(final.judges);
+		})
+		.then(resultat => {
+			if (isEmpty(resultat) || resultat.n === 0) {
+				throw {
+					success: false,
+					msg: "Impossible de supprimer les éléments demandés."
+				};
+			}
+
+			return res.status(200).json(resultat);
+		})
+		.catch(err => {
+			console.log(err);
+			return res.status(400).json(err);
 		});
 });
 

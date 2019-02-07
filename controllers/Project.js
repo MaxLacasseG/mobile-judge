@@ -69,4 +69,15 @@ controller.supprimerTous = () => {
 		});
 };
 
+controller.DeleteMany = projectsList => {
+	return Project.remove({ projectId: { $in: projectsList } })
+		.then(result => {
+			return result;
+		})
+		.catch(err => {
+			logger.log(err);
+			throw err;
+		});
+};
+
 module.exports = controller;
