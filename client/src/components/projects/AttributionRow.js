@@ -8,7 +8,24 @@ import isEmpty from "../../validation/isEmpty";
 
 class AttributionRow extends Component {
 	componentDidMount = () => {
-		//console.log(this.props.attributionInfos, this.props.minJudges, this.props.number);
+		if (!this.CheckJudgeAmount()) this.props.ShowMissingJudge(this.props.number);
+	};
+
+	CheckJudgeAmount = () => {
+		if (isEmpty(this.props.attributionInfos)) return console.log("Aucun pairage");
+		let judgeNumber = 0;
+
+		Object.keys(this.props.attributionInfos).map((period, index) => {
+			if (!isEmpty(this.props.attributionInfos[period].judge)) judgeNumber++;
+
+			return null;
+		});
+
+		return judgeNumber < this.props.minJudges ? false : true;
+	};
+
+	ChangeAttribution = e => {
+		console.log(e.target.dataset.project, e.target.dataset.judge, e.target.dataset.period);
 	};
 
 	render() {
@@ -23,9 +40,16 @@ class AttributionRow extends Component {
 			}
 		} else {
 			cols = Object.keys(this.props.attributionInfos).map((period, index) => {
-				console.log(this.props.attributionInfos[period]);
+				//console.log(this.props.attributionInfos[period]);
 				return (
-					<div key={index} className="col-md grid-cell">
+					<div
+						key={index}
+						className="col-md grid-cell"
+						data-project={this.props.number}
+						data-judge={this.props.attributionInfos[period].judge}
+						data-period={period}
+						onClick={this.ChangeAttribution}
+					>
 						{isEmpty(this.props.attributionInfos[period].judge)
 							? " - "
 							: this.props.attributionInfos[period].judge}

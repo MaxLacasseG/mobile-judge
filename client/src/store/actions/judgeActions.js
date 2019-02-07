@@ -13,9 +13,9 @@ import setAuthToken from "../../utils/setAuthHeaders";
 import jwt_decode from "jwt-decode";
 import { SelectFinalById } from "./finalActions";
 
-export const judgeLogin = (userData, history) => dispatch => {
+export const Login = (userData, history) => dispatch => {
 	axios
-		.post("/api/juges/connexion", userData)
+		.post("/api/judge/login", userData)
 		.then(result => {
 			const { token } = result.data;
 			localStorage.setItem("jwtToken", token);

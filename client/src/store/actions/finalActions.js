@@ -63,6 +63,22 @@ export const GetAllFinals = () => dispatch => {
 		});
 };
 
+export const GetAllActiveFinalsIds = () => dispatch => {
+	axios
+		.get("/api/final/all-active-ids")
+		.then(finalList => {
+			dispatch({ type: CLEAR_ERRORS });
+			dispatch({ type: GET_ALL_FINALS, payload: finalList.data });
+		})
+		.catch(err => {
+			dispatch({
+				type: SET_ACTION_RESPONSE,
+				payload: { type: GET_ALL_FINALS, response: "fail" }
+			});
+			dispatch({ type: GET_ERRORS, payload: err.response.data });
+		});
+};
+
 export const GetFinalsFromUser = userId => dispatch => {
 	axios
 		.get("/api/final/userId", { params: { userId } })

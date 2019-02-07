@@ -17,6 +17,13 @@ controller.FindAll = () => {
 	return Final.find({});
 };
 
+controller.FindAllActiveIds = () => {
+	return Final.aggregate([
+		{ $match: { isActive: true } },
+		{ $project: { longName: "$longName" } }
+	]);
+};
+
 controller.Create = finalInfos => {
 	const newFinal = new Final(finalInfos);
 

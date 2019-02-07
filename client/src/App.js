@@ -28,6 +28,9 @@ import AdminListPage from "./components/admin/adminManagement/AdminListPage";
 import FinalListPage from "./components/finals/FinalListPage";
 //SUPERADMIN COMPONENTS
 
+//JUDGE COMPONENTS
+import JudgeLogin from "./components/judges/JudgeLogin";
+
 //AUTH CHECK
 //if there is a token already in localstorage,
 //Allows to keep users info if page reloads
@@ -56,6 +59,7 @@ class App extends Component {
 					<div className="App">
 						<Switch>
 							{/* JUDGE ROUTES */}
+							<Route exact path="/" component={JudgeLogin} />
 
 							{/* MANAGER ROUTES */}
 							<Route exact path="/admin" component={AdminLogin} />

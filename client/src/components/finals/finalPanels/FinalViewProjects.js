@@ -70,6 +70,12 @@ class FinalViewProjects extends Component {
 		return cols;
 	};
 
+	ShowMissingJudge = projectNumber => {
+		const elem = document.querySelector(`[data-projectrow='${projectNumber.toString()}']`);
+		elem.classList.add("missing-judge");
+		elem.setAttribute("title", "Le nombre de juge est insuffisant pour ce projet");
+	};
+
 	render() {
 		const id = this.props.match.params[0];
 		const final = this.props.final.selectedFinal;
@@ -80,7 +86,7 @@ class FinalViewProjects extends Component {
 
 			return (
 				<Fragment key={project.projectId}>
-					<div className="projectsListItem row">
+					<div className="projectsListItem row" data-projectrow={project.number}>
 						{/** PROJECT INFOS COLUMN */}
 						<div className="col-md-3 row">
 							<div className="col-1">
@@ -120,6 +126,7 @@ class FinalViewProjects extends Component {
 								number={project.number}
 								attributionInfos={attributionInfos}
 								minJudges="5"
+								ShowMissingJudge={this.ShowMissingJudge}
 							/>
 						</div>
 					</div>
@@ -131,9 +138,6 @@ class FinalViewProjects extends Component {
 			<Fragment>
 				<FinalNav pageTitle="Finale - Vue par projets" id={id} finalName={final.longName} />
 				<div className="p-5 ">
-					<div className="row py-5">
-						<div className="col-md-6">{final.longName}</div>
-					</div>
 					{/* HEADER */}
 					<div className="row">
 						<div className="col-md-3 row" />

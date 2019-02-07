@@ -69,8 +69,10 @@ router.post("/create", (req, res) => {
 		});
 });
 
-//TODO: Gérer la connexion d'un juge
-router.post("/connexion", (req, res) => {});
+router.post("/login", (req, res) => {
+	//TODO:
+	logger.log(req.body);
+});
 
 router.put("/modifier", (req, res) => {
 	JudgeController.modifier(req.body)
