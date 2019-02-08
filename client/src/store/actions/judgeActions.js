@@ -6,7 +6,8 @@ import {
 	CLEAR_JUDGES_LIST,
 	SET_ACTION_RESPONSE,
 	CLEAR_ERRORS,
-	DELETE_JUDGE
+	DELETE_JUDGE,
+	GET_JUDGES_PWD
 } from "./types";
 import axios from "axios";
 import setAuthToken from "../../utils/setAuthHeaders";
@@ -93,6 +94,30 @@ export const CreateJudge = judgeInfos => dispatch => {
 
 export const ClearJudgesList = () => dispatch => {
 	dispatch({ type: CLEAR_JUDGES_LIST });
+};
+
+export const GetJudgesPwd = finalId => dispatch => {
+	console.log("id", finalId);
+	axios
+		.get("/api/judge/pwd", { params: { finalId } })
+		.then(response => {
+			dispatch({
+				type: GET_JUDGES_PWD,
+				payload: response.data
+			});
+			dispatch({
+				type: SET_ACTION_RESPONSE,
+				payload: { type: GET_JUDGES_PWD, response: "success" }
+			});
+			dispatch({ type: CLEAR_ERRORS });
+		})
+		.catch(err => {
+			dispatch({
+				type: SET_ACTION_RESPONSE,
+				payload: { type: GET_JUDGES_PWD, response: "fail" }
+			});
+			dispatch({ type: GET_ERRORS, payload: err.response.data });
+		});
 };
 
 export const DeleteAllFinalJudges = finalId => dispatch => {

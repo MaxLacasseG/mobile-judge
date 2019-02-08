@@ -7,7 +7,7 @@ import { DeleteFinal } from "../../../store/actions/finalActions";
 
 import FinalNav from "../../pages/partials/FinalNav";
 import PairingImportation from "../judgeProjectPairing/PairingFileImportation";
-
+import FinalViewJudgesInfos from "./FinalViewJudgesInfos";
 import isEmpty from "../../../validation/isEmpty";
 
 class FinalViewInfos extends Component {
@@ -55,6 +55,8 @@ class FinalViewInfos extends Component {
 							</div>
 						</div>
 					</div>
+					<hr />
+					<FinalViewJudgesInfos />
 				</div>
 			</Fragment>
 		);

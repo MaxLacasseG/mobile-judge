@@ -29,6 +29,7 @@ export const SAVE_FINAL_PAIRING = "SAVE_FINAL_PAIRING";
 export const SET_JUDGE = "SET_JUDGE";
 export const GET_JUDGE = "GET_JUDGE";
 export const GET_ALL_JUDGES = "GET_ALL_JUDGES";
+export const GET_JUDGES_PWD = "GET_JUDGES_PWD";
 export const CLEAR_JUDGES_LIST = "CLEAR_JUDGES_LIST";
 export const CREATE_JUDGE = "CREATE_JUDGE";
 export const UPDATE_JUDGE = "UPDATE_JUDGE";

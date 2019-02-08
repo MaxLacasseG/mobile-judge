@@ -123,6 +123,11 @@ class NewFinalModal extends Component {
 	};
 
 	CreateFinal = e => {
+		//CREATES A UNIQUE CHARACTER FOR JUDGES PASSWORD
+		const specialCharactList = ["!", "$", "*", "+"];
+		const specialCharacter =
+			specialCharactList[Math.floor(Math.random() * specialCharactList.length)];
+
 		//CLEAR REDUCER FIRST
 		this.props.ClearJudgesList();
 		this.props.ClearProjectsList();
@@ -132,6 +137,7 @@ class NewFinalModal extends Component {
 		this.props.CreateFinal(newFinal.event);
 
 		newFinal.judges.map(judge => {
+			judge.specialCharacter = specialCharacter;
 			that.props.CreateJudge(judge);
 			return null;
 		});

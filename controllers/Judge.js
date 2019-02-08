@@ -21,16 +21,29 @@ controller.rechercherTous = () => {
 };
 
 controller.Create = judgeInfos => {
-	//Checks if exists
+	//CHECKS IF EXISTS FOR A SPECIFIC FINAL AND A SPECIFIC ID FOR REGISTRATION SYSTEM
 	return Judge.find({ finalId: judgeInfos.finalId, judgeId: judgeInfos.judgeId }).then(result => {
-		//If new, create judge, else update infos
+		//====
+		// CREATES PASSWORD FOR USER AND ADDS to JUDGEINFOS
+		// SPECIAL CHARACTER COMES FROM NEW FINAL MODAL -> CREATEFINAL()
+		const { firstName, lastName, email } = judgeInfos.information.generalInformation;
+		const postalCode = judgeInfos.information.generalInformation.address.postalCode;
+		const username = email;
+		const pwd = `${firstName.substr(0, 1).toLowerCase()}${postalCode
+			.substr(0, 3)
+			.toUpperCase()}${postalCode.substr(4, 3).toUpperCase()}${lastName
+			.substr(0, 1)
+			.toLowerCase()}${judgeInfos.specialCharacter}`;
+		judgeInfos.username = username;
+		judgeInfos.pwd = pwd;
+
+		//IF NEW, CREATE JUDGE, ELSE UPDATE INFOS
 		if (result.length === 0) {
 			const newJuge = new Judge(judgeInfos);
 			return newJuge.save({ new: true });
 		} else {
 			return Judge.findOneAndUpdate({ _id: result[0]._id }, result[0], { new: true })
 				.then(updatedJudge => {
-					//logger.log("UPDATE");
 					return updatedJudge;
 				})
 				.catch(err => {

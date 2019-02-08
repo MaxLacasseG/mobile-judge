@@ -58,6 +58,19 @@ router.get("/id", (req, res) => {
 		});
 });
 
+router.get("/pwd", (req, res) => {
+	JudgeController.Find({ finalId: req.query.finalId })
+		.select("+pwd +username")
+		.sort({ number: 1 })
+		.then(resultat => {
+			if (isEmpty(resultat)) throw { success: false, msg: "Aucun juge trouvé" };
+			res.status(200).json(resultat);
+		})
+		.catch(err => {
+			res.status(400).json(err);
+		});
+});
+
 router.post("/create", (req, res) => {
 	JudgeController.Create(req.body)
 		.then(result => {
