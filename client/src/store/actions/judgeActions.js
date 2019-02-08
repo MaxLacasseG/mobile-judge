@@ -23,7 +23,7 @@ export const Login = (userData, history) => dispatch => {
 			setAuthToken(token);
 			const decoded = jwt_decode(token);
 			dispatch(setCurrentJudge(decoded));
-			history.push("/selection-finale");
+			history.push("/mon-jugement");
 		})
 		.catch(err => {
 			dispatch({ type: GET_ERRORS, payload: err.response.data });

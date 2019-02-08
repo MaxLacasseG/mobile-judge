@@ -85,10 +85,9 @@ router.post("/create", (req, res) => {
 router.post("/login", (req, res) => {
 	const { username, pwd, finalId } = req.body;
 
-	JudgeController.Find({ username, pwd, finalId })
+	JudgeController.Login({ username, pwd, finalId })
 		.then(result => {
-			if (isEmpty(result)) throw { success: false, msg: "Courriel ou mot de passe inconnu" };
-			//res.status(200).json(resultat);
+			res.status(200).json(result);
 		})
 		.catch(err => {
 			console.log(err);

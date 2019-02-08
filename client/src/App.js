@@ -11,6 +11,7 @@ import { setCurrentUser, logoutUser } from "./store/actions/authActions";
 //Routes Type
 import SuperAdminRoute from "./components/routes/SuperAdminRoute";
 import AdminRoute from "./components/routes/AdminRoute";
+import JudgeRoute from "./components/routes/JudgeRoute";
 
 //Components
 //PAGES COMPONENTS
@@ -30,6 +31,7 @@ import FinalListPage from "./components/finals/FinalListPage";
 
 //JUDGE COMPONENTS
 import JudgeLogin from "./components/judges/JudgeLogin";
+import JudgeDashboard from "./components/judges/JudgeDashboard";
 
 //AUTH CHECK
 //if there is a token already in localstorage,
@@ -60,6 +62,7 @@ class App extends Component {
 						<Switch>
 							{/* JUDGE ROUTES */}
 							<Route exact path="/" component={JudgeLogin} />
+							<JudgeRoute exact path="/mon-jugement" component={JudgeDashboard} />
 
 							{/* MANAGER ROUTES */}
 							<Route exact path="/admin" component={AdminLogin} />

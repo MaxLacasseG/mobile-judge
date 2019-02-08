@@ -4,6 +4,9 @@ const isEmpty = require("../utils/isEmpty");
 const controller = {};
 const mongoose = require("mongoose");
 
+const JWT = require("jsonwebtoken");
+const keys = require("../config/keys");
+
 controller.Find = filtre => {
 	return Judge.find(filtre);
 };
@@ -51,6 +54,41 @@ controller.Create = judgeInfos => {
 				});
 		}
 	});
+};
+
+controller.Login = credentials => {
+	return Judge.findOne(credentials)
+		.then(judge => {
+			if (isEmpty(judge)) throw { success: false, msg: "Courriel ou mot de passe inconnu" };
+			logger.log(judge);
+			const payload = {
+				id: judge._id,
+				username: judge.email,
+				judgeId: judge.judgeId,
+				finalId: judge.finalId,
+				information: judge.information,
+				type: "JUDGE"
+			};
+
+			//Create the token, expires after 1 hour
+			const token = JWT.sign(payload, keys.secretOrKey, {
+				expiresIn: 10800
+			});
+
+			if (!token) {
+				throw { success: false, msg: "Impossible de générer le jeton" };
+			}
+
+			//Return token
+			return {
+				success: true,
+				msg: "Connecté",
+				token: "Bearer " + token
+			};
+		})
+		.catch(err => {
+			throw err;
+		});
 };
 
 controller.modifier = jugeId => {

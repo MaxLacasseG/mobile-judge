@@ -16,8 +16,8 @@ class JudgeLogin extends Component {
 	componentDidMount() {
 		this.props.GetAllActiveFinalsIds();
 
-		if (this.props.auth.isAuthenticated && this.props.auth.user.isJudge) {
-			this.props.history.push("/juge");
+		if (this.props.auth.isAuthenticated && this.props.auth.user.type === "JUDGE") {
+			this.props.history.push("/mon-jugement");
 		}
 	}
 
