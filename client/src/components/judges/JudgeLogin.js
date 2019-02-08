@@ -7,9 +7,9 @@ class JudgeLogin extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			final: "",
-			number: "",
-			password: ""
+			finalId: "",
+			username: "",
+			pwd: ""
 		};
 	}
 
@@ -32,20 +32,14 @@ class JudgeLogin extends Component {
 	OnSubmit = e => {
 		e.preventDefault();
 
-		const user = {
-			final: this.state.final,
-			number: this.state.number,
-			password: this.state.password
-		};
-
-		this.props.Login(user, this.props.history);
+		this.props.Login(this.state, this.props.history);
 	};
 
 	render() {
 		const finalList = this.props.final.finalList;
 		const activeFinalList = finalList.map(final => {
 			return (
-				<option data-id={final._id} key={final._id}>
+				<option value={final._id} data-id={final._id} key={final._id}>
 					{final.longName}
 				</option>
 			);
@@ -64,12 +58,12 @@ class JudgeLogin extends Component {
 								<input type="password" style={{ display: "none" }} />
 
 								<div className="form-group">
-									<label htmlFor="final">Finale régionale</label>
+									<label htmlFor="finalId">Finale régionale</label>
 									<select
 										className="custom-select"
-										name="final"
-										id="final"
-										value={this.state.final}
+										name="finalId"
+										id="finalId"
+										value={this.state.finalId}
 										onChange={this.OnSelect}
 									>
 										<option value="">Sélectionner une finale régionale</option>
@@ -78,27 +72,27 @@ class JudgeLogin extends Component {
 								</div>
 
 								<div className="form-group">
-									<label htmlFor="number">Numéro du juge</label>
+									<label htmlFor="username">Courriel</label>
 									<input
 										type="text"
 										className="form-control"
-										name="number"
-										id="number"
-										placeholder="Numéro de juge"
-										value={this.state.number}
+										name="username"
+										id="username"
+										placeholder="Courriel"
+										value={this.state.username}
 										onChange={this.OnChange}
 									/>
 								</div>
 
 								<div className="form-group">
-									<label htmlFor="password">Mot de passe</label>
+									<label htmlFor="pwd">Mot de passe</label>
 									<input
 										type="password"
 										className="form-control"
 										placeholder="Mot de passe"
-										name="password"
-										id="password"
-										value={this.state.password}
+										name="pwd"
+										id="pwd"
+										value={this.state.pwd}
 										onChange={this.OnChange}
 									/>
 								</div>

@@ -37,6 +37,14 @@ class FinalViewInfos extends Component {
 							<PairingImportation finalId={this.props.match.params[0]} />
 						</div>
 					</div>
+
+					{/* PASSWORD LIST */}
+					<div className="mx-auto text-center">
+						<h4>Liste des juges</h4>
+					</div>
+					<FinalViewJudgesInfos />
+
+					{/* DELETE BUTTON */}
 					<div className="row">
 						<div className="alert alert-danger mx-auto text-center">
 							<span>
@@ -56,7 +64,6 @@ class FinalViewInfos extends Component {
 						</div>
 					</div>
 					<hr />
-					<FinalViewJudgesInfos />
 				</div>
 			</Fragment>
 		);

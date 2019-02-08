@@ -83,8 +83,17 @@ router.post("/create", (req, res) => {
 });
 
 router.post("/login", (req, res) => {
-	//TODO:
-	logger.log(req.body);
+	const { username, pwd, finalId } = req.body;
+
+	JudgeController.Find({ username, pwd, finalId })
+		.then(result => {
+			if (isEmpty(result)) throw { success: false, msg: "Courriel ou mot de passe inconnu" };
+			//res.status(200).json(resultat);
+		})
+		.catch(err => {
+			console.log(err);
+			res.status(400).json(err);
+		});
 });
 
 router.put("/modifier", (req, res) => {

@@ -121,7 +121,7 @@ class PairingFileImportation extends Component {
 		return (
 			<Fragment>
 				{this.state.modal}
-				<div className="p-5">
+				<div className="p-3">
 					<h4 className="section-header">
 						<i className="fas fa-plus-circle" />
 						{"  "}

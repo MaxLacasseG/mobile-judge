@@ -97,7 +97,6 @@ export const ClearJudgesList = () => dispatch => {
 };
 
 export const GetJudgesPwd = finalId => dispatch => {
-	console.log("id", finalId);
 	axios
 		.get("/api/judge/pwd", { params: { finalId } })
 		.then(response => {

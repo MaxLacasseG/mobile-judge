@@ -21,7 +21,6 @@ router.get("/all", (req, res) => {
 router.get("/all-active-ids", (req, res) => {
 	FinalController.FindAllActiveIds()
 		.then(result => {
-			console.log("ids", result);
 			return res.status(200).json(result);
 		})
 		.catch(err => {
