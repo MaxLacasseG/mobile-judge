@@ -43,3 +43,8 @@
 ---
 
 Numéros de participants: 000 et+ Numéros de juges: 1000 et +
+
+NOTES:
+Fonctionnalités à ajouter
+
+** Juge - Check if finalIsOpen() à appeler avant d'enregistrer et if not log out **
