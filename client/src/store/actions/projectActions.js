@@ -5,7 +5,9 @@ import {
 	CLEAR_ERRORS,
 	GET_PROJECTS_LIST,
 	CLEAR_PROJECTS_LIST,
-	DELETE_PROJECT
+	DELETE_PROJECT,
+	GET_PROJECT,
+	CLEAR_PROJECT_INFOS
 } from "./types";
 import axios from "axios";
 
@@ -73,4 +75,29 @@ export const DeleteAllFinalProjects = finalId => dispatch => {
 			});
 			dispatch({ type: GET_ERRORS, payload: err.response.data });
 		});
+};
+
+export const GetProjectInfos = (finalId, projectNumber) => dispatch => {
+	axios
+		.get("/api/project/number", { params: { finalId, projectNumber } })
+		.then(project => {
+			dispatch({ type: GET_PROJECT, payload: project.data });
+			dispatch({
+				type: SET_ACTION_RESPONSE,
+				payload: { type: GET_PROJECT, response: "success" }
+			});
+			dispatch({ type: CLEAR_ERRORS });
+		})
+		.catch(err => {
+			console.log(err);
+			dispatch({
+				type: SET_ACTION_RESPONSE,
+				payload: { type: GET_PROJECT, response: "fail" }
+			});
+			dispatch({ type: GET_ERRORS, payload: err.response.data });
+		});
+};
+
+export const ClearProjectInfos = () => dispatch => {
+	dispatch({ type: CLEAR_PROJECT_INFOS });
 };

@@ -64,6 +64,18 @@ router.get("/final-id", (req, res) => {
 		});
 });
 
+router.get("/number", (req, res) => {
+	console.log(req.query);
+	ProjectController.Find({ finalId: req.query.finalId, number: req.query.projectNumber })
+		.then(resultat => {
+			if (isEmpty(resultat)) throw { success: false, msg: "Aucun projet trouvé" };
+			res.status(200).json(resultat[0]);
+		})
+		.catch(err => {
+			res.status(400).json(err);
+		});
+});
+
 router.post("/create", (req, res) => {
 	ProjectController.Create(req.body)
 		.then(result => {
