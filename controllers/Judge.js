@@ -65,6 +65,7 @@ controller.Login = credentials => {
                 judgeId: judge.judgeId,
                 finalId: judge.finalId,
                 information: judge.information,
+                number: judge.number,
                 type: "JUDGE"
             };
 

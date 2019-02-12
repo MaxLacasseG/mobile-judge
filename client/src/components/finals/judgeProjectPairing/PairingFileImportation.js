@@ -6,7 +6,6 @@ import { ClearErrors } from "../../../store/actions/errorActions";
 import { ClearResponse } from "../../../store/actions/responseActions";
 
 import isEmpty from "../../../validation/isEmpty";
-import PropTypes from "prop-types";
 
 class PairingFileImportation extends Component {
     constructor(props) {
@@ -36,18 +35,35 @@ class PairingFileImportation extends Component {
     };
 
     ConvertTextToJson = () => {
-        const pairing = {};
+        const pairingByProjects = {};
+        const pairingByJudges = {};
+
         const string = this.state.pairingInfos;
 
         string.split(/\n|\r\n/).map((line, index) => {
+            //Reads only lines with pairing infos
             if (line.substr(0, 1) === "P" || line.substr(0, 1) === "#" || line.substr(0, 1) === "" || line.substr(0, 1) === "&") return null;
             const array = line.split(/;/);
 
-            if (!pairing.hasOwnProperty(array[0])) {
-                pairing[array[0]] = {};
+            //Initialize pairing objects
+            if (!pairingByProjects.hasOwnProperty(array[0])) {
+                pairingByProjects[array[0]] = {};
             }
 
-            pairing[array[0]][array[2]] = {
+            //console.log("pairing judge", array);
+            if (array[3] !== undefined) {
+                if (!pairingByJudges.hasOwnProperty(array[3])) {
+                    pairingByJudges[array[3]] = {};
+                } else {
+                    pairingByJudges[array[3]][array[2]] = {
+                        project: parseInt(array[0]),
+                        period: parseInt(array[2]),
+                        judge: parseInt(array[3])
+                    };
+                }
+            }
+
+            pairingByProjects[array[0]][array[2]] = {
                 project: parseInt(array[0]),
                 period: parseInt(array[2]),
                 judge: array[3] !== undefined ? parseInt(array[3]) : undefined
@@ -55,24 +71,15 @@ class PairingFileImportation extends Component {
 
             return array;
         });
-        console.log(this.CheckForJudge(133, pairing));
 
-        const finalInfos = { _id: this.props.finalId, pairing };
+        const pairing = {
+            pairingByProjects,
+            pairingByJudges
+        };
+
+        const finalInfos = { _id: this.props.finalId, pairing: pairing };
         this.props.SaveFinalPairing(finalInfos);
     };
-
-    CheckForJudge(judgeNumber, pairing = {}) {
-        let judgeInfos = {};
-        Object.keys(pairing).map((project, index) => {
-            Object.keys(pairing[project]).map(period => {
-                if (judgeNumber === pairing[project][period].judge) {
-                    judgeInfos = Object.assign(pairing[project][period], pairing);
-                }
-            });
-        });
-
-        console.log(judgeInfos);
-    }
 
     OnSubmit = e => {
         e.preventDefault();
