@@ -1,6 +1,7 @@
-$font-title: "Oswald", cursive;
-$font-text: "Open Sans", sans-serif;
-
+$font-title: "Oswald",
+cursive;
+$font-text: "Open Sans",
+sans-serif;
 h1,
 h2 {
     font-family: $font-title;
@@ -27,15 +28,14 @@ a,
 label {
     font-family: $font-text;
 }
+
 .grid-button-label {
     font-family: $font-title;
     font-weight: 700;
-    font-size: 0.8em;
-
+    font-size: 1em;
     @media screen and (min-width: $breakpoint-sm) {
         font-size: 1em;
     }
-
     @media screen and (min-width: $breakpoint-md) {
         font-size: 1.4em;
     }
