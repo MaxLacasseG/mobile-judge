@@ -35,6 +35,7 @@ export const CLEAR_JUDGES_LIST = "CLEAR_JUDGES_LIST";
 export const CREATE_JUDGE = "CREATE_JUDGE";
 export const UPDATE_JUDGE = "UPDATE_JUDGE";
 export const DELETE_JUDGE = "DELETE_JUDGE";
+export const SAVE_RESULT = "SAVE_RESULT";
 
 //PROJECT
 export const SET_PROJECT = "SET_PROJECT";

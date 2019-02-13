@@ -36,14 +36,14 @@ export default class EvaluationButtonGroup extends Component {
 					{[...Array(5)].map((x, i) => (
 						<label
 							className="grid-button-label rounded-circle"
-							key={i + 5}
+							key={i + 6}
 							data-value={this.props.id}
 						>
 							{i + 6}
 							<input
 								className="grid-button"
 								type="radio"
-								value={i + 5}
+								value={i + 6}
 								name={this.props.id}
 								onChange={this.OnHandleRadio}
 							/>

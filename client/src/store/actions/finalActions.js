@@ -6,7 +6,8 @@ import {
 	GET_ALL_FINALS,
 	SELECT_FINAL,
 	SAVE_FINAL_PAIRING,
-	DELETE_FINAL
+	DELETE_FINAL,
+	SAVE_RESULT
 } from "./types";
 import axios from "axios";
 
@@ -127,6 +128,26 @@ export const DeleteFinal = (finalId, history, userId, isAdmin) => dispatch => {
 			dispatch({
 				type: SET_ACTION_RESPONSE,
 				payload: { type: DELETE_FINAL, response: "fail" }
+			});
+			dispatch({ type: GET_ERRORS, payload: err.response.data });
+		});
+};
+
+export const SaveResult = (finalId, judgeNumber, projectNumber, period, result) => dispatch => {
+	axios
+		.post("/api/final/save-result", { finalId, judgeNumber, projectNumber, period, result })
+		.then(response => {
+			dispatch({
+				type: SET_ACTION_RESPONSE,
+				payload: { type: SAVE_RESULT, response: "success" }
+			});
+			dispatch({ type: CLEAR_ERRORS });
+		})
+		.catch(err => {
+			console.log(err);
+			dispatch({
+				type: SET_ACTION_RESPONSE,
+				payload: { type: SAVE_RESULT, response: "fail" }
 			});
 			dispatch({ type: GET_ERRORS, payload: err.response.data });
 		});
