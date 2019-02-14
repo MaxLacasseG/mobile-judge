@@ -46,7 +46,7 @@ class JudgeLogin extends Component {
 		});
 
 		return (
-			<div className="login">
+			<div className="judge-login">
 				<div className="container">
 					<div className="row">
 						<div className="col-md-8 m-auto">

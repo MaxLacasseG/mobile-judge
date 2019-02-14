@@ -16,21 +16,29 @@ class JudgeDashboard extends Component {
 	};
 
 	render() {
+		const final = this.props.final;
 		const projects = this.props.project.projectsList;
 		const projectList =
 			projects &&
 			Object.keys(projects).map(key => {
 				return (
-					<div className="row" key={projects[key].project}>
-						<div className="col-md-12">
-							<span>Période {projects[key].period}</span>
+					<div className="row mb-3 period-row p-2" key={projects[key].project}>
+						<div className="col-md-2">
+							<span className="">
+								<strong>Période {projects[key].period}</strong>
+							</span>
+						</div>
+						<div className="col">
 							<Link
 								to={{
 									pathname: `/projet/${projects[key].project}`,
 									state: { period: projects[key].period }
 								}}
 							>
-								Juger le project {projects[key].project}
+								Juger le project {projects[key].project}{" "}
+								<span className="ml-3">
+									<i className="fas fa-sign-in-alt" />
+								</span>
 							</Link>
 						</div>
 					</div>
@@ -38,10 +46,10 @@ class JudgeDashboard extends Component {
 			});
 
 		return (
-			<div>
+			<div className=" judge-dashboard container p-5">
 				<JudgeNav />
-				<h1>Mes projets à juger</h1>
-				<h3>Finale de Montréal</h3>
+				<h1>Liste des projets</h1>
+				<h3>{}</h3>
 				{projectList}
 			</div>
 		);
