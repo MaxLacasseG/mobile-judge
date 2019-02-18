@@ -8,9 +8,9 @@ import PropTypes from "prop-types";
  * @props object    final               the final infos
  */
 class FinalListItem extends Component {
-	ToggleActivationFinal = e => {
+	ToggleFinalActivation = e => {
 		if (this.props.final !== null && this.props.final !== undefined) {
-			this.props.ToggleActivationFinal(this.props.final._id);
+			this.props.ToggleFinalActivation(this.props.final._id);
 		} else {
 			console.log("Err ToggleActivationFinal():No final found");
 		}
@@ -48,7 +48,7 @@ class FinalListItem extends Component {
 					</small>
 				</div>
 				<div className="col d-flex flew-row justify-content-around align-items-start">
-					<button className="icon-button" onClick={this.ToggleActivationFinal}>
+					<button className="icon-button" onClick={this.ToggleFinalActivation}>
 						{isActive ? (
 							<i className="fas fa-2x fa-toggle-on text-info" />
 						) : (
@@ -67,7 +67,7 @@ class FinalListItem extends Component {
 
 FinalListItem.propTypes = {
 	final: PropTypes.object.isRequired,
-	ToggleActivationFinal: PropTypes.func.isRequired
+	ToggleFinalActivation: PropTypes.func.isRequired
 };
 
 export default withRouter(FinalListItem);

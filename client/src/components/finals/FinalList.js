@@ -1,7 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import FinalListItem from "./FinalListItem";
-import { GetAllFinals, GetFinalsFromUser } from "../../store/actions/finalActions";
+import {
+	GetAllFinals,
+	GetFinalsFromUser,
+	ToggleFinalActivation
+} from "../../store/actions/finalActions";
 
 /**
  * Class that lists all the finals linked to a specific user
@@ -13,8 +17,12 @@ class FinalsList extends Component {
 			: this.props.GetFinalsFromUser(this.props.auth.user.id);
 	};
 
-	ToggleActivationFinal = id => {
-		console.log(id);
+	ToggleFinalActivation = finalId => {
+		this.props.ToggleFinalActivation(
+			finalId,
+			this.props.auth.user.isAdmin,
+			this.props.auth.user.id
+		);
 	};
 
 	render() {
@@ -23,7 +31,7 @@ class FinalsList extends Component {
 				<FinalListItem
 					key={final._id}
 					final={final}
-					ToggleActivationFinal={this.ToggleActivationFinal}
+					ToggleFinalActivation={this.ToggleFinalActivation}
 				/>
 			);
 		});
@@ -46,5 +54,5 @@ const mapStateToProps = state => ({
 
 export default connect(
 	mapStateToProps,
-	{ GetAllFinals, GetFinalsFromUser }
+	{ GetAllFinals, GetFinalsFromUser, ToggleFinalActivation }
 )(FinalsList);

@@ -120,6 +120,22 @@ router.put("/update", (req, res) => {
 		});
 });
 
+router.put("/activate-final", (req, res) => {
+	FinalController.FindById(req.body.finalId)
+		.then(final => {
+			final.isActive = !final.isActive;
+			return FinalController.Update(final);
+		})
+		.then(result => {
+			return res.status(200).json(result);
+		})
+
+		.catch(err => {
+			logger.log(err);
+			return res.status(400).json(err);
+		});
+});
+
 router.put("/unarchive", (req, res) => {
 	FinalController.reactiver(req.query.finaleId)
 		.then(resultat => {

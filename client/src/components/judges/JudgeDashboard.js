@@ -46,11 +46,12 @@ class JudgeDashboard extends Component {
 			});
 
 		return (
-			<div className=" judge-dashboard container p-5">
-				<JudgeNav />
-				<h1>Liste des projets</h1>
-				<h3>{}</h3>
-				{projectList}
+			<div className="judge-dashboard ">
+				<div className="container p-4 p-md-5">
+					<JudgeNav />
+					<h1>Liste des projets</h1>
+					{projectList}
+				</div>
 			</div>
 		);
 	}

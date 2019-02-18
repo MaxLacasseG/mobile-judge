@@ -6,6 +6,7 @@ const FinalSchema = new Schema({
 	isArchived: { type: Boolean, default: false },
 	isActive: { type: Boolean, default: false },
 	eventDate: { type: Date },
+	shortName: { type: String },
 	longName: { type: String },
 	program: { type: Number },
 	location: { type: String },

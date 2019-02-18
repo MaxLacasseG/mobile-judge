@@ -20,7 +20,7 @@ controller.FindAll = () => {
 controller.FindAllActiveIds = () => {
 	return Final.aggregate([
 		{ $match: { isActive: true } },
-		{ $project: { longName: "$longName" } }
+		{ $project: { longName: "$longName", shortName: "$shortName" } }
 	]);
 };
 

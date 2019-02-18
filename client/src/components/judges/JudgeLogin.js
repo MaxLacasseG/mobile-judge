@@ -39,8 +39,13 @@ class JudgeLogin extends Component {
 		const finalList = this.props.final.finalList;
 		const activeFinalList = finalList.map(final => {
 			return (
-				<option value={final._id} data-id={final._id} key={final._id}>
-					{final.longName}
+				<option
+					className="judge-finals-options"
+					value={final._id}
+					data-id={final._id}
+					key={final._id}
+				>
+					{final.shortName}
 				</option>
 			);
 		});
@@ -48,6 +53,30 @@ class JudgeLogin extends Component {
 		return (
 			<div className="judge-login">
 				<div className="container">
+					<div className="row p-4 p-md-5">
+						{/** LOGO FOR MOBILE */}
+						<div className="col-md-4 text-center offset-md-2 d-none d-md-block">
+							<img className="logo" src="/img/logo_exs_mobile.png" alt="logo" />
+						</div>
+						<div className="col-md-4 text-center d-none d-md-block">
+							<img className="logo" src="/img/logo_mobile.png" alt="logo" />
+						</div>
+
+						{/** LOGO FOR TABLET & UP */}
+						<div className="col-md-4 text-center offset-md-2 d-md-none">
+							<img className="logo" src="/img/logo_exs.png" alt="logo" />
+						</div>
+						<div className="col-md-4 text-center d-md-none">
+							<img className="logo" src="/img/logo.png" alt="logo" />
+						</div>
+					</div>
+					<div className="row text-center">
+						<div className="col-md-6 mx-auto">
+							<h6>
+								L'application du jugement <br /> des Expo-sciences Hydro-Québec
+							</h6>
+						</div>
+					</div>
 					<div className="row">
 						<div className="col-md-8 m-auto">
 							<h1 className="display-4 text-center">Connexion</h1>
@@ -60,14 +89,18 @@ class JudgeLogin extends Component {
 								<div className="form-group">
 									<label htmlFor="finalId">Finale régionale</label>
 									<select
-										className="custom-select"
+										className="selectpicker custom-select"
 										name="finalId"
 										id="finalId"
 										value={this.state.finalId}
 										onChange={this.OnSelect}
 									>
-										<option value="">Sélectionner une finale régionale</option>
-										{activeFinalList}
+										<optgroup className="judge-finals-options">
+											<option value="">
+												Sélectionner une finale régionale
+											</option>
+											{activeFinalList}
+										</optgroup>
 									</select>
 								</div>
 
@@ -96,7 +129,7 @@ class JudgeLogin extends Component {
 										onChange={this.OnChange}
 									/>
 								</div>
-								<input type="submit" className="btn btn-info btn-block mt-4" />
+								<input type="submit" className="btn btn-info btn-block my-4" />
 							</form>
 						</div>
 					</div>

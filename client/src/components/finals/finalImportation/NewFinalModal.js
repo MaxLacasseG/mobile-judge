@@ -59,6 +59,7 @@ class NewFinalModal extends Component {
 			"eventDate",
 			"location",
 			"longName",
+			"shortName",
 			"program",
 			"region",
 			"level"
@@ -119,6 +120,8 @@ class NewFinalModal extends Component {
 			judges: newJudgesList,
 			projects: newProjectsList
 		};
+
+		console.log(newFinal);
 		return newFinal;
 	};
 
@@ -165,6 +168,7 @@ class NewFinalModal extends Component {
 		e.preventDefault();
 	};
 	OnChange = e => {
+		console.log("test");
 		const event = this.state.event;
 		event[e.target.name] = e.target.value;
 		this.setState({ event });
@@ -346,6 +350,20 @@ class NewFinalModal extends Component {
 												<i className="fas fa-exclamation-triangle text-danger" />
 												Veuillez compléter les informations suivantes
 											</h5>
+										</div>
+										<div className="col-md-12 form-group">
+											<label htmlFor="shortName">
+												Nom de la finale pour mobile (60 caractères max)
+											</label>
+											<input
+												type="text"
+												className="form-control"
+												name="shortName"
+												id="shortName"
+												placeholder="Maximum 60 caractères"
+												onChange={this.OnChange}
+												maxLength="60"
+											/>
 										</div>
 										<div className="col-md-12 form-group">
 											<div className="custom-control custom-radio">

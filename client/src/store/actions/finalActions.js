@@ -96,6 +96,22 @@ export const GetFinalsFromUser = userId => dispatch => {
 		});
 };
 
+export const ToggleFinalActivation = (finalId, isAdmin = false, userId = null) => dispatch => {
+	axios
+		.put("/api/final/activate-final", { finalId })
+		.then(result => {
+			dispatch({ type: CLEAR_ERRORS });
+			isAdmin ? dispatch(GetAllFinals()) : dispatch(GetFinalsFromUser(userId));
+		})
+		.catch(err => {
+			dispatch({
+				type: SET_ACTION_RESPONSE,
+				payload: { type: DELETE_FINAL, response: "fail" }
+			});
+			dispatch({ type: GET_ERRORS, payload: err.response.data });
+		});
+};
+
 export const SaveFinalPairing = pairingInfos => dispatch => {
 	axios
 		.post("/api/final/pairing", pairingInfos)
