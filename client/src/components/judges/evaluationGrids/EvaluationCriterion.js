@@ -9,10 +9,20 @@ export default class EvaluationCriterion extends Component {
 		};
 	}
 
-	OnCompleteCriterion = target => {
-		this.props.OnHandleInput(target);
-		this.setState({ [target.name]: target.value });
+	OnCompleteCriterion = criterionResult => {
+		/* console.log(
+			Object.keys(criterionResult.result)[0],
+			criterionResult.result[Object.keys(criterionResult.result)[0]]
+		);
+ */
+		this.props.OnHandleInput(criterionResult);
+
+		this.setState({
+			[Object.keys(criterionResult.result)[0]]:
+				criterionResult.result[Object.keys(criterionResult.result)[0]]
+		});
 	};
+
 	render() {
 		const subsection = this.props.subsection;
 		const criterionsList = subsection.criterions.map((criterion, index) => {
@@ -50,6 +60,7 @@ export default class EvaluationCriterion extends Component {
 						<EvaluationButtonGroup
 							name={criterion.name}
 							id={criterion.id}
+							percentage={criterion.percentage}
 							OnCompleteCriterion={this.OnCompleteCriterion}
 						/>
 					</div>
@@ -58,7 +69,11 @@ export default class EvaluationCriterion extends Component {
 		});
 
 		return (
-			<div className="evaluation-subsection px-4 pt-4">
+			<div
+				className={classnames("evaluation-subsection px-4 pt-4", {
+					isComplete: this.props.isComplete
+				})}
+			>
 				<h5 className="">
 					<strong>
 						{subsection.name} - {subsection.percentage}%

@@ -46,6 +46,7 @@ a {
 .btn {
     border: none;
     background-color: $color-accent1;
+    font-family: "Open Sans", sans-serif;
     &:hover,
     &:visited {
         background-color: $color-accent1;
@@ -57,6 +58,14 @@ a {
     }
     &.btn-accent2 {
         background-color: $color-accent3;
+    }
+    &.btn-danger {
+        background-color: $color-main;
+        color: white;
+    }
+    &.btn-success {
+        background-color: darken($color-accent3, 10%);
+        color: white;
     }
 }
 
@@ -152,6 +161,9 @@ a {
     }
     &:nth-of-type(odd) {
         background-color: lighten($color-accent1, 35%);
+    }
+    &.isComplete {
+        border: 2px solid $color-accent3;
     }
 }
 

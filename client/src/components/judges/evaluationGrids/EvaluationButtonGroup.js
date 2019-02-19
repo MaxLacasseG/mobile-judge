@@ -1,10 +1,16 @@
 import React, { Component, Fragment } from "react";
 
 export default class EvaluationButtonGroup extends Component {
+	CalcPercentage = (value, percentage) => {
+		return (value * percentage) / 10;
+	};
+
 	OnHandleRadio = e => {
 		this.ClearRadio(e.target.name);
 		e.target.parentNode.classList.add("active");
-		this.props.OnCompleteCriterion(e.target);
+		const total = this.CalcPercentage(e.target.value, this.props.percentage);
+
+		this.props.OnCompleteCriterion({ result: { [e.target.name]: e.target.value }, total });
 	};
 	ClearRadio = id => {
 		document.querySelectorAll(`.grid-button-label[data-value='${id}']`).forEach(elem => {

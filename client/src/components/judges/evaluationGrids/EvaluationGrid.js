@@ -11,6 +11,7 @@ import {
 	highVulgarisationGrid
 } from "../../../enums/grids";
 import isEmpty from "../../../validation/isEmpty";
+import classnames from "classnames";
 
 class EvaluationGrid extends Component {
 	constructor(props) {
@@ -23,7 +24,8 @@ class EvaluationGrid extends Component {
 				sections: [],
 				type: ""
 			},
-			result: {}
+			results: {},
+			isComplete: false
 		};
 	}
 	componentDidMount = () => {
@@ -66,7 +68,7 @@ class EvaluationGrid extends Component {
 	};
 
 	InitializeResult = () => {
-		const result = {};
+		const results = {};
 		let prefix = 1;
 		let suffix = 1;
 		this.state.grid.sections.map((section, index) => {
@@ -74,13 +76,13 @@ class EvaluationGrid extends Component {
 				suffix = 1;
 				subsection.criterions.map((criterion, index) => {
 					suffix = String.fromCharCode(index + 65);
-					result[`${prefix}${suffix}`] = {};
+					results[`${prefix}${suffix}`] = {};
 					suffix++;
 				});
 				prefix++;
 			});
 		});
-		this.setState({ result });
+		this.setState({ results });
 	};
 
 	FormatType = (type, short = false) => {
@@ -128,28 +130,53 @@ class EvaluationGrid extends Component {
 		return formattedCategory;
 	};
 
-	OnHandleInput = target => {
-		const result = this.state.result;
-		result[target.name] = parseInt(target.value);
-		this.setState({ result });
+	OnHandleInput = criterionResult => {
+		const results = this.state.results;
+
+		const grade = parseInt(criterionResult.result[Object.keys(criterionResult.result)[0]]);
+		const total = parseFloat(criterionResult.total);
+		const resultToSave = { grade, total };
+
+		results[Object.keys(criterionResult.result)[0]] = resultToSave;
+		this.setState({ results }, () => {
+			this.setState({ isComplete: this.CheckIfComplete() });
+		});
 	};
 
-	SaveResult = () => {
+	// TODO: BREAK IF EMPTTY
+	CheckIfComplete = () => {
+		let isComplete = false;
+		isComplete = Object.keys(this.state.results).every(result => {
+			return !isEmpty(this.state.results[result]);
+		});
+		return isComplete;
+	};
+
+	SaveResults = () => {
 		const finalId = this.props.auth.user.finalId;
 		const judgeNumber = this.props.auth.user.number;
 		const projectNumber = this.props.project.selectedProject.number;
 		const period = this.props.location.state.period;
+		const isComplete = false;
 		if (
 			isEmpty(finalId) ||
 			isEmpty(judgeNumber) ||
 			isEmpty(projectNumber) ||
 			isEmpty(period) ||
-			isEmpty(this.state.result)
+			isEmpty(this.state.results)
 		) {
-			console.log(false);
+			console.log("ERROR SAVE RESULTS | Unable to save result. Undefined element");
 			return false;
 		}
-		this.props.SaveResult(finalId, judgeNumber, projectNumber, period, this.state.result);
+		this.props.SaveResult(
+			finalId,
+			judgeNumber,
+			projectNumber,
+			period,
+			this.state.results,
+			isComplete,
+			this.props.history
+		);
 	};
 
 	render() {
@@ -159,6 +186,7 @@ class EvaluationGrid extends Component {
 				<EvaluationSection
 					section={section}
 					key={index}
+					isComplete={this.state.isComplete}
 					OnHandleInput={this.OnHandleInput}
 				/>
 			);
@@ -192,20 +220,44 @@ class EvaluationGrid extends Component {
 					{sections}
 					<div className="row">
 						<div className="col-md-6 mx-auto my-5">
-							<div className="btn btn-reseau btn-block" onClick={this.SaveResult}>
-								<span>
-									<i className="fas fa-save" />
-								</span>{" "}
-								Enregistrer le jugement
+							<div
+								className={classnames(
+									"btn",
+									"btn-block",
+									"btn-reseau",
+									{
+										"btn-success ": this.state.isComplete
+									},
+									{
+										"btn-danger": !this.state.isComplete
+									}
+								)}
+								onClick={this.SaveResults}
+							>
+								{this.state.isComplete ? (
+									<div>
+										<span>
+											<i className="fas fa-save" />
+										</span>
+										&emsp; Jugement complet. Enregistrer
+									</div>
+								) : (
+									<div>
+										<span>
+											<i className="fas fa-exclamation-triangle" />
+										</span>
+										&emsp; Jugement incomplet. Enregistrer malgré tout.
+									</div>
+								)}
 							</div>
 						</div>
 						<div className="col-md-6 mx-auto my-5">
 							<div className="btn btn-reseau btn-block">
 								<Link to="/mon-jugement">
 									<span>
-										<i className="fas fa-reply" />
-									</span>{" "}
-									RETOUR AUX PROJETS
+										<i className="fas fa-times" />
+									</span>
+									&emsp; Ne pas enregister les modifications
 								</Link>
 							</div>
 						</div>

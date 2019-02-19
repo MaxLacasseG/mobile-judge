@@ -95,11 +95,41 @@ router.post("/pairing", (req, res) => {
 });
 
 router.post("/save-result", (req, res) => {
-	console.log(req.body);
+	//console.log(req.body);
 
-	return res.status(200).json(true);
-	FinalController.Update(req.body)
+	FinalController.FindById(req.body.finalId)
+		.then(final => {
+			if (isEmpty(final)) throw { success: false, msg: "Aucune finale trouvée" };
+
+			let results = final.results;
+
+			//Initialize results objects
+			if (isEmpty(results)) {
+				results = {};
+			}
+
+			//Initialize project object
+			if (isEmpty(results[req.body.projectNumber])) {
+				results[req.body.projectNumber] = {};
+			}
+
+			//Initialize judge object
+			if (isEmpty(results[req.body.projectNumber][req.body.judgeNumber])) {
+				results[req.body.projectNumber][req.body.judgeNumber] = {};
+			}
+
+			results[req.body.projectNumber][req.body.judgeNumber] = {
+				period: req.body.period,
+				results: req.body.results,
+				isComplete: req.body.isComplete
+			};
+
+			final.results = results;
+			//logger.info(final.results);
+			return FinalController.Update(final);
+		})
 		.then(resultat => {
+			//logger.info(resultat);
 			return res.status(200).json(resultat);
 		})
 		.catch(err => {

@@ -149,15 +149,31 @@ export const DeleteFinal = (finalId, history, userId, isAdmin) => dispatch => {
 		});
 };
 
-export const SaveResult = (finalId, judgeNumber, projectNumber, period, result) => dispatch => {
+export const SaveResult = (
+	finalId,
+	judgeNumber,
+	projectNumber,
+	period,
+	results,
+	isComplete,
+	history
+) => dispatch => {
 	axios
-		.post("/api/final/save-result", { finalId, judgeNumber, projectNumber, period, result })
+		.post("/api/final/save-result", {
+			finalId,
+			judgeNumber,
+			projectNumber,
+			period,
+			results,
+			isComplete
+		})
 		.then(response => {
 			dispatch({
 				type: SET_ACTION_RESPONSE,
 				payload: { type: SAVE_RESULT, response: "success" }
 			});
 			dispatch({ type: CLEAR_ERRORS });
+			history.push("/mon-jugement");
 		})
 		.catch(err => {
 			console.log(err);
