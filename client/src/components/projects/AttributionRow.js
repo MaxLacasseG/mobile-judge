@@ -46,7 +46,8 @@ class AttributionRow extends Component {
 				let isComplete = false;
 
 				//Checks if judgement is completed
-				if (!isEmpty(this.props.results[project])) {
+
+				if (this.props.results !== undefined && !isEmpty(this.props.results[project])) {
 					if (!isEmpty(this.props.results[project][judge])) {
 						isComplete = this.props.results[project][judge].isComplete;
 					}
