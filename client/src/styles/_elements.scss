@@ -107,6 +107,9 @@ a {
     &:last-of-type {
         border-right: none;
     }
+    &.grid-cell-complete {
+        background-color: lighten($color-accent2, 20%);
+    }
 }
 
 .missing-judge {

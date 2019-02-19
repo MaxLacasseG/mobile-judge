@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
 import isEmpty from "../../validation/isEmpty";
+import classnames from "classnames";
 /**
  * @props attributionInfos  Object  Contains the pairing infos for a project
  * @props minJudges         Int     The minimal number of judges per project
@@ -40,19 +41,40 @@ class AttributionRow extends Component {
 			}
 		} else {
 			cols = Object.keys(this.props.attributionInfos).map((period, index) => {
-				//console.log(this.props.attributionInfos[period]);
+				const project = this.props.attributionInfos[period].project;
+				const judge = this.props.attributionInfos[period].judge;
+				let isComplete = false;
+
+				//Checks if judgement is completed
+				if (!isEmpty(this.props.results[project])) {
+					if (!isEmpty(this.props.results[project][judge])) {
+						isComplete = this.props.results[project][judge].isComplete;
+					}
+				}
+
 				return (
 					<div
 						key={index}
-						className="col-md grid-cell"
+						className={classnames("col-md grid-cell", {
+							"grid-cell-complete": isComplete
+						})}
 						data-project={this.props.number}
 						data-judge={this.props.attributionInfos[period].judge}
 						data-period={period}
 						onClick={this.ChangeAttribution}
 					>
-						{isEmpty(this.props.attributionInfos[period].judge)
-							? " - "
-							: this.props.attributionInfos[period].judge}
+						{isEmpty(this.props.attributionInfos[period].judge) ? (
+							" - "
+						) : (
+							<div>
+								{this.props.attributionInfos[period].judge}{" "}
+								{isComplete && (
+									<span>
+										<i className="fas fa-check" />
+									</span>
+								)}
+							</div>
+						)}
 					</div>
 				);
 			});

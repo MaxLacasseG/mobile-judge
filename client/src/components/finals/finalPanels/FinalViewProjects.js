@@ -133,6 +133,7 @@ class FinalViewProjects extends Component {
 								attributionInfos={attributionInfos}
 								minJudges="5"
 								ShowMissingJudge={this.ShowMissingJudge}
+								results={final.results}
 							/>
 						</div>
 					</div>

@@ -143,7 +143,11 @@ class EvaluationGrid extends Component {
 		});
 	};
 
-	// TODO: BREAK IF EMPTTY
+	/**
+	 * Checks if all the criterions are filled. Stops checking if one is false
+	 * @param void
+	 * @return bool
+	 */
 	CheckIfComplete = () => {
 		let isComplete = false;
 		isComplete = Object.keys(this.state.results).every(result => {
@@ -157,7 +161,7 @@ class EvaluationGrid extends Component {
 		const judgeNumber = this.props.auth.user.number;
 		const projectNumber = this.props.project.selectedProject.number;
 		const period = this.props.location.state.period;
-		const isComplete = false;
+		const isComplete = this.state.isComplete;
 		if (
 			isEmpty(finalId) ||
 			isEmpty(judgeNumber) ||

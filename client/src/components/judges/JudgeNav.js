@@ -4,8 +4,8 @@ import { LogoutJudge } from "../../store/actions/judgeActions";
 class JudgeNav extends Component {
 	render() {
 		return (
-			<div class="row no-gutter">
-				<div class="col-4 offset-7">
+			<div className="row no-gutter">
+				<div className="col-4 offset-7">
 					<div className="btn btn-reseau mb-4" onClick={this.props.LogoutJudge}>
 						<span>
 							<i className="fas fa-lock" />
