@@ -24,12 +24,18 @@ class EvaluationGrid extends Component {
 				sections: [],
 				type: ""
 			},
-			results: {},
+			results: null,
 			isComplete: false
 		};
 	}
 	componentDidMount = () => {
 		this.props.GetProjectInfos(this.props.auth.user.finalId, this.props.match.params[0]);
+
+		if (!isEmpty(this.props.location.state.results)) {
+			this.setState({ results: this.props.location.state.results.results }, () => {
+				this.setState({ isComplete: this.CheckIfComplete() });
+			});
+		}
 	};
 
 	componentWillUnmount = () => {
@@ -53,6 +59,7 @@ class EvaluationGrid extends Component {
 			);
 		}
 	};
+	LoadGrid = () => {};
 
 	SetType = type => {
 		switch (type) {
@@ -82,8 +89,19 @@ class EvaluationGrid extends Component {
 				prefix++;
 			});
 		});
-		this.setState({ results });
+
+		if (!isEmpty(this.props.location.state.results)) {
+			for (let existingResult in this.props.location.state.results.results) {
+				results[existingResult] = this.props.location.state.results.results[existingResult];
+			}
+		}
+
+		this.setState({ results }, () => {
+			this.setState({ isComplete: this.CheckIfComplete() });
+		});
 	};
+
+	LoadExistingResults = () => {};
 
 	FormatType = (type, short = false) => {
 		let formattedType = "";
@@ -131,13 +149,17 @@ class EvaluationGrid extends Component {
 	};
 
 	OnHandleInput = criterionResult => {
+		//console.log("OnHandleInput - criterion result", criterionResult);
 		const results = this.state.results;
 
 		const grade = parseInt(criterionResult.result[Object.keys(criterionResult.result)[0]]);
 		const total = parseFloat(criterionResult.total);
-		const resultToSave = { grade, total };
 
+		//Creates an object that contains all the grades and total
+		const resultToSave = { grade, total };
 		results[Object.keys(criterionResult.result)[0]] = resultToSave;
+
+		//Save to state and color border if is complete
 		this.setState({ results }, () => {
 			this.setState({ isComplete: this.CheckIfComplete() });
 		});
@@ -153,6 +175,7 @@ class EvaluationGrid extends Component {
 		isComplete = Object.keys(this.state.results).every(result => {
 			return !isEmpty(this.state.results[result]);
 		});
+		//console.log("isGridComplete", isComplete, this.state.results);
 		return isComplete;
 	};
 
@@ -161,7 +184,8 @@ class EvaluationGrid extends Component {
 		const judgeNumber = this.props.auth.user.number;
 		const projectNumber = this.props.project.selectedProject.number;
 		const period = this.props.location.state.period;
-		const isComplete = this.state.isComplete;
+		const isComplete = this.CheckIfComplete();
+
 		if (
 			isEmpty(finalId) ||
 			isEmpty(judgeNumber) ||
@@ -169,7 +193,7 @@ class EvaluationGrid extends Component {
 			isEmpty(period) ||
 			isEmpty(this.state.results)
 		) {
-			console.log("ERROR SAVE RESULTS | Unable to save result. Undefined element");
+			//console.log("ERROR SAVE RESULTS | Unable to save result. Undefined element");
 			return false;
 		}
 		this.props.SaveResult(
@@ -191,6 +215,7 @@ class EvaluationGrid extends Component {
 					section={section}
 					key={index}
 					isComplete={this.state.isComplete}
+					results={this.state.results}
 					OnHandleInput={this.OnHandleInput}
 				/>
 			);

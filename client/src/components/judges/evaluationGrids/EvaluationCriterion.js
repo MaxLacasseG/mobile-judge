@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import EvaluationButtonGroup from "./EvaluationButtonGroup";
 import classnames from "classnames";
+import isEmpty from "../../../validation/isEmpty";
 export default class EvaluationCriterion extends Component {
 	constructor(props) {
 		super(props);
@@ -8,6 +9,18 @@ export default class EvaluationCriterion extends Component {
 			completed: false
 		};
 	}
+
+	componentDidMount = () => {
+		for (let criterion of this.props.subsection.criterions) {
+			if (!isEmpty(this.props.results)) {
+				if (!isEmpty(this.props.results[criterion.id])) {
+					this.setState({
+						[criterion.id]: this.props.results[criterion.id].grade.toString()
+					});
+				}
+			}
+		}
+	};
 
 	OnCompleteCriterion = criterionResult => {
 		/* console.log(
@@ -22,6 +35,8 @@ export default class EvaluationCriterion extends Component {
 				criterionResult.result[Object.keys(criterionResult.result)[0]]
 		});
 	};
+
+	CheckIfCompleted = () => {};
 
 	render() {
 		const subsection = this.props.subsection;
@@ -61,6 +76,7 @@ export default class EvaluationCriterion extends Component {
 							name={criterion.name}
 							id={criterion.id}
 							percentage={criterion.percentage}
+							results={this.props.results}
 							OnCompleteCriterion={this.OnCompleteCriterion}
 						/>
 					</div>

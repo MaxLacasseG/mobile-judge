@@ -1,17 +1,36 @@
 import React, { Component, Fragment } from "react";
+import isEmpty from "../../../validation/isEmpty";
 
 export default class EvaluationButtonGroup extends Component {
+	componentDidMount = () => {
+		if (!isEmpty(this.props.results)) {
+			if (!isEmpty(this.props.results[this.props.id])) {
+				const grade = this.props.results[this.props.id].grade;
+				const input = document.querySelector(
+					`input.grid-button[name="${this.props.id}"][value="${grade}"]`
+				);
+				input.value = grade;
+				this.ActivateRadio(input.parentNode);
+			}
+		}
+	};
+
 	CalcPercentage = (value, percentage) => {
 		return (value * percentage) / 10;
 	};
 
 	OnHandleRadio = e => {
 		this.ClearRadio(e.target.name);
-		e.target.parentNode.classList.add("active");
+		this.ActivateRadio(e.target.parentNode);
 		const total = this.CalcPercentage(e.target.value, this.props.percentage);
 
 		this.props.OnCompleteCriterion({ result: { [e.target.name]: e.target.value }, total });
 	};
+
+	ActivateRadio = elem => {
+		elem.classList.add("active");
+	};
+
 	ClearRadio = id => {
 		document.querySelectorAll(`.grid-button-label[data-value='${id}']`).forEach(elem => {
 			elem.classList.remove("active");

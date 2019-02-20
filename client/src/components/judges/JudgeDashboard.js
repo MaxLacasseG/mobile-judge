@@ -25,16 +25,35 @@ class JudgeDashboard extends Component {
 		if (isEmpty(results)) return false;
 		if (!isEmpty(results[projectNumber])) {
 			if (!isEmpty(results[projectNumber][judgeNumber])) {
-				console.log(results[projectNumber][judgeNumber]);
+				//console.log(results[projectNumber][judgeNumber]);
 				isComplete = results[projectNumber][judgeNumber].isComplete;
 			}
 		}
-		console.log(isComplete);
+		//console.log("isComplete",isComplete);
 		return isComplete;
+	};
+
+	CheckExistingResult = (projectNumber, judgeNumber, results) => {
+		//console.log(results);
+		if (isEmpty(results)) return false;
+		if (isEmpty(results[projectNumber])) return false;
+		if (isEmpty(results[projectNumber][judgeNumber])) return false;
+
+		if (results[projectNumber][judgeNumber].hasOwnProperty("results")) {
+			return true;
+		}
+
+		return false;
+	};
+
+	ImportResults = (projectNumber, judgeNumber, results) => {
+		return results[projectNumber][judgeNumber];
 	};
 
 	render() {
 		const projects = this.props.project.projectsList;
+		const results = this.props.final.selectedFinal.results;
+
 		const projectList =
 			projects &&
 			Object.keys(projects).map(key => {
@@ -67,7 +86,22 @@ class JudgeDashboard extends Component {
 							<Link
 								to={{
 									pathname: `/projet/${projects[key].project}`,
-									state: { period: projects[key].period }
+									state: {
+										period: projects[key].period,
+										projectNumber: projects[key].project,
+										judgeNumber: this.props.auth.user.number,
+										results: this.CheckExistingResult(
+											projects[key].project,
+											this.props.auth.user.number,
+											results
+										)
+											? this.ImportResults(
+													projects[key].project,
+													this.props.auth.user.number,
+													results
+											  )
+											: {}
+									}
 								}}
 							>
 								{linkText}{" "}

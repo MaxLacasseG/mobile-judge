@@ -9,8 +9,9 @@ export default class EvaluationSection extends Component {
 				<Criterions
 					subsection={subsection}
 					key={index}
-					OnHandleInput={this.props.OnHandleInput}
 					isComplete={this.props.isComplete}
+					results={this.props.results}
+					OnHandleInput={this.props.OnHandleInput}
 				/>
 			);
 		});

@@ -6,6 +6,7 @@ const isEmpty = require("../utils/isEmpty");
 
 const JudgeController = require("../controllers/Judge");
 const FinalController = require("../controllers/Final");
+const ProjectController = require("../controllers/Project");
 
 //Ajouter les juges non inscrit dans SGI
 
@@ -77,7 +78,9 @@ router.get("/projects", (req, res) => {
 		.select("-judges -adminId")
 		.then(final => {
 			if (isEmpty(final[0])) throw { success: false, msg: "Aucune finale trouvée" };
+			//Return pairing list by judge
 			const projectList = final[0].pairing.pairingByJudges[req.query.judgeNumber];
+
 			return projectList;
 		})
 		.then(resultat => {
