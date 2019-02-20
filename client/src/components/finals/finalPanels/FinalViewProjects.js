@@ -16,6 +16,7 @@ class FinalViewProjects extends Component {
 		this.props.SelectFinalById(this.props.match.params[0]);
 		this.props.SelectProjectsByFinalId(this.props.match.params[0]);
 	};
+
 	FormatType = (type, short = false) => {
 		let formattedType = "";
 		switch (type) {
@@ -67,7 +68,7 @@ class FinalViewProjects extends Component {
 			cols.push(
 				<div key={i} className="col-md grid-cell-header">
 					{" "}
-					Période {i + 1}
+					Période {String.fromCharCode(65 + i)}
 				</div>
 			);
 		}

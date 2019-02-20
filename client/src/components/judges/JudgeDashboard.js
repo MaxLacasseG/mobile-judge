@@ -79,7 +79,9 @@ class JudgeDashboard extends Component {
 						<div className="col-md-1">{linkIcon}</div>
 						<div className="col-md-2">
 							<span className="">
-								<strong>Période {projects[key].period}</strong>
+								<strong>
+									Période {String.fromCharCode(64 + projects[key].period)}
+								</strong>
 							</span>
 						</div>
 						<div className="col">

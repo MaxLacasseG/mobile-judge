@@ -2,15 +2,7 @@
 import { CREATE_FINAL, GET_ALL_FINALS, CLEAR_FINAL, SELECT_FINAL } from "../actions/types";
 
 const initialState = {
-	selectedFinal: {
-		isActive: false,
-		isOpen: false,
-		nom: "",
-		region: "",
-		responsable: {},
-		listeProjets: [],
-		listeJuges: []
-	},
+	selectedFinal: {},
 	finalList: []
 };
 

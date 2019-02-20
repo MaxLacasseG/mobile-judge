@@ -7,7 +7,8 @@ import {
 	SELECT_FINAL,
 	SAVE_FINAL_PAIRING,
 	DELETE_FINAL,
-	SAVE_RESULT
+	SAVE_RESULT,
+	CLEAR_FINAL
 } from "./types";
 import axios from "axios";
 
@@ -183,4 +184,10 @@ export const SaveResult = (
 			});
 			dispatch({ type: GET_ERRORS, payload: err.response.data });
 		});
+};
+
+export const ClearSelectedFinal = () => dispatch => {
+	dispatch({
+		type: CLEAR_FINAL
+	});
 };

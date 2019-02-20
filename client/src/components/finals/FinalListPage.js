@@ -5,10 +5,12 @@ import FinalList from "./FinalList";
 import FinalJSONImport from "./finalImportation/FinalJSONImport";
 import { ClearJudgesList } from "../../store/actions/judgeActions";
 import { ClearProjectsList } from "../../store/actions/projectActions";
+import { ClearSelectedFinal } from "../../store/actions/finalActions";
 class AdminListPage extends Component {
 	componentDidMount = () => {
 		this.props.ClearJudgesList();
 		this.props.ClearProjectsList();
+		this.props.ClearSelectedFinal();
 	};
 
 	render() {
@@ -32,5 +34,5 @@ class AdminListPage extends Component {
 
 export default connect(
 	null,
-	{ ClearJudgesList, ClearProjectsList }
+	{ ClearJudgesList, ClearProjectsList, ClearSelectedFinal }
 )(AdminListPage);

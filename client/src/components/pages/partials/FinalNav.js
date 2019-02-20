@@ -16,30 +16,43 @@ class FinalNav extends Component {
 		const { isAuthenticated } = this.props.auth;
 
 		const AdminMenu = (
-			<ul className="nav nav-bar justify-content-around align-items-center px-5 py-3">
-				<Link to="/admin/panneau-controle" className="px-3 icon-button">
-					<strong>
-						<i className="fas fa-reply-all" /> Retour
-					</strong>
-				</Link>
-				<Link
-					to={`/admin/finale/${this.props.id}/vue-projets`}
-					className="px-3 icon-button"
-				>
-					<i className="fas fa-user-friends " /> Vue par projets
-				</Link>
-				<Link to={`/admin/finale/${this.props.id}/vue-juges`} className="px-3 icon-button">
-					<i className="fas fa-clipboard-list" /> Vue par juges
-				</Link>
-				<Link
-					to={`/admin/finale/${this.props.id}/vue-periodes`}
-					className="px-3 icon-button"
-				>
-					<i className="fas fa-stopwatch" /> Vue par périodes de jugement
-				</Link>
-				<Link to={`/admin/finale/${this.props.id}/infos`} className="px-3 icon-button">
-					<i className="fas fa-cogs" /> Modifier les infos de la finale
-				</Link>
+			<ul className="nav nav-bar justify-content-around align-items-center px-5 py-3 row">
+				<div className="col-md-6 d-flex justify-content-around align-items-center">
+					<Link to="/admin/panneau-controle" className="px-3 icon-button">
+						<strong>
+							<i className="fas fa-reply-all" /> Retour
+						</strong>
+					</Link>
+					<Link to={`/admin/finale/${this.props.id}/infos`} className="px-3 icon-button">
+						<i className="fas fa-cogs" /> Informations
+					</Link>
+					<Link
+						to={`/admin/finale/${this.props.id}/vue-projets`}
+						className="px-3 icon-button"
+					>
+						<i className="fas fa-user-friends " /> Vue par projets
+					</Link>
+				</div>
+				<div className="col-md-6 d-flex justify-content-around align-items-center">
+					<Link
+						to={`/admin/finale/${this.props.id}/vue-juges`}
+						className="px-3 icon-button"
+					>
+						<i className="fas fa-clipboard-list" /> Vue par juges
+					</Link>
+					<Link
+						to={`/admin/finale/${this.props.id}/vue-periodes`}
+						className="px-3 icon-button"
+					>
+						<i className="fas fa-stopwatch" /> Vue par périodes de jugement
+					</Link>
+					<Link
+						to={`/admin/finale/${this.props.id}/vue-juges`}
+						className="px-3 icon-button"
+					>
+						<i className="fas fa-clipboard-list" /> Exportation
+					</Link>
+				</div>
 			</ul>
 		);
 		return (

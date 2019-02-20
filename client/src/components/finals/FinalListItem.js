@@ -56,7 +56,7 @@ class FinalListItem extends Component {
 						)}
 					</button>
 
-					<Link to={`/admin/finale/${_id}/vue-projets`} className="icon-button">
+					<Link to={`/admin/finale/${_id}/infos`} className="icon-button">
 						<i className="fas fa-2x fa-sign-out-alt" />
 					</Link>
 				</div>
