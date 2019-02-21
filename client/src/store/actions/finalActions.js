@@ -156,6 +156,7 @@ export const SaveResult = (
 	projectNumber,
 	period,
 	results,
+	total,
 	isComplete,
 	history
 ) => dispatch => {
@@ -166,6 +167,7 @@ export const SaveResult = (
 			projectNumber,
 			period,
 			results,
+			total,
 			isComplete
 		})
 		.then(response => {

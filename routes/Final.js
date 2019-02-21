@@ -121,7 +121,8 @@ router.post("/save-result", (req, res) => {
 			results[req.body.projectNumber][req.body.judgeNumber] = {
 				period: req.body.period,
 				results: req.body.results,
-				isComplete: req.body.isComplete
+				isComplete: req.body.isComplete,
+				total: req.body.total
 			};
 
 			final.results = results;

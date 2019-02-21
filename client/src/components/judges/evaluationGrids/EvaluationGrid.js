@@ -59,7 +59,6 @@ class EvaluationGrid extends Component {
 			);
 		}
 	};
-	LoadGrid = () => {};
 
 	SetType = type => {
 		switch (type) {
@@ -179,29 +178,43 @@ class EvaluationGrid extends Component {
 		return isComplete;
 	};
 
+	CalculateTotal = () => {
+		const results = this.state.results;
+		let endTotal = 0;
+		for (let criterion in results) {
+			console.log(criterion, results[criterion].total);
+			endTotal += results[criterion].total;
+		}
+		return endTotal;
+	};
+
 	SaveResults = () => {
 		const finalId = this.props.auth.user.finalId;
 		const judgeNumber = this.props.auth.user.number;
 		const projectNumber = this.props.project.selectedProject.number;
 		const period = this.props.location.state.period;
 		const isComplete = this.CheckIfComplete();
-
+		const results = this.state.results;
 		if (
 			isEmpty(finalId) ||
 			isEmpty(judgeNumber) ||
 			isEmpty(projectNumber) ||
 			isEmpty(period) ||
-			isEmpty(this.state.results)
+			isEmpty(results)
 		) {
 			//console.log("ERROR SAVE RESULTS | Unable to save result. Undefined element");
 			return false;
 		}
+
+		const total = this.CalculateTotal();
+
 		this.props.SaveResult(
 			finalId,
 			judgeNumber,
 			projectNumber,
 			period,
-			this.state.results,
+			results,
+			total,
 			isComplete,
 			this.props.history
 		);

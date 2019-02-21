@@ -16,8 +16,8 @@ class FinalViewExportation extends Component {
 
 	CalculateResults = results => {
 		for (let project in results) {
-			//console.log(results[project]);
-			this.CalculateProjectResults(project, results[project]);
+			//this.CalculateProjectResults(project, results[project][judge]);
+			console.log(project, results[project]);
 		}
 	};
 
@@ -95,7 +95,6 @@ class FinalViewExportation extends Component {
 
 	SortByRanking = (results, ranking) => {
 		const sortedResults = ranking.map(rank => {
-			console.log(results, rank);
 			return { [rank]: results[rank] };
 		});
 
@@ -168,48 +167,17 @@ class FinalViewExportation extends Component {
 		const id = this.props.match.params[0];
 		const final = this.props.final.selectedFinal;
 
-		const arrayTest = {
-			1: {
-				1: { total: 50 },
-				3: { total: 70 },
-				6: { total: 40 },
-				7: { total: 30 },
-				8: { total: 20 },
-				9: { total: 100 }
-			},
-			2: {
-				1: { total: 24 },
-				3: { total: 23 },
-				6: { total: 20 },
-				7: { total: 15 },
-				8: { total: 0 },
-				9: { total: 100 }
-			},
-			3: {
-				1: { total: 67.323 },
-				3: { total: 45.323 },
-				6: { total: 78.323 },
-				7: { total: 36.323 },
-				8: { total: 97.323 },
-				9: { total: 89.323 }
-			},
-			4: {
-				1: { total: 67.1111 },
-				3: { total: 45.1111 },
-				6: { total: 78.1111 },
-				7: { total: 36.1111 },
-				8: { total: 97.1111 },
-				9: { total: 89.1111 }
-			},
-			5: {
-				1: { total: 67.999 },
-				3: { total: 45.999 },
-				6: { total: 78.999 },
-				7: { total: 36.999 },
-				8: { total: 97.999 },
-				9: { total: 89.999 }
-			}
-		};
+		const results = isEmpty(this.props.final.selectedFinal.results)
+			? []
+			: this.props.final.selectedFinal.results;
+
+		const resultList = this.state.sortedResults.map(result => {
+			return (
+				<div>
+					<div>1</div>
+				</div>
+			);
+		});
 
 		return (
 			<Fragment>
@@ -222,7 +190,7 @@ class FinalViewExportation extends Component {
 								type="button"
 								className="btn btn-reseau"
 								onClick={() => {
-									this.CalculateResults(arrayTest);
+									this.CalculateResults(results);
 								}}
 							>
 								Calculer note finale
