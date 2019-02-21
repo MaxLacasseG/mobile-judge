@@ -47,7 +47,7 @@ class FinalNav extends Component {
 						<i className="fas fa-stopwatch" /> Vue par périodes de jugement
 					</Link>
 					<Link
-						to={`/admin/finale/${this.props.id}/vue-juges`}
+						to={`/admin/finale/${this.props.id}/exportation`}
 						className="px-3 icon-button"
 					>
 						<i className="fas fa-clipboard-list" /> Exportation

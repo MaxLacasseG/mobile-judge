@@ -22,6 +22,7 @@ import FinalViewInfos from "./components/finals/finalPanels/FinalViewInfos";
 import FinalViewJudges from "./components/finals/finalPanels/FinalViewJudges";
 import FinalViewPeriods from "./components/finals/finalPanels/FinalViewPeriods";
 import FinalViewProjects from "./components/finals/finalPanels/FinalViewProjects";
+import FinalViewExportation from "./components/finals/finalPanels/FinalViewExportation";
 
 //ADMIN COMPONENTS
 import AdminLogin from "./components/admin/auth/AdminLoginForm";
@@ -92,6 +93,11 @@ class App extends Component {
 								exact
 								path="/admin/finale/*/infos"
 								component={FinalViewInfos}
+							/>
+							<AdminRoute
+								exact
+								path="/admin/finale/*/exportation"
+								component={FinalViewExportation}
 							/>
 							<SuperAdminRoute
 								exact

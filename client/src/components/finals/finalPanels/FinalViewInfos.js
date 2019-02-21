@@ -37,9 +37,11 @@ class FinalViewInfos extends Component {
 
 	render() {
 		const id = this.props.match.params[0];
+		const final = this.props.final.selectedFinal;
+
 		return (
 			<Fragment>
-				<FinalNav pageTitle="Finale - Infos" id={id} />
+				<FinalNav pageTitle="Finale - Infos" id={id} finalName={final.longName} />
 				<div className="container ">
 					<div className="row">
 						<div className="mx-auto">
