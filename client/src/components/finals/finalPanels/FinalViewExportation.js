@@ -21,21 +21,33 @@ class FinalViewExportation extends Component {
 	};
 
 	CalculateResults = results => {
+		//console.log(results);
 		for (let project in results) {
 			this.CalculateProjectResults(project, results[project]);
 		}
 	};
 
 	CalculateProjectResults = (projectNumber, projectResults) => {
-		console.log("final results", projectNumber, projectResults);
-		const resultArray = Object.keys(projectResults).map(key => {
-			return projectResults[key].total;
-		});
+		//console.log("final results", projectNumber, projectResults);
 
+		//Checks all the results total for a project
+		const resultArray = Object.keys(projectResults)
+			.filter(key => {
+				return (
+					projectResults[key].total !== undefined && projectResults[key].total !== null
+				);
+			})
+			.map(key => {
+				return projectResults[key].total;
+			});
+		if (isEmpty(resultArray)) return false;
+
+		//Initialize result state
 		const results = this.state.results;
 		if (isEmpty(results[projectNumber])) {
 			results[projectNumber] = {};
 		}
+		//Saves individual results in results state
 		results[projectNumber].individualResults = projectResults;
 
 		//Calc average
@@ -44,6 +56,7 @@ class FinalViewExportation extends Component {
 		//Calc trimmed average
 		results[projectNumber].finalTrimmedAvgResults = this.CalcTrimmedAvg(resultArray);
 
+		//Saves to state and sort by default
 		this.setState({ results }, () => {
 			this.SortProjectByDefault();
 		});
@@ -54,6 +67,7 @@ class FinalViewExportation extends Component {
 	 * @return float
 	 */
 	CalcAvg = valueArray => {
+		//console.log("error check", valueArray);
 		return valueArray.reduce((total, result, index, array) => {
 			total += result;
 			if (index === array.length - 1) {
@@ -70,6 +84,10 @@ class FinalViewExportation extends Component {
 	 * @return float
 	 */
 	CalcTrimmedAvg = valueArray => {
+		if (valueArray.length < 5) {
+			window.alert("Pas assez de juges pour calculer la moyenne intermédiaire");
+			return;
+		}
 		let array = valueArray;
 		array = this.RemoveHighestJudge(array);
 		array = this.RemoveLowestJudge(array);
@@ -213,6 +231,33 @@ class FinalViewExportation extends Component {
 		});
 	};
 
+	//==============================
+	// EXPORTATION SECTION
+	MakeCSVFile = e => {
+		const data = this.state.sortedResults;
+		if (isEmpty(data)) return;
+
+		let csv = "";
+		const headers = "Rang;NoProjet;Note;Note Inter\n";
+		csv += headers;
+		data.map((row, index) => {
+			csv += `${index + 1};`;
+			for (let key in row) {
+				csv += `${key};`;
+				csv += `${row[key].finalTrimmedAvgResults};`;
+				csv += `${row[key].finalTrimmedAvgResults}\n`;
+			}
+		});
+
+		let csvToDownload = document.createElement("a");
+		csvToDownload.style.display = "none";
+		csvToDownload.href = "data:text/csv;charset=utf-8," + encodeURI(csv);
+		csvToDownload.target = "_blank";
+		csvToDownload.download = `DonneeClassement-1.csv`;
+		document.getElementById("linkContainer").appendChild(csvToDownload);
+		csvToDownload.click();
+	};
+
 	render() {
 		const id = this.props.match.params[0];
 		const final = this.props.final.selectedFinal;
@@ -235,7 +280,15 @@ class FinalViewExportation extends Component {
 				<div className="col-12 row ranking-row my-2 py-3" key={index}>
 					<div className="col-1 text-center">{index + 1}</div>
 					<div className="col-3 text-center">{number}</div>
-					<div className="col-6 text-center">{trimmedavg.toFixed(6)}</div>
+					<div className="col-6 text-center">
+						{trimmedavg === undefined ? (
+							<span>
+								<i className="fas fa-exclamation-triangle" /> Pas assez de jugements
+							</span>
+						) : (
+							trimmedavg.toFixed(6)
+						)}
+					</div>
 				</div>
 			);
 		});
@@ -243,6 +296,7 @@ class FinalViewExportation extends Component {
 		return (
 			<Fragment>
 				<FinalNav pageTitle="Finale - Exportation" id={id} finalName={final.longName} />
+				<div id="linkContainer" />
 				<div className="container">
 					<div className="row">
 						<div className="mx-auto text-center">
@@ -259,6 +313,19 @@ class FinalViewExportation extends Component {
 								>
 									<span className="text-uppercase font-weight-bold">
 										Calculer le classement
+									</span>
+								</button>
+							</div>
+						</div>
+						<div className="row my-3 col-12">
+							<div className="col-6 mx-auto text-center">
+								<button
+									type="button"
+									className="btn btn-reseau btn-lg btn-block p-3"
+									onClick={this.MakeCSVFile}
+								>
+									<span className="text-uppercase font-weight-bold">
+										Exporter en CSV
 									</span>
 								</button>
 							</div>

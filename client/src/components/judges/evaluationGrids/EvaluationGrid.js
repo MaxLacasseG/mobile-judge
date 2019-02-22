@@ -182,7 +182,7 @@ class EvaluationGrid extends Component {
 		const results = this.state.results;
 		let endTotal = 0;
 		for (let criterion in results) {
-			console.log(criterion, results[criterion].total);
+			if (isEmpty(results[criterion].total)) continue;
 			endTotal += results[criterion].total;
 		}
 		return endTotal;
