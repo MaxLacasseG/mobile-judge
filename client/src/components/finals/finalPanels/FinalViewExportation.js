@@ -287,9 +287,9 @@ class FinalViewExportation extends Component {
 
 			return (
 				<div className="col-12 row ranking-row my-2 py-3" key={index}>
-					<div className="col-1 text-center">{index + 1}</div>
-					<div className="col-3 text-center">{number}</div>
-					<div className="col-6 text-center">
+					<div className="col-4 text-center">{index + 1}</div>
+					<div className="col-4 text-center">{number}</div>
+					<div className="col-4 text-center">
 						{trimmedavg === undefined ? (
 							<span>
 								<i className="fas fa-exclamation-triangle" /> Pas assez de jugements
@@ -307,12 +307,12 @@ class FinalViewExportation extends Component {
 				<FinalNav pageTitle="Finale - Exportation" id={id} finalName={final.longName} />
 				<div id="linkContainer" />
 				<div className="container">
-					<div className="row">
+					<div className="row w-50 mx-auto mt-5">
 						<div className="mx-auto text-center">
 							<h1>Exporter vos données</h1>
 						</div>
 						<div className="row my-3 col-12">
-							<div className="col-6 mx-auto text-center">
+							<div className="mx-auto text-center">
 								<button
 									type="button"
 									className="btn btn-reseau btn-lg btn-block p-3"
@@ -326,11 +326,11 @@ class FinalViewExportation extends Component {
 								</button>
 							</div>
 						</div>
-						<div className="row my-3 col-12">
-							<div className="col-6 mx-auto text-center">
+						<div className="row my-3 col-12 border-bottom pb-4">
+							<div className="mx-auto text-center">
 								<button
 									type="button"
-									className="btn btn-reseau btn-lg btn-block p-3"
+									className="btn btn-reseau btn-success btn-block p-3"
 									onClick={this.MakeCSVFile}
 								>
 									<span className="text-uppercase font-weight-bold">
@@ -363,12 +363,12 @@ class FinalViewExportation extends Component {
 							</div>
 						</div>
 					</div>
-					<div className="row">
-						<div className="col-1 text-center">Ordre</div>
-						<div className="col-3 text-center">Numéro de projet</div>
-						<div className="col-6 text-center">Résultat</div>
+					<div className="row w-50 mx-auto">
+						<div className="col-4 text-center">Ordre</div>
+						<div className="col-4 text-center">Numéro de projet</div>
+						<div className="col-4 text-center">Résultat</div>
 					</div>
-					<div className="row mb-5">{list}</div>
+					<div className="row w-50 mx-auto mb-5">{list}</div>
 				</div>
 			</Fragment>
 		);

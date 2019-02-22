@@ -59,6 +59,17 @@ router.get("/id", (req, res) => {
 		});
 });
 
+router.get("/final-id", (req, res) => {
+	JudgeController.Find({ finalId: req.query.finalId })
+		.then(resultat => {
+			if (isEmpty(resultat)) throw { success: false, msg: "Aucun juge trouvé" };
+			res.status(200).json(resultat);
+		})
+		.catch(err => {
+			res.status(400).json(err);
+		});
+});
+
 router.get("/pwd", (req, res) => {
 	JudgeController.Find({ finalId: req.query.finalId })
 		.select("+pwd +username")
@@ -98,7 +109,7 @@ router.post("/create", (req, res) => {
 			return res.status(200).json(result);
 		})
 		.catch(err => {
-			console.log(err);
+			logger.log(err);
 			return res.status(400).json(err);
 		});
 });

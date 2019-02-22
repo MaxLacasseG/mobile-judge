@@ -31,6 +31,7 @@ export const GET_JUDGE = "GET_JUDGE";
 export const GET_ALL_JUDGES = "GET_ALL_JUDGES";
 export const GET_JUDGES_PWD = "GET_JUDGES_PWD";
 export const GET_JUDGE_PROJECTS = "GET_JUDGE_PROJECTS";
+export const GET_JUDGES_LIST = "GET_JUDGES_LIST";
 export const CLEAR_JUDGES_LIST = "CLEAR_JUDGES_LIST";
 export const CREATE_JUDGE = "CREATE_JUDGE";
 export const UPDATE_JUDGE = "UPDATE_JUDGE";

@@ -145,6 +145,10 @@ a {
     &.grid-cell-complete {
         background-color: lighten($color-accent2, 20%);
     }
+    &:hover {
+        background-color: lighten($color-accent3, 20%);
+        cursor: pointer;
+    }
 }
 
 .missing-judge {

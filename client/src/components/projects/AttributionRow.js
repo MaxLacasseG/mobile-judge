@@ -9,7 +9,7 @@ import classnames from "classnames";
 
 class AttributionRow extends Component {
 	componentDidMount = () => {
-		if (!this.CheckJudgeAmount()) this.props.ShowMissingJudge(this.props.number);
+		//if (!this.CheckJudgeAmount()) this.props.ShowMissingJudge(this.props.number);
 	};
 
 	CheckJudgeAmount = () => {
@@ -26,7 +26,11 @@ class AttributionRow extends Component {
 	};
 
 	ChangeAttribution = e => {
-		console.log(e.target.dataset.project, e.target.dataset.judge, e.target.dataset.period);
+		console.log(
+			e.currentTarget.dataset.project,
+			e.currentTarget.dataset.judge,
+			e.currentTarget.dataset.period
+		);
 	};
 
 	render() {
@@ -68,7 +72,7 @@ class AttributionRow extends Component {
 							" - "
 						) : (
 							<div>
-								{this.props.attributionInfos[period].judge}{" "}
+								Juge {this.props.attributionInfos[period].judge}{" "}
 								{isComplete && (
 									<span>
 										<i className="fas fa-check" />
