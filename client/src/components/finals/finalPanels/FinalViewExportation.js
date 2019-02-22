@@ -11,7 +11,8 @@ class FinalViewExportation extends Component {
 		super(props);
 		this.state = {
 			results: {},
-			sortedResults: []
+			sortedResults: [],
+			exportList: []
 		};
 	}
 
@@ -125,7 +126,7 @@ class FinalViewExportation extends Component {
 			return { [rank]: results[rank] };
 		});
 
-		this.setState({ sortedResults });
+		return sortedResults;
 	};
 
 	SortProjectByDefault = () => {
@@ -143,7 +144,10 @@ class FinalViewExportation extends Component {
 		defaultBtn.classList.add("sort-active");
 		this.FlipIconDirection(defaultBtn);
 
-		this.SortByRanking(results, ranking);
+		this.setState({
+			sortedResults: this.SortByRanking(results, ranking),
+			exportList: this.SortByRanking(results, ranking)
+		});
 	};
 
 	SortProjectByProjectNumber = e => {
@@ -167,7 +171,7 @@ class FinalViewExportation extends Component {
 		e.target.dataset.direction = direction * -1;
 		e.target.classList.add("sort-active");
 		this.FlipIconDirection(e.target);
-		this.SortByRanking(results, ranking);
+		this.setState({ sortedResults: this.SortByRanking(results, ranking) });
 	};
 
 	SortProjectByAvg = e => {
@@ -190,7 +194,7 @@ class FinalViewExportation extends Component {
 		e.target.dataset.direction = direction * -1;
 		e.target.classList.add("sort-active");
 		this.FlipIconDirection(e.target);
-		this.SortByRanking(results, ranking);
+		this.setState({ sortedResults: this.SortByRanking(results, ranking) });
 	};
 
 	SortProjectByTrimmedAvg = e => {
@@ -213,7 +217,7 @@ class FinalViewExportation extends Component {
 		e.target.dataset.direction = direction * -1;
 		e.target.classList.add("sort-active");
 		this.FlipIconDirection(e.target);
-		this.SortByRanking(results, ranking);
+		this.setState({ sortedResults: this.SortByRanking(results, ranking) });
 	};
 
 	FlipIconDirection = elem => {
@@ -233,10 +237,12 @@ class FinalViewExportation extends Component {
 
 	//==============================
 	// EXPORTATION SECTION
-	MakeCSVFile = e => {
-		const data = this.state.sortedResults;
+	MakeCSVFile = () => {
+		const data = this.state.exportList;
 		if (isEmpty(data)) return;
 
+		//CREATE FILE
+		//For each result in sortedResults
 		let csv = "";
 		const headers = "Rang;NoProjet;Note;Note Inter\n";
 		csv += headers;
@@ -249,11 +255,14 @@ class FinalViewExportation extends Component {
 			}
 		});
 
+		//FORMAT FILE
 		let csvToDownload = document.createElement("a");
 		csvToDownload.style.display = "none";
 		csvToDownload.href = "data:text/csv;charset=utf-8," + encodeURI(csv);
 		csvToDownload.target = "_blank";
 		csvToDownload.download = `DonneeClassement-1.csv`;
+
+		//DOWNLOAD FILE
 		document.getElementById("linkContainer").appendChild(csvToDownload);
 		csvToDownload.click();
 	};
@@ -312,7 +321,7 @@ class FinalViewExportation extends Component {
 									}}
 								>
 									<span className="text-uppercase font-weight-bold">
-										Calculer le classement
+										Mettre à jour le classement
 									</span>
 								</button>
 							</div>
