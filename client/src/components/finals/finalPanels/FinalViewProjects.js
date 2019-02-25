@@ -31,7 +31,6 @@ class FinalViewProjects extends Component {
         for (let tippy of tippyInstances) {
             let project = tippy.reference.attributes["data-project"] && tippy.reference.attributes["data-project"].value;
             let judge = tippy.reference.attributes["data-judge"] && tippy.reference.attributes["data-judge"].value;
-            let period = tippy.reference.attributes["data-period"] && tippy.reference.attributes["data-period"].value;
 
             let results = this.props.final.selectedFinal.results[project] && this.props.final.selectedFinal.results[project][judge];
 
@@ -43,6 +42,7 @@ class FinalViewProjects extends Component {
                 text = "<div>";
                 Object.keys(results.results).map(key => {
                     text += `${key} ${results.results[key].grade}<br/>`;
+                    return true;
                 });
                 text += `total ${results.total.toFixed(4)}`;
                 text += "</div>";
