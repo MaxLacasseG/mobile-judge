@@ -34,6 +34,16 @@ app.use("/api/judge", judgeRoutes);
 app.use("/api/project", projectRoutes);
 app.use("/api/final", finalRoutes);
 
+// Server static assets if in production
+if (process.env.NODE_ENV === "production") {
+	// Set static folder
+	app.use(express.static("client/build"));
+
+	app.get("*", (req, res) => {
+		res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+	});
+}
+
 app.listen(port, err => {
 	if (err) logger.log(err);
 	logger.trace(`listening on ${port}`);
