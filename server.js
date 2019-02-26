@@ -6,7 +6,12 @@ const passport = require("passport");
 const logger = require("tracer").colorConsole();
 const mongoose = require("mongoose");
 const morgan = require("morgan");
-const db = require("./config/keys").mongoURI;
+const envResult = require("dotenv").config();
+
+if (envResult.error) {
+	logger.warn({ type: "env", error: envResult.error });
+}
+const db = process.env.MONGO_URI;
 
 //REQUIRE ROUTES
 const adminRoutes = require("./routes/Admin");
