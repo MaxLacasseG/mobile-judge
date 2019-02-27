@@ -82,7 +82,7 @@ controller.Login = credentials => {
 			};
 
 			//Create the token, expires after 1 hour
-			const token = JWT.sign(payload, keys.secretOrKey, {
+			const token = JWT.sign(payload, process.env.SECRETORKEY, {
 				expiresIn: 10800
 			});
 
