@@ -44,7 +44,7 @@ router.get("/admin-id", (req, res) => {
 	logger.trace(req.query.adminId);
 	FinalController.Find({ adminId: req.query.adminId })
 		.then(resultat => {
-			//if (isEmpty(resultat)) throw { success: false, msg: "Aucune finale trouvée" };
+			if (isEmpty(resultat)) throw { success: false, msg: "Aucune finale trouvée" };
 			res.status(200).json(resultat);
 		})
 		.catch(err => {
@@ -55,7 +55,7 @@ router.get("/admin-id", (req, res) => {
 router.get("/active", (req, res) => {
 	FinalController.rechercher({ isActive: true })
 		.then(resultat => {
-			//if (isEmpty(resultat)) throw { success: false, msg: "Aucune finale trouvée" };
+			if (isEmpty(resultat)) throw { success: false, msg: "Aucune finale trouvée" };
 			res.status(200).json(resultat);
 		})
 		.catch(err => {
