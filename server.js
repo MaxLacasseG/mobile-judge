@@ -49,7 +49,7 @@ if (process.env.NODE_ENV === "production") {
 	});
 }
 
-app.listen(port, err => {
+app.listen(port, "0.0.0.0", err => {
 	if (err) logger.log(err);
 	logger.trace(`listening on ${port}`);
 });
