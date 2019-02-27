@@ -25,6 +25,10 @@ class JudgeLogin extends Component {
 		this.setState({ [e.target.name]: e.target.value });
 	};
 
+	OnChangeLower = e => {
+		this.setState({ [e.target.name]: e.target.value.toLowerCase() });
+	};
+
 	OnSelect = e => {
 		this.setState({ [e.target.name]: e.target.selectedOptions[0].dataset.id });
 	};
@@ -113,7 +117,7 @@ class JudgeLogin extends Component {
 										id="username"
 										placeholder="Courriel"
 										value={this.state.username}
-										onChange={this.OnChange}
+										onChange={this.OnChangeLower}
 									/>
 								</div>
 
