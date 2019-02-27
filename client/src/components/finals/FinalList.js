@@ -12,9 +12,7 @@ import {
  */
 class FinalsList extends Component {
 	componentDidMount = () => {
-		this.props.auth.user.isAdmin
-			? this.props.GetAllFinals()
-			: this.props.GetFinalsFromUser(this.props.auth.user.id);
+		this.props.GetAllFinals(this.props.auth.user.id, this.props.auth.user.isAdmin);
 	};
 
 	ToggleFinalActivation = finalId => {

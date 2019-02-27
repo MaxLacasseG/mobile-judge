@@ -44,7 +44,9 @@ class FinalJSONImport extends Component {
 	};
 
 	CreateFinal = finalInfos => {
-		this.props.CreateFinal(finalInfos);
+		const id = this.props.auth.user.id;
+		const isAdmin = this.props.auth.user.isAdmin;
+		this.props.CreateFinal(finalInfos, id, isAdmin);
 	};
 
 	CreateJudge = judgeInfos => {
@@ -187,6 +189,7 @@ class FinalJSONImport extends Component {
 	}
 }
 const mapStateToProps = state => ({
+	auth: state.auth,
 	action: state.action,
 	errors: state.errors,
 	final: state.final

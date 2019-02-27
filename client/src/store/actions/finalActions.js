@@ -12,7 +12,7 @@ import {
 } from "./types";
 import axios from "axios";
 
-export const CreateFinal = finalInfos => dispatch => {
+export const CreateFinal = (finalInfos, userId, isAdmin) => dispatch => {
 	axios
 		.post("/api/final/create", finalInfos)
 		.then(newFinal => {
@@ -22,7 +22,7 @@ export const CreateFinal = finalInfos => dispatch => {
 			});
 			dispatch({ type: CLEAR_ERRORS });
 			dispatch({ type: CREATE_FINAL, payload: newFinal.data });
-			dispatch(GetAllFinals());
+			dispatch(GetAllFinals(userId, isAdmin));
 		})
 		.catch(err => {
 			dispatch({ type: SET_ACTION_RESPONSE, payload: { type: CREATE_FINAL, response: err } });
@@ -49,22 +49,6 @@ export const SelectFinalById = finalId => dispatch => {
 		});
 };
 
-export const GetAllFinals = () => dispatch => {
-	axios
-		.get("/api/final/all")
-		.then(finalList => {
-			dispatch({ type: CLEAR_ERRORS });
-			dispatch({ type: GET_ALL_FINALS, payload: finalList.data });
-		})
-		.catch(err => {
-			dispatch({
-				type: SET_ACTION_RESPONSE,
-				payload: { type: GET_ALL_FINALS, response: "fail" }
-			});
-			dispatch({ type: GET_ERRORS, payload: err.response.data });
-		});
-};
-
 export const GetAllActiveFinalsIds = () => dispatch => {
 	axios
 		.get("/api/final/all-active-ids")
@@ -81,9 +65,33 @@ export const GetAllActiveFinalsIds = () => dispatch => {
 		});
 };
 
-export const GetFinalsFromUser = userId => dispatch => {
+export const GetAllFinals = (id, isAdmin) => dispatch => {
+	if (isAdmin) {
+		dispatch(GetFinalsFromAdmin());
+	} else {
+		dispatch(GetFinalsFromUser(id));
+	}
+};
+
+export const GetFinalsFromAdmin = () => dispatch => {
 	axios
-		.get("/api/final/userId", { params: { userId } })
+		.get("/api/final/all")
+		.then(finalList => {
+			dispatch({ type: CLEAR_ERRORS });
+			dispatch({ type: GET_ALL_FINALS, payload: finalList.data });
+		})
+		.catch(err => {
+			dispatch({
+				type: SET_ACTION_RESPONSE,
+				payload: { type: GET_ALL_FINALS, response: "fail" }
+			});
+			dispatch({ type: GET_ERRORS, payload: err.response.data });
+		});
+};
+
+export const GetFinalsFromUser = adminId => dispatch => {
+	axios
+		.get("/api/final/admin-id", { params: { adminId } })
 		.then(finalList => {
 			dispatch({ type: CLEAR_ERRORS });
 			dispatch({ type: GET_ALL_FINALS, payload: finalList.data });
@@ -102,7 +110,7 @@ export const ToggleFinalActivation = (finalId, isAdmin = false, userId = null) =
 		.put("/api/final/activate-final", { finalId })
 		.then(result => {
 			dispatch({ type: CLEAR_ERRORS });
-			isAdmin ? dispatch(GetAllFinals()) : dispatch(GetFinalsFromUser(userId));
+			dispatch(GetAllFinals(userId, isAdmin));
 		})
 		.catch(err => {
 			dispatch({
@@ -137,9 +145,10 @@ export const DeleteFinal = (finalId, history, userId, isAdmin) => dispatch => {
 		.delete("/api/final", { params: { finalId } })
 		.then(result => {
 			dispatch({ type: CLEAR_ERRORS });
-			isAdmin ? dispatch(GetAllFinals()) : dispatch(GetFinalsFromUser(userId));
-
-			history.push("/admin/panneau-controle");
+			dispatch(GetAllFinals(userId, isAdmin));
+			window.setTimeout(() => {
+				history.push("/admin/panneau-controle");
+			}, 1000);
 		})
 		.catch(err => {
 			dispatch({

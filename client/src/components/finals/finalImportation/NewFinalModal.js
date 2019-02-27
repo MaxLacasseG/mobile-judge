@@ -137,6 +137,7 @@ class NewFinalModal extends Component {
 
 		const that = this;
 		const newFinal = this.FormatFinalInfos();
+
 		this.props.CreateFinal(newFinal.event);
 
 		newFinal.judges.map(judge => {
