@@ -41,13 +41,13 @@ router.get("/id", (req, res) => {
 });
 
 router.get("/admin-id", (req, res) => {
-	logger.trace(req.query.adminId);
 	FinalController.Find({ adminId: req.query.adminId })
 		.then(resultat => {
 			if (isEmpty(resultat)) throw { success: false, msg: "Aucune finale trouvée" };
 			res.status(200).json(resultat);
 		})
 		.catch(err => {
+			console.log(err);
 			res.status(400).json(err);
 		});
 });
