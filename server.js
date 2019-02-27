@@ -52,6 +52,5 @@ if (process.env.NODE_ENV === "production") {
 
 app.listen(port, err => {
 	if (err) logger.log(err);
-	console.log(process.env);
 	logger.trace(`listening on ${port}`);
 });
