@@ -6,6 +6,7 @@ const passport = require("passport");
 const logger = require("tracer").colorConsole();
 const mongoose = require("mongoose");
 const morgan = require("morgan");
+const path = require("path");
 const envResult = require("dotenv").config();
 
 if (envResult.error) {
@@ -49,7 +50,8 @@ if (process.env.NODE_ENV === "production") {
 	});
 }
 
-app.listen(port, "0.0.0.0", err => {
+app.listen(port, err => {
 	if (err) logger.log(err);
+	console.log(process.env);
 	logger.trace(`listening on ${port}`);
 });
