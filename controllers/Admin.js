@@ -33,6 +33,40 @@ controller.RegisterAdmin = adminInfos => {
 	});
 };
 
+controller.EmailPwdUpdate = user => {
+	const mailOptions = {
+		to: user.courriel,
+		from: "nepasrepondre@technoscience.ca",
+		subject: "APPLICATION STATISTIQUES - Création d'un utilisateur",
+		html: `
+            <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+            <html xmlns="http://www.w3.org/1999/xhtml">
+            <head> 
+            
+                    
+            </head>
+            <body>
+            <div style='padding:10px;background-color:rgb(4, 108, 172);'>
+            <h1 style='color:white; text-transform:uppercase; font-size:1em;'>Réseau Technoscience - Jugement mobile</h1> 
+            </div>
+			<p>Votre compte pour l'application statistiques a bien été créé. Vous devrez modifier votre mot de passe lors de votre première connexion.</p> 
+			<p>Nom d'utilisateur: ${user.courriel}</p>
+			<p>Mot de passe temporaire: ${user.mdp}</p>
+			<p><a href="http://jugement.technoscience.ca"><strong>Se connecter au site</strong></a></p>
+			<footer style='background-color:rgb(4, 108, 172); color:white !important; padding:30px'>Si vous avez des difficultés à vous connecter, veuillez communiquer avec <a href='mailto://mlacassegermain@technoscience.ca' style:'color:white'>Maxime Lacasse Germain</a></footer>
+            </body>
+            </html>`
+	};
+
+	emailUtil.send(mailOptions, err => {
+		if (err) throw err;
+		return {
+			success: true,
+			msg: "Un message a été envoyé par courriel"
+		};
+	});
+};
+
 controller.InitPwd = newInfos => {
 	return controller
 		.FindById(newInfos._id)
