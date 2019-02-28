@@ -2,7 +2,6 @@ import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { SelectFinalById } from "../../../store/actions/finalActions";
 import { SelectProjectsByFinalId } from "../../../store/actions/projectActions";
-import tippy from "tippy.js";
 import FinalNav from "../../pages/partials/FinalNav";
 import AttributionRow from "../../projects/AttributionRow";
 import isEmpty from "../../../validation/isEmpty";
@@ -20,7 +19,7 @@ class FinalViewProjects extends Component {
 	};
 
 	InitializeTooltip = () => {
-		const template = document.getElementById("example");
+		/* const template = document.getElementById("example");
 
 		const tippyInstances = tippy(".grid-cell", {
 			arrow: true,
@@ -55,7 +54,7 @@ class FinalViewProjects extends Component {
 			}
 
 			tippy.setContent(text);
-		}
+		} */
 	};
 
 	FormatType = (type, short = false) => {
