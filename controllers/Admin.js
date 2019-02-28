@@ -33,13 +33,26 @@ controller.RegisterAdmin = adminInfos => {
 	});
 };
 
-//Check user type
-//Call appropriate connection method
-controller.ConnectJudge = credentials => {
-	//CHECK if final exist and is opened
-	// CHECKS IF USER EXISTS
-	// IF EXIST, CREATE PAYLOAD
-	// RETURN TOKEN
+controller.InitPwd = newInfos => {
+	return controller
+		.FindById(newInfos._id)
+		.then(foundUser => {
+			foundUser.pwd = newInfos.pwd;
+			return foundUser.save();
+		})
+		.then(savedUser => {
+			savedUser.newAdmin = false;
+			delete savedUser.pwd;
+			return controller.UpdateOne(savedUser);
+		})
+		.then(noFlagUser => {
+			console.log(noFlagUser);
+			delete noFlagUser.pwd;
+			return noFlagUser;
+		})
+		.catch(err => {
+			throw err;
+		});
 };
 
 controller.ConnectAdmin = credentials => {
@@ -57,16 +70,17 @@ controller.ConnectAdmin = credentials => {
 		.then(result => {
 			//If pwd incorrect
 			if (!result.isMatch) throw { success: false, pwd: "Mot de passe erroné." };
-
+			const { _id, email, firstName, lastName, phone, isAdmin, newAdmin } = result.user;
 			// Object to be added to the token
 			const payload = {
-				id: result.user._id,
-				email: result.user.email,
-				firstName: result.user.firstName,
-				lastName: result.user.lastName,
-				phone: result.user.phone,
-				isAdmin: result.user.isAdmin,
-				type: result.user.isAdmin ? "SUPER_ADMIN" : "ADMIN"
+				id: _id,
+				email,
+				firstName,
+				lastName,
+				phone,
+				isAdmin,
+				newAdmin,
+				type: isAdmin ? "SUPER_ADMIN" : "ADMIN"
 			};
 
 			//Create the token, expires after 1 hour

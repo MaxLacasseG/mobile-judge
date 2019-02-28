@@ -68,9 +68,11 @@ controller.Create = judgeInfos => {
 
 controller.Login = credentials => {
 	return Judge.findOne({ finalId: credentials.finalId, username: credentials.username })
+		.select("+pwd")
 		.then(judge => {
 			//If user is not found in DB
 			if (isEmpty(judge)) throw { success: false, username: "Utilisateur inconnu" };
+			console.log(credentials.pwd, judge.pwd);
 
 			return {
 				isMatch: credentials.pwd === judge.pwd,

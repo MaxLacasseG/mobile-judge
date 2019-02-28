@@ -152,7 +152,11 @@ class JudgeLogin extends Component {
 										<div className="invalid-feedback">{errors.pwd}</div>
 									)}
 								</div>
-								<input type="submit" className="btn btn-info btn-block my-4" />
+								<input
+									type="submit"
+									className="btn btn-info btn-block my-4"
+									value="Se connecter"
+								/>
 							</form>
 						</div>
 					</div>
