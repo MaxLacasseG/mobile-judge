@@ -10,4 +10,11 @@ const JudgeSchema = new Schema({
 	information: { type: Object }
 });
 
+JudgeSchema.methods.comparePassword = (candidatePassword, cb) => {
+	bcrypt.compare(candidatePassword, this.pwd, function(err, isMatch) {
+		if (err) return cb(err);
+		cb(null, isMatch);
+	});
+};
+
 module.exports = mongoose.model("Judge", JudgeSchema);

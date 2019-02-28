@@ -67,9 +67,19 @@ controller.Create = judgeInfos => {
 };
 
 controller.Login = credentials => {
-	return Judge.findOne(credentials)
+	return Judge.findOne({ finalId: credentials.finalId, username: credentials.username })
 		.then(judge => {
-			if (isEmpty(judge)) throw { success: false, msg: "Courriel ou mot de passe inconnu" };
+			//If user is not found in DB
+			if (isEmpty(judge)) throw { success: false, username: "Utilisateur inconnu" };
+
+			return {
+				isMatch: credentials.pwd === judge.pwd,
+				judge
+			};
+		})
+		.then(result => {
+			if (!result.isMatch) throw { success: false, pwd: "Mot de passe erroné." };
+			const judge = result.judge;
 
 			const payload = {
 				id: judge._id,

@@ -3,6 +3,9 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { GetAllActiveFinalsIds } from "../../store/actions/finalActions";
 import { Login } from "../../store/actions/judgeActions";
+
+import classnames from "classnames";
+
 class JudgeLogin extends Component {
 	constructor(props) {
 		super(props);
@@ -40,6 +43,7 @@ class JudgeLogin extends Component {
 	};
 
 	render() {
+		const errors = this.props.errors;
 		const finalList = this.props.final.finalList;
 		const activeFinalList = finalList.map(final => {
 			return (
@@ -93,7 +97,9 @@ class JudgeLogin extends Component {
 								<div className="form-group">
 									<label htmlFor="finalId">Finale régionale</label>
 									<select
-										className="selectpicker custom-select"
+										className={classnames("selectpicker custom-select", {
+											"is-invalid": errors.finalId
+										})}
 										name="finalId"
 										id="finalId"
 										value={this.state.finalId}
@@ -106,32 +112,45 @@ class JudgeLogin extends Component {
 											{activeFinalList}
 										</optgroup>
 									</select>
+									{errors.finalId && (
+										<div className="invalid-feedback">{errors.finalId}</div>
+									)}
 								</div>
 
 								<div className="form-group">
 									<label htmlFor="username">Courriel</label>
 									<input
 										type="text"
-										className="form-control"
+										className={classnames("form-control", {
+											"is-invalid": errors.username
+										})}
 										name="username"
 										id="username"
 										placeholder="Courriel"
 										value={this.state.username}
 										onChange={this.OnChangeLower}
 									/>
+									{errors.username && (
+										<div className="invalid-feedback">{errors.username}</div>
+									)}
 								</div>
 
 								<div className="form-group">
 									<label htmlFor="pwd">Mot de passe</label>
 									<input
 										type="password"
-										className="form-control"
+										className={classnames("form-control", {
+											"is-invalid": errors.pwd
+										})}
 										placeholder="Mot de passe"
 										name="pwd"
 										id="pwd"
 										value={this.state.pwd}
 										onChange={this.OnChange}
 									/>
+									{errors.pwd && (
+										<div className="invalid-feedback">{errors.pwd}</div>
+									)}
 								</div>
 								<input type="submit" className="btn btn-info btn-block my-4" />
 							</form>

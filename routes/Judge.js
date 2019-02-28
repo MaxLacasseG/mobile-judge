@@ -4,6 +4,8 @@ const passport = require("passport");
 const logger = require("tracer").colorConsole();
 const isEmpty = require("../utils/isEmpty");
 
+const judgeConnectionValidator = require("../validators/JudgeConnection");
+
 const JudgeController = require("../controllers/Judge");
 const FinalController = require("../controllers/Final");
 const ProjectController = require("../controllers/Project");
@@ -115,9 +117,10 @@ router.post("/create", (req, res) => {
 });
 
 router.post("/login", (req, res) => {
-	const { username, pwd, finalId } = req.body;
+	const { errors, isValid, sanitizedData } = judgeConnectionValidator(req.body);
+	if (!isValid) return res.status(400).json(errors);
 
-	JudgeController.Login({ username, pwd, finalId })
+	JudgeController.Login(sanitizedData)
 		.then(result => {
 			res.status(200).json(result);
 		})
