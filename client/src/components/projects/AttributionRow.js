@@ -46,8 +46,13 @@ class AttributionRow extends Component {
 
 	ChangeAttribution = e => {
 		const { project, judge, period } = e.currentTarget.dataset;
-		if (!project || !judge || !period) return;
 		const results = this.props.results;
+
+		//IF one is UNDEFINED ask for new attribution
+		//TODO:
+		if (!project || !judge || !period) return;
+
+		//SHOW GRID
 		this.props.history.push({
 			pathname: `/admin/finale/${this.props.match.params[0]}/grid/${project}`,
 			state: {

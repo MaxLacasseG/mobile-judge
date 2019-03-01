@@ -100,13 +100,13 @@ class FinalViewJudges extends Component {
 		const final = this.props.final.selectedFinal;
 		const judges = this.state.judgesList;
 
-		const judgesList = judges.map(judge => {
+		const judgesList = judges.map((judge, index) => {
 			const attributionInfos = isEmpty(final.pairing)
 				? {}
 				: final.pairing.pairingByJudges[judge.number];
 
 			return (
-				<Fragment key={judge.judgeId}>
+				<Fragment key={`${judge.judgeId}${index}`}>
 					<div className="projectsListItem row" data-projectrow={judge.number}>
 						{/** PROJECT INFOS COLUMN */}
 						<div className="col-md-3 row">

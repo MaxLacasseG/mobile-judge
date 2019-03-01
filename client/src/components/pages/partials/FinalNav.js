@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { Link, withRouter } from "react-router-dom";
+import { NavLink, Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { logoutUser } from "../../../store/actions/authActions";
 
@@ -18,40 +18,47 @@ class FinalNav extends Component {
 		const AdminMenu = (
 			<ul className="nav nav-bar justify-content-around align-items-center px-5 py-3 row">
 				<div className="col-md-6 d-flex justify-content-around align-items-center">
-					<Link to="/admin/panneau-controle" className="px-3 icon-button">
+					<NavLink to="/admin/panneau-controle" className="px-3 icon-button">
 						<strong>
 							<i className="fas fa-reply-all" /> Retour
 						</strong>
-					</Link>
-					<Link to={`/admin/finale/${this.props.id}/infos`} className="px-3 icon-button">
+					</NavLink>
+					<NavLink
+						to={`/admin/finale/${this.props.id}/infos`}
+						activeClassName="selected"
+						className="px-3 icon-button"
+					>
 						<i className="fas fa-cogs" /> Informations
-					</Link>
-					<Link
+					</NavLink>
+					<NavLink
 						to={`/admin/finale/${this.props.id}/vue-projets`}
+						activeClassName="selected"
 						className="px-3 icon-button"
 					>
 						<i className="fas fa-user-friends " /> Vue par projets
-					</Link>
+					</NavLink>
 				</div>
 				<div className="col-md-6 d-flex justify-content-around align-items-center">
-					<Link
+					<NavLink
 						to={`/admin/finale/${this.props.id}/vue-juges`}
+						activeClassName="selected"
 						className="px-3 icon-button"
 					>
 						<i className="fas fa-clipboard-list" /> Vue par juges
-					</Link>
-					<Link
+					</NavLink>
+					{/* <NavLink
 						to={`/admin/finale/${this.props.id}/vue-periodes`}
 						className="px-3 icon-button"
 					>
 						<i className="fas fa-stopwatch" /> Vue par périodes de jugement
-					</Link>
-					<Link
+					</NavLink> */}
+					<NavLink
 						to={`/admin/finale/${this.props.id}/exportation`}
+						activeClassName="selected"
 						className="px-3 icon-button"
 					>
 						<i className="fas fa-clipboard-list" /> Exportation
-					</Link>
+					</NavLink>
 				</div>
 			</ul>
 		);
