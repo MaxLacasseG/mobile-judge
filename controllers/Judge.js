@@ -66,6 +66,14 @@ controller.Create = judgeInfos => {
 		});
 };
 
+controller.AddNew = judgeInfos => {
+	//Check if exist
+	//Format data
+	//Save judge
+	//Return new judge
+	return true;
+};
+
 controller.Login = credentials => {
 	return Judge.findOne({ finalId: credentials.finalId, username: credentials.username })
 		.select("+pwd")

@@ -92,6 +92,8 @@ class JudgeDashboard extends Component {
 										period: projects[key].period,
 										project: projects[key].project,
 										judge: this.props.auth.user.number,
+										finalId: this.props.auth.user.finalId,
+										isAdmin: false,
 										results: this.CheckExistingResult(
 											projects[key].project,
 											this.props.auth.user.number,

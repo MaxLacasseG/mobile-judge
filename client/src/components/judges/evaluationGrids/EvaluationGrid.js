@@ -29,6 +29,7 @@ class EvaluationGrid extends Component {
 		};
 	}
 	componentDidMount = () => {
+		console.log(this.props.location.state.finalId, this.props.location.state.project);
 		this.props.GetProjectInfos(
 			this.props.location.state.finalId,
 			this.props.location.state.project

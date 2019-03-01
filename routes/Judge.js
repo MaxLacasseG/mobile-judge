@@ -116,6 +116,18 @@ router.post("/create", (req, res) => {
 		});
 });
 
+router.post("/add-new", (req, res) => {
+	//TODO: VALIDATION
+	JudgeController.AddNew(req.body)
+		.then(result => {
+			return res.status(200).json(result);
+		})
+		.catch(err => {
+			logger.log(err);
+			return res.status(400).json(err);
+		});
+});
+
 router.post("/login", (req, res) => {
 	const { errors, isValid, sanitizedData } = judgeConnectionValidator(req.body);
 	if (!isValid) return res.status(400).json(errors);

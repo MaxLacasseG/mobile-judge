@@ -1,5 +1,11 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
+
+import FinalNav from "../../pages/partials/FinalNav";
+import PairingImportation from "../judgeProjectPairing/PairingFileImportation";
+import FinalViewJudgesInfos from "./FinalViewJudgesInfos";
+import NewJudgeForm from "../../judges/NewJudgeForm";
+
 import { SelectFinalById } from "../../../store/actions/finalActions";
 import { DeleteAllFinalJudges, GetJudgesPwd } from "../../../store/actions/judgeActions";
 import {
@@ -7,10 +13,6 @@ import {
 	SelectProjectsByFinalId
 } from "../../../store/actions/projectActions";
 import { DeleteFinal } from "../../../store/actions/finalActions";
-
-import FinalNav from "../../pages/partials/FinalNav";
-import PairingImportation from "../judgeProjectPairing/PairingFileImportation";
-import FinalViewJudgesInfos from "./FinalViewJudgesInfos";
 import isEmpty from "../../../validation/isEmpty";
 
 class FinalViewInfos extends Component {
@@ -48,7 +50,8 @@ class FinalViewInfos extends Component {
 							<PairingImportation finalId={this.props.match.params[0]} />
 						</div>
 					</div>
-
+					{/* NEW JUDGE FORM */}
+					<NewJudgeForm />
 					{/* PASSWORD LIST */}
 					<div className="mx-auto text-center">
 						<h4>Liste des juges</h4>

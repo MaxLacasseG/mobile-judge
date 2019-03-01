@@ -70,6 +70,27 @@ export const CreateJudge = judgeInfos => dispatch => {
 		});
 };
 
+export const AddNewJudge = judgeInfos => dispatch => {
+	axios
+		.post("/api/judge/add-new", judgeInfos)
+		.then(newJudge => {
+			dispatch({ type: CREATE_JUDGE, payload: newJudge.data });
+			dispatch({
+				type: SET_ACTION_RESPONSE,
+				payload: { type: CREATE_JUDGE, response: "success" }
+			});
+			dispatch({ type: CLEAR_ERRORS });
+		})
+		.catch(err => {
+			console.log(err);
+			dispatch({
+				type: SET_ACTION_RESPONSE,
+				payload: { type: CREATE_JUDGE, response: "fail" }
+			});
+			dispatch({ type: GET_ERRORS, payload: err.response.data });
+		});
+};
+
 export const SelectJudgesByFinalId = finalId => dispatch => {
 	axios
 		.get("/api/judge/final-id", { params: { finalId } })
