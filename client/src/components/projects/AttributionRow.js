@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from "react";
+import { connect } from "react-redux";
 import isEmpty from "../../validation/isEmpty";
 import classnames from "classnames";
 
@@ -9,80 +10,115 @@ import classnames from "classnames";
  */
 
 class AttributionRow extends Component {
-    componentDidMount = () => {
-        //if (!this.CheckJudgeAmount()) this.props.ShowMissingJudge(this.props.number);
-    };
+	componentDidMount = () => {
+		//if (!this.CheckJudgeAmount()) this.props.ShowMissingJudge(this.props.number);
+	};
 
-    CheckJudgeAmount = () => {
-        if (isEmpty(this.props.attributionInfos)) return console.log("Aucun pairage");
-        let judgeNumber = 0;
+	CheckJudgeAmount = () => {
+		if (isEmpty(this.props.attributionInfos)) return console.log("Aucun pairage");
+		let judgeNumber = 0;
 
-        Object.keys(this.props.attributionInfos).map((period, index) => {
-            if (!isEmpty(this.props.attributionInfos[period].judge)) judgeNumber++;
+		Object.keys(this.props.attributionInfos).map((period, index) => {
+			if (!isEmpty(this.props.attributionInfos[period].judge)) judgeNumber++;
 
-            return null;
-        });
+			return null;
+		});
 
-        return judgeNumber < this.props.minJudges ? false : true;
-    };
+		return judgeNumber < this.props.minJudges ? false : true;
+	};
 
-    ChangeAttribution = e => {
-        console.log(e.currentTarget.dataset.project, e.currentTarget.dataset.judge, e.currentTarget.dataset.period);
-    };
+	CheckExistingResult = (projectNumber, judgeNumber, results) => {
+		//console.log(results);
+		if (isEmpty(results)) return false;
+		if (isEmpty(results[projectNumber])) return false;
+		if (isEmpty(results[projectNumber][judgeNumber])) return false;
 
-    render() {
-        let cols = [];
-        if (isEmpty(this.props.attributionInfos)) {
-            for (let i = 0; i < 8; i++) {
-                cols.push(
-                    <div className="col-md grid-cell" key={i}>
-                        {" - "}
-                    </div>
-                );
-            }
-        } else {
-            cols = Object.keys(this.props.attributionInfos).map((period, index) => {
-                const project = this.props.attributionInfos[period].project;
-                const judge = this.props.attributionInfos[period].judge;
-                let isComplete = false;
+		if (results[projectNumber][judgeNumber].hasOwnProperty("results")) {
+			return true;
+		}
 
-                //Checks if judgement is completed
+		return false;
+	};
 
-                if (this.props.results !== undefined && !isEmpty(this.props.results[project])) {
-                    if (!isEmpty(this.props.results[project][judge])) {
-                        isComplete = this.props.results[project][judge].isComplete;
-                    }
-                }
+	ImportResults = (projectNumber, judgeNumber, results) => {
+		return results[projectNumber][judgeNumber];
+	};
 
-                return (
-                    <div
-                        key={index}
-                        className={classnames("col-md grid-cell", {
-                            "grid-cell-complete": isComplete
-                        })}
-                        data-project={this.props.number}
-                        data-judge={this.props.attributionInfos[period].judge}
-                        data-period={period}
-                        onClick={this.ChangeAttribution}
-                    >
-                        {isEmpty(this.props.attributionInfos[period].judge) ? (
-                            " - "
-                        ) : (
-                            <div>
-                                Juge {this.props.attributionInfos[period].judge}{" "}
-                                {isComplete && (
-                                    <span>
-                                        <i className="fas fa-check" />
-                                    </span>
-                                )}
-                            </div>
-                        )}
-                    </div>
-                );
-            });
-        }
-        return <Fragment>{cols}</Fragment>;
-    }
+	ChangeAttribution = e => {
+		const { project, judge, period } = e.currentTarget.dataset;
+		if (!project || !judge || !period) return;
+		const results = this.props.results;
+		this.props.history.push({
+			pathname: `/admin/finale/${this.props.match.params[0]}/grid/${project}`,
+			state: {
+				period: period,
+				project: project,
+				judge: judge,
+				finalId: this.props.match.params[0],
+				isAdmin: true,
+				results: this.CheckExistingResult(project, judge, results)
+					? this.ImportResults(project, judge, results)
+					: {}
+			}
+		});
+	};
+
+	render() {
+		let cols = [];
+		if (isEmpty(this.props.attributionInfos)) {
+			for (let i = 0; i < 8; i++) {
+				cols.push(
+					<div className="col-md grid-cell" key={i}>
+						{" - "}
+					</div>
+				);
+			}
+		} else {
+			cols = Object.keys(this.props.attributionInfos).map((period, index) => {
+				const project = this.props.attributionInfos[period].project;
+				const judge = this.props.attributionInfos[period].judge;
+				let isComplete = false;
+
+				//Checks if judgement is completed
+
+				if (this.props.results !== undefined && !isEmpty(this.props.results[project])) {
+					if (!isEmpty(this.props.results[project][judge])) {
+						isComplete = this.props.results[project][judge].isComplete;
+					}
+				}
+
+				return (
+					<div
+						key={index}
+						className={classnames("col-md grid-cell", {
+							"grid-cell-complete": isComplete
+						})}
+						data-project={this.props.number}
+						data-judge={this.props.attributionInfos[period].judge}
+						data-period={period}
+						onClick={this.ChangeAttribution}
+					>
+						{isEmpty(this.props.attributionInfos[period].judge) ? (
+							" - "
+						) : (
+							<div>
+								Juge {this.props.attributionInfos[period].judge}{" "}
+								{isComplete && (
+									<span>
+										<i className="fas fa-check" />
+									</span>
+								)}
+							</div>
+						)}
+					</div>
+				);
+			});
+		}
+		return <Fragment>{cols}</Fragment>;
+	}
 }
 
-export default AttributionRow;
+export default connect(
+	null,
+	null
+)(AttributionRow);

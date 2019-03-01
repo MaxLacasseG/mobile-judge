@@ -94,6 +94,7 @@ class App extends Component {
 								path="/admin/finale/*/infos"
 								component={FinalViewInfos}
 							/>
+							<AdminRoute exact path="/admin/finale/*/grid/*" component={JudgeForm} />
 							<AdminRoute
 								exact
 								path="/admin/finale/*/exportation"

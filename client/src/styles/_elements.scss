@@ -2,6 +2,11 @@
 	font-family: $font-text;
 }
 
+.bg {
+	min-height: 100vh;
+	background: url("/img/concrete_seamless.png");
+}
+
 .admin-login,
 .judge-login {
 	height: 100%;
@@ -32,6 +37,15 @@ a {
 	&:visited,
 	&:active {
 		color: darken($color-main, 10%);
+	}
+}
+
+.text-link {
+	color: $color-accent3;
+	&:hover,
+	&:visited,
+	&:active {
+		color: darken($color-accent3, 10%);
 	}
 }
 

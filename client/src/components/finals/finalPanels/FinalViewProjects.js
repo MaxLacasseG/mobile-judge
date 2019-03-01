@@ -180,6 +180,8 @@ class FinalViewProjects extends Component {
 								minJudges="5"
 								ShowMissingJudge={this.ShowMissingJudge}
 								results={final.results}
+								history={this.props.history}
+								match={this.props.match}
 							/>
 						</div>
 					</div>

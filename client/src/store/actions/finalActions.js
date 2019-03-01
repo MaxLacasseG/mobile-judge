@@ -167,6 +167,7 @@ export const SaveResult = (
 	results,
 	total,
 	isComplete,
+	isAdmin,
 	history
 ) => dispatch => {
 	axios
@@ -185,7 +186,13 @@ export const SaveResult = (
 				payload: { type: SAVE_RESULT, response: "success" }
 			});
 			dispatch({ type: CLEAR_ERRORS });
-			history.push("/mon-jugement");
+			//IF isAdmin, GO TO project view panel
+			if (isAdmin) {
+				history.push(`/admin/finale/${finalId}/vue-projets`);
+			} //ELSE , GO TO project judge dashboard
+			else {
+				history.push("/mon-jugement");
+			}
 		})
 		.catch(err => {
 			console.log(err);
