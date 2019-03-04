@@ -142,6 +142,27 @@ router.post("/login", (req, res) => {
 		});
 });
 
+router.put("/set-number", (req, res) => {
+	//console.log(req.body);
+	JudgeController.Find({ judgeId: req.body.judgeId, finalId: req.body.finalId })
+		.then(judge => {
+			if (isEmpty(judge[0])) {
+				throw {
+					success: false,
+					msg: "Impossible de modifier l'élément demandé."
+				};
+			}
+			judge[0].number = req.body.judgeNumber;
+			return judge[0].save();
+		})
+		.then(savedJudge => {
+			console.log(savedJudge);
+			res.status(200).json(savedJudge);
+		})
+		.catch(err => {
+			res.status(400).json(err);
+		});
+});
 router.put("/modifier", (req, res) => {
 	JudgeController.modifier(req.body)
 		.then(resultat => {

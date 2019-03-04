@@ -30,19 +30,34 @@ class FinalViewJudgesInfos extends Component {
 		};
 	};
 
-	ChangeNumber = e => {
-		this.ResetAll();
-		e.currentTarget.classList.add("edit-mode");
-		e.currentTarget.contentEditable = true;
+	OnHandleDblClick = e => {
+		//console.log(e.currentTarget.contentEditable);
+		const target = e.currentTarget;
+		target.isContentEditable === true ? this.EditModeOff(target) : this.EditModeOn(target);
 	};
+
+	EditModeOn = target => {
+		this.ResetAll();
+		target.classList.add("edit-mode");
+		target.contentEditable = "true";
+	};
+
+	EditModeOff = target => {
+		//console.log("off", target);
+		target.classList.remove("edit-mode");
+		target.contentEditable = "false";
+		//console.log(target.innerText, target.dataset.judgeid, this.props.final.selectedFinal._id);
+		this.props.SetJudgeNumber(
+			target.innerText,
+			target.dataset.judgeid,
+			this.props.final.selectedFinal._id
+		);
+	};
+
 	ResetAll = () => {
 		const elems = document.querySelectorAll(".edit-mode");
 		for (let elem of elems) {
-			console.log("new number", elem);
-			elem.classList.remove("edit-mode");
-			elem.contentEditable = false;
-			console.log(elem.innerText, elem.dataset.id, this.props.final.selectedFinal.id);
-			//this.SetJudgeNumber(elem.dataset.innerText,)
+			this.EditModeOff(elem);
 		}
 	};
 
@@ -54,10 +69,9 @@ class FinalViewJudgesInfos extends Component {
 				<div className="row judge-row px-3 mb-3" key={judge._id}>
 					<div
 						className="col-md-4 judge-col username"
-						onDoubleClick={this.ChangeNumber}
-						onBlur={this.SaveNewNumber}
+						onDoubleClick={this.OnHandleDblClick}
 						data-number={judge.number}
-						data-id={judge.id}
+						data-judgeid={judge.judgeId}
 					>
 						{judge.number}
 					</div>

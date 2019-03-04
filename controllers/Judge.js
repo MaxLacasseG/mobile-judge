@@ -189,9 +189,8 @@ controller.Login = credentials => {
 		});
 };
 
-controller.modifier = jugeId => {
-	//TODO: Validation
-	return Judge.findByIdAndUpdate(jugeId._id, jugeId, { new: true });
+controller.Update = judgeInfos => {
+	return Judge.findByIdAndUpdate(judgeInfos._id, judgeInfos, { new: true });
 };
 
 controller.supprimerUn = jugeId => {
