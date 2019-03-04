@@ -6,6 +6,8 @@ import { GetJudgeProject } from "../../store/actions/judgeActions";
 import { SelectFinalById } from "../../store/actions/finalActions";
 import classnames from "classnames";
 import isEmpty from "../../validation/isEmpty";
+import { CheckFinalActive } from "../../store/actions/finalActions";
+
 class JudgeDashboard extends Component {
 	constructor(props) {
 		super(props);
@@ -16,6 +18,10 @@ class JudgeDashboard extends Component {
 	componentDidMount = () => {
 		this.props.GetJudgeProject(this.props.auth.user.finalId, this.props.auth.user.number);
 		this.props.SelectFinalById(this.props.auth.user.finalId);
+		this.props.CheckFinalActive(this.props.auth.user.finalId);
+	};
+	componentWillUnmount = () => {
+		this.props.CheckFinalActive(this.props.auth.user.finalId);
 	};
 
 	CheckIfIsComplete = (projectNumber, judgeNumber) => {
@@ -194,5 +200,5 @@ const mapStateToProps = state => ({
 
 export default connect(
 	mapStateToProps,
-	{ GetJudgeProject, SelectFinalById }
+	{ GetJudgeProject, SelectFinalById, CheckFinalActive }
 )(JudgeDashboard);

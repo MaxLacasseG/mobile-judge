@@ -16,6 +16,7 @@ export const SELECT_FINAL = "SELECT_FINAL";
 export const CLEAR_FINAL = "CLEAR_FINAL";
 export const GET_FINAL = "GET_FINAL";
 export const GET_ALL_FINALS = "GET_ALL_FINALS";
+export const IS_FINAL_ACTIVE = "IS_FINAL_ACTIVE";
 export const CREATE_FINAL = "CREATE_FINAL";
 export const UPDATE_FINAL = "UPDATE_FINAL";
 export const ARCHIVE_FINAL = "ARCHIVE_FINAL";

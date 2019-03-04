@@ -53,10 +53,10 @@ router.get("/admin-id", (req, res) => {
 });
 
 router.get("/active", (req, res) => {
-	FinalController.rechercher({ isActive: true })
-		.then(resultat => {
-			if (isEmpty(resultat)) throw { success: false, msg: "Aucune finale trouvée" };
-			res.status(200).json(resultat);
+	FinalController.Find({ _id: req.query.finalId, isActive: true })
+		.then(result => {
+			console.log("isActive", req.query.finalId, result);
+			isEmpty(result) ? res.status(200).json(false) : res.status(200).json(true);
 		})
 		.catch(err => {
 			res.status(400).json(err);

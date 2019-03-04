@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import EvaluationSection from "./EvaluationSection";
 import { ClearProjectInfos, GetProjectInfos } from "../../../store/actions/projectActions";
 import { SaveResult } from "../../../store/actions/finalActions";
+import { CheckFinalActive } from "../../../store/actions/finalActions";
+
 import {
 	highExperimentationGrid,
 	highschoolConceptionGrid,
@@ -29,7 +31,9 @@ class EvaluationGrid extends Component {
 		};
 	}
 	componentDidMount = () => {
-		console.log(this.props.location.state.finalId, this.props.location.state.project);
+		this.props.CheckFinalActive(this.props.auth.user.finalId);
+
+		//console.log(this.props.location.state.finalId, this.props.location.state.project);
 		this.props.GetProjectInfos(
 			this.props.location.state.finalId,
 			this.props.location.state.project
@@ -47,6 +51,7 @@ class EvaluationGrid extends Component {
 
 	componentWillUnmount = () => {
 		this.props.ClearProjectInfos();
+		this.props.CheckFinalActive(this.props.auth.user.finalId);
 	};
 
 	componentDidUpdate = (prevProps, prevState) => {
@@ -206,6 +211,12 @@ class EvaluationGrid extends Component {
 	};
 
 	SaveResults = () => {
+		this.props.CheckFinalActive();
+
+		if (!this.props.final.isActive && !this.props.location.state.isAdmin) {
+			return this.props.history.push("/");
+		}
+
 		const finalId = this.props.location.state.finalId;
 		const judgeNumber = this.props.location.state.judge;
 		const projectNumber = this.props.location.state.project;
@@ -369,11 +380,12 @@ class EvaluationGrid extends Component {
 
 const mapStateToProps = state => ({
 	auth: state.auth,
+	final: state.final,
 	project: state.project,
 	error: state.error,
 	message: state.message
 });
 export default connect(
 	mapStateToProps,
-	{ GetProjectInfos, ClearProjectInfos, SaveResult }
+	{ GetProjectInfos, ClearProjectInfos, SaveResult, CheckFinalActive }
 )(EvaluationGrid);

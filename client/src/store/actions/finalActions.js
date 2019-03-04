@@ -8,7 +8,8 @@ import {
 	SAVE_FINAL_PAIRING,
 	DELETE_FINAL,
 	SAVE_RESULT,
-	CLEAR_FINAL
+	CLEAR_FINAL,
+	IS_FINAL_ACTIVE
 } from "./types";
 import axios from "axios";
 
@@ -26,6 +27,16 @@ export const CreateFinal = (finalInfos, userId, isAdmin) => dispatch => {
 		})
 		.catch(err => {
 			dispatch({ type: SET_ACTION_RESPONSE, payload: { type: CREATE_FINAL, response: err } });
+			dispatch({ type: GET_ERRORS, payload: err.response.data });
+		});
+};
+export const CheckFinalActive = finalId => dispatch => {
+	axios
+		.get("/api/final/active", { params: { finalId } })
+		.then(result => {
+			dispatch({ type: IS_FINAL_ACTIVE, payload: result.data });
+		})
+		.catch(err => {
 			dispatch({ type: GET_ERRORS, payload: err.response.data });
 		});
 };
