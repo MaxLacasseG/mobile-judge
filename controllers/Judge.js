@@ -34,11 +34,11 @@ controller.Create = judgeInfos => {
 			const postalCode =
 				judgeInfos.information.generalInformation.address.postalCode || "H1V 0B2";
 			const username = email;
-			const pwd = `${firstName.substr(0, 1).toLowerCase()}${postalCode
-				.substr(0, 3)
-				.toUpperCase()}${postalCode.substr(4, 3).toUpperCase()}${lastName
+			const pwd = `${firstName.substr(0, 1).toLowerCase()}${lastName
 				.substr(0, 1)
-				.toLowerCase()}${judgeInfos.specialCharacter}`;
+				.toLowerCase()}${postalCode.substr(0, 3).toUpperCase()}${postalCode
+				.substr(4, 3)
+				.toUpperCase()}${judgeInfos.specialCharacter}`;
 			judgeInfos.username = username;
 			judgeInfos.pwd = pwd;
 
