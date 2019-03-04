@@ -37,6 +37,19 @@ export const SetCurrentJudge = decoded => {
 	};
 };
 
+export const SetJudgeNumber = (judgeNumber, judgeId, finalId) => dispatch => {
+	axios
+		.put("/api/judge/set-number", { judgeNumber, judgeId, finalId })
+		.then(judge => {
+			//UPDATE LIST
+			//dispatch({ type: CREATE_JUDGE, payload: judge.data });
+			dispatch(GetJudgesPwd(finalId));
+		})
+		.catch(err => {
+			dispatch({ type: GET_ERRORS, payload: err.response.data });
+		});
+};
+
 export const LogoutJudge = () => dispatch => {
 	//removes from localstorage
 	localStorage.removeItem("jwtToken");
