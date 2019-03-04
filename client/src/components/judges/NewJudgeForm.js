@@ -15,18 +15,28 @@ class NewJudgeForm extends Component {
 			phone: "",
 			address: "",
 			city: "",
-			postalCode: ""
+			postalCode: "",
+			finalId: this.props.final.selectedFinal._id,
+			specialCharacter: ""
 		};
 		this.initialState = this.state;
 	}
+
+	componentDidMount = () => {
+		this.setState({ finalId: this.props.final.selectedFinal._id });
+	};
 
 	componentWillUnmount = () => {
 		this.props.ClearResponse();
 	};
 
 	componentDidUpdate = (prevProps, prevState) => {
+		if (prevProps.final !== this.props.final) {
+			this.setState({ finalId: this.props.final.selectedFinal._id });
+		}
 		if (
 			this.props.action.response !== prevProps.action.response &&
+			this.props.action.type === "CREATE_JUDGE" &&
 			this.props.action.response === "success"
 		) {
 			this.ResetForm();
@@ -35,10 +45,6 @@ class NewJudgeForm extends Component {
 
 	ResetForm = () => {
 		this.setState(this.initialState);
-	};
-	OnSubmit = e => {
-		e.preventDefault();
-		this.props.AddNewJudge(this.state);
 	};
 
 	OnChange = e => {
@@ -57,13 +63,19 @@ class NewJudgeForm extends Component {
 		this.setState({ [e.target.name]: e.target.selectedOptions[0].value });
 	};
 
+	OnSubmit = e => {
+		e.preventDefault();
+		console.log(this.state);
+		this.props.AddNewJudge(this.state);
+	};
+
 	render() {
 		const errors = this.props.errors;
 		const action = this.props.action;
 
 		const successMessage = (
 			<div className="alert alert-success alert-dismissible fade show mt-3" role="alert">
-				Administrateur ajouté
+				Juge ajouté
 				<button
 					type="button"
 					className="close"
@@ -145,19 +157,19 @@ class NewJudgeForm extends Component {
 				</div>
 				<hr />
 				<div className="form-group">
-					<label htmlFor="adress">Adresse</label>
+					<label htmlFor="address">Adresse</label>
 					<input
 						type="text"
 						className={classnames("form-control", {
-							"is-invalid": errors.adress
+							"is-invalid": errors.address
 						})}
-						name="adress"
-						id="adress"
+						name="address"
+						id="address"
 						placeholder="Adresse"
 						onChange={this.OnChange}
-						value={this.state.adress}
+						value={this.state.address}
 					/>
-					{errors.adress && <div className="invalid-feedback">{errors.adress}</div>}
+					{errors.address && <div className="invalid-feedback">{errors.address}</div>}
 				</div>
 				<div className="form-group">
 					<label htmlFor="city">Ville</label>
@@ -211,11 +223,29 @@ class NewJudgeForm extends Component {
 					/>
 					{errors.phone && <div className="invalid-feedback">{errors.phone}</div>}
 				</div>
+				<div className="form-group">
+					<label htmlFor="specialCharacter">Caractère spécial pour le mot de passe</label>
+					<input
+						type="input"
+						className={classnames("form-control", {
+							"is-invalid": errors.specialCharacter
+						})}
+						id="specialCharacter"
+						name="specialCharacter"
+						maxLength="1"
+						minLength="1"
+						onChange={this.OnChange}
+						value={this.state.specialCharacter}
+					/>
+					{errors.specialCharacter && (
+						<div className="invalid-feedback">{errors.specialCharacter}</div>
+					)}
+				</div>
 
 				<button type="submit" className="btn form-control">
 					<i className="fa fa-plus-circle fa-lg" /> Créer le judge
 				</button>
-				{action.type === "ADD_NEW_JUDGE" && action.response === "success"
+				{action.type === "CREATE_JUDGE" && action.response === "success"
 					? successMessage
 					: null}
 			</form>
@@ -225,7 +255,8 @@ class NewJudgeForm extends Component {
 
 const mapStateToProps = state => ({
 	errors: state.errors,
-	action: state.action
+	action: state.action,
+	final: state.final
 });
 
 NewJudgeForm.propTypes = {

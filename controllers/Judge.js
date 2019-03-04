@@ -7,6 +7,8 @@ const mongoose = require("mongoose");
 const JWT = require("jsonwebtoken");
 const keys = require("../config/keys");
 
+const FinalController = require("./Final");
+
 controller.Find = filtre => {
 	return Judge.find(filtre);
 };
@@ -68,10 +70,75 @@ controller.Create = judgeInfos => {
 
 controller.AddNew = judgeInfos => {
 	//Check if exist
-	//Format data
-	//Save judge
-	//Return new judge
-	return true;
+	const judgeId = mongoose.Types.ObjectId();
+	const {
+		firstName,
+		lastName,
+		email,
+		phone,
+		address,
+		city,
+		postalCode,
+		specialCharacter,
+		finalId
+	} = judgeInfos;
+
+	const pwd = `${firstName.substr(0, 1).toLowerCase()}${lastName
+		.substr(0, 1)
+		.toLowerCase()}${postalCode.substr(0, 3).toUpperCase()}${postalCode
+		.substr(4, 3)
+		.toUpperCase()}${specialCharacter}`;
+
+	return controller
+		.Find({ username: email, finalId })
+		.then(foundUser => {
+			//CHECKS IF USER EXISTS
+			if (!isEmpty(foundUser)) throw { success: "fail", msg: "Utilisateur existant" };
+
+			//FORMAT JUDGE
+			const newJudgeInfos = {
+				username: email,
+				pwd,
+				judgeId,
+				finalId,
+				number: null,
+				information: {
+					generalInformation: {
+						phone: { phoneMobile: phone },
+						address: {
+							postalCode,
+							city,
+							address
+						},
+						firstName,
+						lastName,
+						email
+					}
+				}
+			};
+
+			const newJuge = new Judge(newJudgeInfos);
+
+			//Save judge
+			//Return new judge
+			return newJuge.save({ new: true }).catch(err => {
+				logger.warn(err);
+				throw { err, judgeInfos };
+			});
+		})
+		.then(newJudge => {
+			return FinalController.Find({ _id: newJudge.finalId }).then(final => {
+				if (isEmpty(final)) throw { msg: "Finale non trouvée" };
+				console.log(final);
+				final[0].judges.push(newJudge.judgeId);
+				final[0].save();
+				return newJudge;
+			});
+		})
+		.catch(err => {
+			logger.warn(err);
+			throw { err, judgeInfos };
+		});
 };
 
 controller.Login = credentials => {
