@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import classnames from "classnames";
 import regionList from "../../../enums/regions";
-
 /**
  * @props CreateFinal    function    Updates the admin profile
  * @props ClearModal                    function    Reset modal state in parent

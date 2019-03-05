@@ -163,6 +163,17 @@ router.put("/update", (req, res) => {
 		});
 });
 
+router.put("/pairing", (req, res) => {
+	FinalController.Update(req.body)
+		.then(resultat => {
+			return res.status(200).json(resultat);
+		})
+		.catch(err => {
+			logger.log(err);
+			return res.status(400).json(err);
+		});
+});
+
 router.put("/activate-final", (req, res) => {
 	FinalController.FindById(req.body.finalId)
 		.then(final => {

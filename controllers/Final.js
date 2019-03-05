@@ -40,7 +40,13 @@ controller.Create = finalInfos => {
 controller.Update = finalInfos => {
 	return Final.findByIdAndUpdate(finalInfos._id, finalInfos, {
 		new: true
-	});
+	})
+		.then(res => {
+			return res;
+		})
+		.catch(err => {
+			logger.warn(err);
+		});
 };
 
 controller.DeleteOne = finalId => {

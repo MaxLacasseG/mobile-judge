@@ -151,6 +151,26 @@ export const SaveFinalPairing = pairingInfos => dispatch => {
 		});
 };
 
+export const UpdateFinalPairing = pairingInfos => dispatch => {
+	axios
+		.put("/api/final/pairing", pairingInfos)
+		.then(finalInfos => {
+			dispatch({
+				type: SET_ACTION_RESPONSE,
+				payload: { type: SAVE_FINAL_PAIRING, response: "success" }
+			});
+			dispatch(SelectFinalById(pairingInfos._id));
+		})
+		.catch(err => {
+			console.log("err", err);
+			dispatch({
+				type: SET_ACTION_RESPONSE,
+				payload: { type: SAVE_FINAL_PAIRING, response: "fail" }
+			});
+			dispatch({ type: GET_ERRORS, payload: err.response.data });
+		});
+};
+
 export const DeleteFinal = (finalId, history, userId, isAdmin) => dispatch => {
 	axios
 		.delete("/api/final", { params: { finalId } })

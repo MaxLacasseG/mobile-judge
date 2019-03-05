@@ -299,6 +299,18 @@ class EvaluationGrid extends Component {
 									</h5>
 								)}
 							</div>
+							<div className="col-md-8 mx-auto text-center">
+								<div className="text-center">
+									Juge {this.props.location.state.judge}
+								</div>
+								<div className="text-center">
+									{" "}
+									Période{" "}
+									{String.fromCharCode(
+										65 + parseInt(this.props.location.state.period)
+									)}
+								</div>
+							</div>
 							{this.props.location.state.isAdmin && (
 								<div className="col-md-8 mx-auto text-center">
 									<h6>{this.state.total && this.state.total.toFixed(4)} / 100</h6>

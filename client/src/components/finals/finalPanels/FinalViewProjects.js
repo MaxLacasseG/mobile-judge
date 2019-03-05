@@ -14,47 +14,6 @@ class FinalViewProjects extends Component {
 	componentDidMount = () => {
 		this.props.SelectFinalById(this.props.match.params[0]);
 		this.props.SelectProjectsByFinalId(this.props.match.params[0]);
-
-		this.InitializeTooltip();
-	};
-
-	InitializeTooltip = () => {
-		/* const template = document.getElementById("example");
-
-		const tippyInstances = tippy(".grid-cell", {
-			arrow: true,
-			content: template.innerHTML,
-			interactive: true
-		});
-
-		for (let tippy of tippyInstances) {
-			let project =
-				tippy.reference.attributes["data-project"] &&
-				tippy.reference.attributes["data-project"].value;
-			let judge =
-				tippy.reference.attributes["data-judge"] &&
-				tippy.reference.attributes["data-judge"].value;
-
-			let results =
-				this.props.final.selectedFinal.results[project] &&
-				this.props.final.selectedFinal.results[project][judge];
-
-			let text = "";
-
-			if (results === undefined) {
-				text = "Aucun résultat";
-			} else {
-				text = "<div>";
-				Object.keys(results.results).map(key => {
-					text += `${key} ${results.results[key].grade}<br/>`;
-					return true;
-				});
-				text += `total ${results.total.toFixed(4)}`;
-				text += "</div>";
-			}
-
-			tippy.setContent(text);
-		} */
 	};
 
 	FormatType = (type, short = false) => {
@@ -104,11 +63,11 @@ class FinalViewProjects extends Component {
 
 	CreateTableHeader = () => {
 		let cols = [];
-		for (let i = 0; i < 8; i++) {
+		for (let i = 1; i <= 8; i++) {
 			cols.push(
 				<div key={i} className="col-md grid-cell-header">
 					{" "}
-					Période {String.fromCharCode(65 + i)}
+					Période {String.fromCharCode(64 + i)}
 				</div>
 			);
 		}
@@ -126,13 +85,8 @@ class FinalViewProjects extends Component {
 		const final = this.props.final.selectedFinal;
 		const projects = this.props.project.projectsList;
 
-		const template = (
-			<div id="example" style={{ display: "none" }}>
-				<strong>Bolded content</strong>
-			</div>
-		);
 		const projectsList = projects.map(project => {
-			const attributionInfos = isEmpty(final.pairing)
+			const attributionByProject = isEmpty(final.pairing)
 				? {}
 				: final.pairing.pairingByProjects[project.number];
 
@@ -175,8 +129,8 @@ class FinalViewProjects extends Component {
 						{/** PAIRING COLUMNS */}
 						<div className="col-md row">
 							<AttributionRow
-								number={project.number}
-								attributionInfos={attributionInfos}
+								projectNumber={project.number}
+								attributionByProject={attributionByProject}
 								minJudges="5"
 								ShowMissingJudge={this.ShowMissingJudge}
 								results={final.results}
@@ -191,7 +145,6 @@ class FinalViewProjects extends Component {
 
 		return (
 			<Fragment>
-				{template}
 				<FinalNav pageTitle="Finale - Vue par projets" id={id} finalName={final.longName} />
 				<div className="p-5 ">
 					{/* HEADER */}
