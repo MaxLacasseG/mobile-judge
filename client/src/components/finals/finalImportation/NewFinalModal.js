@@ -120,7 +120,6 @@ class NewFinalModal extends Component {
 			projects: newProjectsList
 		};
 
-		console.log(newFinal);
 		return newFinal;
 	};
 
@@ -168,7 +167,6 @@ class NewFinalModal extends Component {
 		e.preventDefault();
 	};
 	OnChange = e => {
-		console.log("test");
 		const event = this.state.event;
 		event[e.target.name] = e.target.value;
 		this.setState({ event });

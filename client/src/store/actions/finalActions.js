@@ -217,8 +217,12 @@ export const SaveResult = (
 				payload: { type: SAVE_RESULT, response: "success" }
 			});
 			dispatch({ type: CLEAR_ERRORS });
+		})
+		.then(response => {
 			//IF isAdmin, GO TO project view panel
 			if (isAdmin) {
+				console.log("save result", finalId);
+				dispatch(SelectFinalById(finalId));
 				history.push(`/admin/finale/${finalId}/vue-projets`);
 			} //ELSE , GO TO project judge dashboard
 			else {

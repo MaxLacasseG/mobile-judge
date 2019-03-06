@@ -14,7 +14,7 @@ class FinalNav extends Component {
 	};
 	render() {
 		const { isAuthenticated } = this.props.auth;
-
+		const pairingImported = this.props.final && this.props.final.selectedFinal.pairing;
 		const AdminMenu = (
 			<ul className="nav nav-bar justify-content-around align-items-center px-5 py-3 row">
 				<div className="col-md-6 d-flex justify-content-around align-items-center">
@@ -30,35 +30,36 @@ class FinalNav extends Component {
 					>
 						<i className="fas fa-cogs" /> Informations
 					</NavLink>
-					<NavLink
-						to={`/admin/finale/${this.props.id}/vue-projets`}
-						activeClassName="selected"
-						className="px-3 icon-button"
-					>
-						<i className="fas fa-user-friends " /> Vue par projets
-					</NavLink>
+					{pairingImported && (
+						<NavLink
+							to={`/admin/finale/${this.props.id}/vue-projets`}
+							activeClassName="selected"
+							className="px-3 icon-button"
+						>
+							<i className="fas fa-user-friends " /> Vue par projets
+						</NavLink>
+					)}
 				</div>
 				<div className="col-md-6 d-flex justify-content-around align-items-center">
-					<NavLink
-						to={`/admin/finale/${this.props.id}/vue-juges`}
-						activeClassName="selected"
-						className="px-3 icon-button"
-					>
-						<i className="fas fa-clipboard-list" /> Vue par juges
-					</NavLink>
-					{/* <NavLink
-						to={`/admin/finale/${this.props.id}/vue-periodes`}
-						className="px-3 icon-button"
-					>
-						<i className="fas fa-stopwatch" /> Vue par périodes de jugement
-					</NavLink> */}
-					<NavLink
-						to={`/admin/finale/${this.props.id}/exportation`}
-						activeClassName="selected"
-						className="px-3 icon-button"
-					>
-						<i className="fas fa-clipboard-list" /> Exportation
-					</NavLink>
+					{pairingImported && (
+						<Fragment>
+							<NavLink
+								to={`/admin/finale/${this.props.id}/vue-juges`}
+								activeClassName="selected"
+								className="px-3 icon-button"
+							>
+								<i className="fas fa-clipboard-list" /> Vue par juges
+							</NavLink>
+
+							<NavLink
+								to={`/admin/finale/${this.props.id}/exportation`}
+								activeClassName="selected"
+								className="px-3 icon-button"
+							>
+								<i className="fas fa-clipboard-list" /> Exportation
+							</NavLink>
+						</Fragment>
+					)}
 				</div>
 			</ul>
 		);
@@ -99,7 +100,8 @@ class FinalNav extends Component {
 	}
 }
 const mapStateToProps = state => ({
-	auth: state.auth
+	auth: state.auth,
+	final: state.final
 });
 export default connect(
 	mapStateToProps,

@@ -12,7 +12,6 @@ controller.Find = filtre => {
 controller.FindById = finalId => {
 	return Final.findById(finalId);
 };
-
 controller.FindAll = () => {
 	return Final.find({});
 };
@@ -46,6 +45,21 @@ controller.Update = finalInfos => {
 		})
 		.catch(err => {
 			logger.warn(err);
+		});
+};
+controller.AddNewJudge = judgeInfos => {
+	return Final.findById(judgeInfos.finalId)
+		.then(final => {
+			final = final.judges.push(judgeInfos.judgeId);
+			return controller.Update(final);
+		})
+		.then(successfulSave => {
+			logger.trace(judgeInfos);
+			return judgeInfos;
+		})
+		.catch(err => {
+			console.log(err);
+			throw err;
 		});
 };
 

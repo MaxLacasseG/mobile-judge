@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-
+import classnames from "classnames";
 export default class JudgeSwitchModal extends Component {
 	constructor(props) {
 		super(props);
@@ -8,6 +8,7 @@ export default class JudgeSwitchModal extends Component {
 		};
 	}
 	SavePairing = () => {
+		if (this.state.judge === "") return;
 		this.props.SavePairing(this.props.project, this.props.period, this.state.judge);
 		this.props.ClearModal();
 	};
@@ -15,6 +16,7 @@ export default class JudgeSwitchModal extends Component {
 		this.setState({ judge: e.currentTarget.value });
 	};
 	render() {
+		const isInvalid = this.state.judge === "" ? true : false;
 		const opts =
 			this.props.list &&
 			this.props.list.map(judge => {
@@ -82,7 +84,9 @@ export default class JudgeSwitchModal extends Component {
 							<div className="modal-footer">
 								<button
 									type="button"
-									className="btn btn-primary"
+									className={classnames("btn btn-primary", {
+										disabled: isInvalid
+									})}
 									onClick={this.SavePairing}
 								>
 									Modifier le juge

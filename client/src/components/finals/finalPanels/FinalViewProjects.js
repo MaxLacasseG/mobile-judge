@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { SelectFinalById } from "../../../store/actions/finalActions";
 import { SelectProjectsByFinalId } from "../../../store/actions/projectActions";
+import { SelectJudgesByFinalId } from "../../../store/actions/judgeActions";
 import FinalNav from "../../pages/partials/FinalNav";
 import AttributionRow from "../../projects/AttributionRow";
 import isEmpty from "../../../validation/isEmpty";
@@ -14,6 +15,7 @@ class FinalViewProjects extends Component {
 	componentDidMount = () => {
 		this.props.SelectFinalById(this.props.match.params[0]);
 		this.props.SelectProjectsByFinalId(this.props.match.params[0]);
+		this.props.SelectJudgesByFinalId(this.props.match.params[0]);
 	};
 
 	FormatType = (type, short = false) => {
@@ -165,5 +167,5 @@ const mapStateToProps = state => ({
 
 export default connect(
 	mapStateToProps,
-	{ SelectFinalById, SelectProjectsByFinalId }
+	{ SelectFinalById, SelectProjectsByFinalId, SelectJudgesByFinalId }
 )(FinalViewProjects);

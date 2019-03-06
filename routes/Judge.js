@@ -117,8 +117,10 @@ router.post("/create", (req, res) => {
 });
 
 router.post("/add-new", (req, res) => {
-	//TODO: VALIDATION
 	JudgeController.AddNew(req.body)
+		.then(result => {
+			return FinalController.AddNewJudge(result);
+		})
 		.then(result => {
 			return res.status(200).json(result);
 		})
