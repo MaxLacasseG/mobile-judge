@@ -158,7 +158,7 @@ router.put("/set-number", (req, res) => {
 			return judge[0].save();
 		})
 		.then(savedJudge => {
-			console.log(savedJudge);
+			//console.log(savedJudge);
 			res.status(200).json(savedJudge);
 		})
 		.catch(err => {

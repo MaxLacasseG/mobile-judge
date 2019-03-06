@@ -55,7 +55,7 @@ router.get("/admin-id", (req, res) => {
 router.get("/active", (req, res) => {
 	FinalController.Find({ _id: req.query.finalId, isActive: true })
 		.then(result => {
-			console.log("isActive", req.query.finalId, result);
+			//console.log("isActive", req.query.finalId, result);
 			isEmpty(result) ? res.status(200).json(false) : res.status(200).json(true);
 		})
 		.catch(err => {
@@ -107,8 +107,6 @@ router.post("/pairing", (req, res) => {
 });
 
 router.post("/save-result", (req, res) => {
-	//console.log(req.body);
-
 	FinalController.FindById(req.body.finalId)
 		.then(final => {
 			if (isEmpty(final)) throw { success: false, msg: "Aucune finale trouvée" };
@@ -154,7 +152,7 @@ router.post("/save-result", (req, res) => {
 router.post("/import-participants/:finaleId", (req, res) => {});
 
 router.put("/update", (req, res) => {
-	FinalController.modifier(req.body)
+	FinalController.Update(req.body)
 		.then(resultat => {
 			res.status(200).json(resultat);
 		})

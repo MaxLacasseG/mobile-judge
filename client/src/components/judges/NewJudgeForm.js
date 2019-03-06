@@ -65,7 +65,7 @@ class NewJudgeForm extends Component {
 
 	OnSubmit = e => {
 		e.preventDefault();
-		console.log(this.state);
+		//console.log(this.state);
 		this.props.AddNewJudge(this.state);
 	};
 
@@ -107,122 +107,129 @@ class NewJudgeForm extends Component {
 				<h4 className="section-header">
 					<i className="fa fa-plus-circle" />
 					{"  "}
-					Ajouter un juge
+					Ajouter un juge manuellement
 				</h4>
-				<div className="form-group">
-					<label htmlFor="firstName">Prénom</label>
-					<input
-						type="text"
-						className={classnames("form-control", {
-							"is-invalid": errors.firstName
-						})}
-						name="firstName"
-						id="firstName"
-						placeholder="Prénom"
-						onChange={this.OnChange}
-						value={this.state.firstName}
-					/>
-					{errors.firstName && <div className="invalid-feedback">{errors.firstName}</div>}
+				<div className="form-group row">
+					<div className="col-md-6">
+						<label htmlFor="firstName">Prénom</label>
+						<input
+							type="text"
+							className={classnames("form-control", {
+								"is-invalid": errors.firstName
+							})}
+							name="firstName"
+							id="firstName"
+							placeholder="Prénom"
+							onChange={this.OnChange}
+							value={this.state.firstName}
+						/>
+						{errors.firstName && (
+							<div className="invalid-feedback">{errors.firstName}</div>
+						)}
+					</div>
+					<div className="col-md-6">
+						<label htmlFor="lastName">Nom de famille</label>
+						<input
+							type="text"
+							className={classnames("form-control", {
+								"is-invalid": errors.lastName
+							})}
+							name="lastName"
+							id="lastName"
+							placeholder="Nom de famille"
+							onChange={this.OnChange}
+							value={this.state.lastName}
+						/>
+						{errors.lastName && (
+							<div className="invalid-feedback">{errors.lastName}</div>
+						)}
+					</div>
 				</div>
-				<div className="form-group">
-					<label htmlFor="lastName">Nom de famille</label>
-					<input
-						type="text"
-						className={classnames("form-control", {
-							"is-invalid": errors.lastName
-						})}
-						name="lastName"
-						id="lastName"
-						placeholder="Nom de famille"
-						onChange={this.OnChange}
-						value={this.state.lastName}
-					/>
-					{errors.lastName && <div className="invalid-feedback">{errors.lastName}</div>}
+				<div className="form-group row">
+					<div className="col-md-6">
+						<label htmlFor="email">Courriel</label>
+						<input
+							type="text"
+							className={classnames("form-control", {
+								"is-invalid": errors.email
+							})}
+							name="email"
+							id="email"
+							placeholder="Courriel"
+							onChange={this.OnChange}
+							value={this.state.email}
+						/>
+						{errors.email && <div className="invalid-feedback">{errors.email}</div>}
+					</div>
+					<div className="col-md-6">
+						<label htmlFor="phone">Numéro de téléphone</label>
+						<input
+							type="tel"
+							className={classnames("form-control", {
+								"is-invalid": errors.phone
+							})}
+							id="phone"
+							name="phone"
+							pattern="[0-9]{3} [0-9]{3}-[0-9]{4}"
+							placeholder="222 222-2222"
+							onChange={this.OnChange}
+							value={this.state.phone}
+						/>
+						{errors.phone && <div className="invalid-feedback">{errors.phone}</div>}
+					</div>
 				</div>
 				<hr />
-				<div className="form-group">
-					<label htmlFor="email">Courriel</label>
-					<input
-						type="text"
-						className={classnames("form-control", {
-							"is-invalid": errors.email
-						})}
-						name="email"
-						id="email"
-						placeholder="Courriel"
-						onChange={this.OnChange}
-						value={this.state.email}
-					/>
-					{errors.email && <div className="invalid-feedback">{errors.email}</div>}
+				<div className="form-group row">
+					<div className="col-md-6">
+						<label htmlFor="address">Adresse</label>
+						<input
+							type="text"
+							className={classnames("form-control", {
+								"is-invalid": errors.address
+							})}
+							name="address"
+							id="address"
+							placeholder="Adresse"
+							onChange={this.OnChange}
+							value={this.state.address}
+						/>
+						{errors.address && <div className="invalid-feedback">{errors.address}</div>}
+					</div>
+					<div className="col-md-4">
+						<label htmlFor="city">Ville</label>
+						<input
+							type="text"
+							className={classnames("form-control", {
+								"is-invalid": errors.city
+							})}
+							name="city"
+							id="city"
+							placeholder="Ville"
+							onChange={this.OnChange}
+							value={this.state.city}
+						/>
+						{errors.city && <div className="invalid-feedback">{errors.city}</div>}
+					</div>
+					<div className="col-md-2">
+						<label htmlFor="postalCode">Code postal</label>
+						<input
+							type="text"
+							className={classnames("form-control", {
+								"is-invalid": errors.postalCode
+							})}
+							name="postalCode"
+							id="postalCode"
+							pattern="([A-Z][0-9][A-Z])\s?([0-9][A-Z][0-9])"
+							placeholder="H1V 0B2"
+							onChange={this.OnChangePostalCode}
+							value={this.state.postalCode}
+						/>
+						{errors.postalCode && (
+							<div className="invalid-feedback">{errors.postalCode}</div>
+						)}
+					</div>
 				</div>
 				<hr />
-				<div className="form-group">
-					<label htmlFor="address">Adresse</label>
-					<input
-						type="text"
-						className={classnames("form-control", {
-							"is-invalid": errors.address
-						})}
-						name="address"
-						id="address"
-						placeholder="Adresse"
-						onChange={this.OnChange}
-						value={this.state.address}
-					/>
-					{errors.address && <div className="invalid-feedback">{errors.address}</div>}
-				</div>
-				<div className="form-group">
-					<label htmlFor="city">Ville</label>
-					<input
-						type="text"
-						className={classnames("form-control", {
-							"is-invalid": errors.city
-						})}
-						name="city"
-						id="city"
-						placeholder="Ville"
-						onChange={this.OnChange}
-						value={this.state.city}
-					/>
-					{errors.city && <div className="invalid-feedback">{errors.city}</div>}
-				</div>
-				<div className="form-group">
-					<label htmlFor="postalCode">Code postal</label>
-					<input
-						type="text"
-						className={classnames("form-control", {
-							"is-invalid": errors.postalCode
-						})}
-						name="postalCode"
-						id="postalCode"
-						pattern="([A-Z][0-9][A-Z])\s?([0-9][A-Z][0-9])"
-						placeholder="H1V 0B2"
-						onChange={this.OnChangePostalCode}
-						value={this.state.postalCode}
-					/>
-					{errors.postalCode && (
-						<div className="invalid-feedback">{errors.postalCode}</div>
-					)}
-				</div>
-
-				<hr />
-
-				<div className="form-group">
-					<label htmlFor="phone">Numéro de téléphone</label>
-					<input
-						type="tel"
-						className={classnames("form-control", {
-							"is-invalid": errors.phone
-						})}
-						id="phone"
-						name="phone"
-						pattern="[0-9]{3} [0-9]{3}-[0-9]{4}"
-						placeholder="222 222-2222"
-						onChange={this.OnChange}
-						value={this.state.phone}
-					/>
-					{errors.phone && <div className="invalid-feedback">{errors.phone}</div>}
-				</div>
 				<div className="form-group">
 					<label htmlFor="specialCharacter">Caractère spécial pour le mot de passe</label>
 					<input
@@ -243,11 +250,13 @@ class NewJudgeForm extends Component {
 				</div>
 
 				<button type="submit" className="btn form-control">
-					<i className="fa fa-plus-circle fa-lg" /> Créer le judge
+					<i className="fa fa-plus-circle fa-lg" /> Créer le juge
 				</button>
 				{action.type === "CREATE_JUDGE" && action.response === "success"
 					? successMessage
 					: null}
+
+				<hr />
 			</form>
 		);
 	}

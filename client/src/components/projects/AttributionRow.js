@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import isEmpty from "../../validation/isEmpty";
 import classnames from "classnames";
 import JudgeSwitchModal from "./JudgeSwitchModal";
-import { UpdateFinalPairing } from "../../store/actions/finalActions";
+import { UpdateFinal } from "../../store/actions/finalActions";
 /**
  * @props attributionByProject  Object  Contains the pairing infos for a project
  * @props minJudges         Int     The minimal number of judges per project
@@ -139,42 +139,52 @@ class AttributionRow extends Component {
 	};
 
 	SavePairing = (project, period, judge) => {
+		if (judge === undefined) return;
+		const final = this.props.final && this.props.final.selectedFinal;
 		const pairing = this.props.final && this.props.final.selectedFinal.pairing;
+		const results = this.props.final && this.props.final.selectedFinal.results;
 
 		// Cast to int, got converted to string somewhere
-		const iProject = parseInt(project);
-		const iPeriod = parseInt(period);
-		const iJudge = parseInt(judge);
+		project = parseInt(project);
+		period = parseInt(period);
+		judge = parseInt(judge);
 
-		if (isEmpty(pairing.pairingByProjects[iProject])) {
-			pairing.pairingByProjects[iProject] = {};
+		if (isEmpty(pairing.pairingByProjects[project])) {
+			pairing.pairingByProjects[project] = {};
 		}
-		if (isEmpty(pairing.pairingByProjects[iProject][iPeriod])) {
-			pairing.pairingByProjects[iProject][iPeriod] = {};
+		if (isEmpty(pairing.pairingByProjects[project][period])) {
+			pairing.pairingByProjects[project][period] = { project, period, judge: null };
 		}
-		pairing.pairingByProjects[iProject][iPeriod] = {
-			project: iProject,
-			period: iPeriod,
-			judge: iJudge
+		pairing.pairingByProjects[project][period] = {
+			project: project,
+			period: period,
+			judge: judge
 		};
 
-		if (isEmpty(pairing.pairingByJudges[iJudge])) {
-			pairing.pairingByJudges[iJudge] = {};
+		if (isEmpty(pairing.pairingByJudges[judge])) {
+			pairing.pairingByJudges[judge] = {};
 		}
-		if (isEmpty(pairing.pairingByJudges[iJudge][iPeriod])) {
-			pairing.pairingByJudges[iJudge][iPeriod] = {};
+		if (isEmpty(pairing.pairingByJudges[judge][period])) {
+			pairing.pairingByJudges[judge][period] = { project, period, judge: null };
 		}
-		pairing.pairingByJudges[iJudge][iPeriod] = {
-			project: iProject,
-			period: iPeriod,
-			judge: iJudge
+		pairing.pairingByJudges[judge][period] = {
+			project: project,
+			period: period,
+			judge: judge
 		};
 
-		this.props.UpdateFinalPairing({ _id: this.props.final.selectedFinal._id, pairing });
+		if (results[project] && !isEmpty(results[project][period])) {
+			results[project][period] = {};
+		}
+
+		//Save new info
+		final.pairing = pairing;
+		final.results = results;
+
+		this.props.UpdateFinal(final);
 		this.ManageCols();
 	};
 
-	GetAvailableJudges = (project, period, list) => {};
 	ShowJudgeModal = (project, judge, period, results) => {
 		let list = this.props.judge.judgesList;
 		list = this.CheckAvailibility(list, period);
@@ -189,6 +199,7 @@ class AttributionRow extends Component {
 				ClearModal={this.ClearModal}
 				SavePairing={this.SavePairing}
 				GoToGrid={this.GoToGrid}
+				RemoveJudge={this.RemoveJudge}
 			/>
 		);
 		this.setState({ modal }, () => {
@@ -200,10 +211,6 @@ class AttributionRow extends Component {
 	 * Returns the list of available judges for specific project and
 	 */
 	CheckAvailibility = (list, period) => {
-		if (this.props.attributionByProject[period].judge !== null) {
-			console.log("WARNING EXISTING PAIRING");
-		}
-
 		let filteredList = this.CheckJudgeOtherPeriods(list);
 		filteredList = this.CheckIfIsJudgingAtPeriod(filteredList, period);
 		return filteredList;
@@ -246,12 +253,52 @@ class AttributionRow extends Component {
 		return newList;
 	};
 
-	EditJudge = e => {
-		console.log(e.currentTarget);
+	RemoveJudge = (project, period, judge) => {
+		if (judge === undefined) return;
+		const final = this.props.final && this.props.final.selectedFinal;
+		const pairing = this.props.final && this.props.final.selectedFinal.pairing;
+		const results = this.props.final && this.props.final.selectedFinal.results;
+
+		console.log("results", results);
+		// Cast to int, got converted to string somewhere
+		project = parseInt(project);
+		period = parseInt(period);
+		judge = parseInt(judge);
+
+		//Check if pairingByProjects is not empty
+		//Empty pairingByProjects for the specific period
+		if (
+			pairing.pairingByProjects[project] &&
+			!isEmpty(pairing.pairingByProjects[project][period])
+		) {
+			pairing.pairingByProjects[project][period] = { project, period, judge: null };
+		}
+
+		//Check if pairingByProjects is not empty
+		//Empty pairingByProjects for the specific period
+		if (pairing.pairingByJudges[judge] && !isEmpty(pairing.pairingByJudges[judge][period])) {
+			pairing.pairingByJudges[judge][period] = { project: null, period, judge };
+		}
+
+		//Check if results is not empty
+		//Empty results for the specific period
+		if (results && results[project]) {
+			results[project][judge] = {};
+		}
+
+		console.log("remove end", final, pairing, results);
+
+		final.pairing = pairing;
+		final.results = results;
+
+		this.props.UpdateFinal(final);
+		this.ManageCols();
 	};
 
 	HandleClick = e => {
 		const { project, judge, period } = e.currentTarget.dataset;
+		console.log("click", project, judge, period);
+
 		const results = this.props.final.selectedFinal.results;
 
 		this.ShowJudgeModal(project, judge, period, results);
@@ -316,5 +363,5 @@ const mapStateToProps = state => ({
 
 export default connect(
 	mapStateToProps,
-	{ UpdateFinalPairing }
+	{ UpdateFinal }
 )(AttributionRow);

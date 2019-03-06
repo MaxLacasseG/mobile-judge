@@ -151,15 +151,15 @@ export const SaveFinalPairing = pairingInfos => dispatch => {
 		});
 };
 
-export const UpdateFinalPairing = pairingInfos => dispatch => {
+export const UpdateFinal = final => dispatch => {
 	axios
-		.put("/api/final/pairing", pairingInfos)
+		.put("/api/final/update", final)
 		.then(finalInfos => {
 			dispatch({
 				type: SET_ACTION_RESPONSE,
 				payload: { type: SAVE_FINAL_PAIRING, response: "success" }
 			});
-			dispatch(SelectFinalById(pairingInfos._id));
+			dispatch(SelectFinalById(final._id));
 		})
 		.catch(err => {
 			console.log("err", err);

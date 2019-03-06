@@ -127,9 +127,10 @@ controller.AddNew = judgeInfos => {
 			});
 		})
 		.then(newJudge => {
+			//Save judge id into final's judge list
 			return FinalController.Find({ _id: newJudge.finalId }).then(final => {
 				if (isEmpty(final)) throw { msg: "Finale non trouvée" };
-				console.log(final);
+				//console.log(final);
 				final[0].judges.push(newJudge.judgeId);
 				final[0].save();
 				return newJudge;
@@ -147,7 +148,7 @@ controller.Login = credentials => {
 		.then(judge => {
 			//If user is not found in DB
 			if (isEmpty(judge)) throw { success: false, username: "Utilisateur inconnu" };
-			console.log(credentials.pwd, judge.pwd);
+			//console.log(credentials.pwd, judge.pwd);
 
 			return {
 				isMatch: credentials.pwd === judge.pwd,

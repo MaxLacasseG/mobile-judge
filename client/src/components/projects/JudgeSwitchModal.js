@@ -8,15 +8,27 @@ export default class JudgeSwitchModal extends Component {
 		};
 	}
 
+	componentDidMount = () => {
+		console.log("mount", this.props);
+	};
+
 	GoToGrid = () => {
 		const { project, judge, period, results } = this.props;
 		this.props.GoToGrid(project, judge, period, results);
 		this.props.ClearModal();
 	};
+	RemoveJudge = () => {
+		const { project, judge, period } = this.props;
+
+		this.props.RemoveJudge(project, period, judge);
+		this.props.ClearModal();
+	};
 
 	SavePairing = () => {
 		if (this.state.judge === "") return;
-		this.props.SavePairing(this.props.project, this.props.period, this.state.judge);
+		const { project, period } = this.props;
+
+		this.props.SavePairing(project, period, this.state.judge);
 		this.props.ClearModal();
 	};
 	HandleSelect = e => {
@@ -24,6 +36,8 @@ export default class JudgeSwitchModal extends Component {
 	};
 	render() {
 		const isInvalid = this.state.judge === "" ? true : false;
+		const { judge } = this.props;
+
 		const opts =
 			this.props.list &&
 			this.props.list.map(judge => {
@@ -83,12 +97,29 @@ export default class JudgeSwitchModal extends Component {
 										onChange={this.HandleSelect}
 										value={this.state.judge}
 									>
-										<option value="" />
+										<option value="">
+											{this.props.list.length === 0
+												? "Aucun juge disponible pour cette période"
+												: "Choisir un juge disponible"}
+										</option>{" "}
+										/>
 										{opts}
 									</select>
 								</div>
 							</div>
 							<div className="modal-footer">
+								{judge && (
+									<button
+										type="button"
+										className="btn btn-danger"
+										onClick={this.RemoveJudge}
+									>
+										<span>
+											<i className="fas fa-trash" />
+										</span>{" "}
+										Supprimer le juge
+									</button>
+								)}
 								{this.props.judge !== undefined && (
 									<button
 										type="button"
