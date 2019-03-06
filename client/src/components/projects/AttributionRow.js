@@ -165,7 +165,7 @@ class AttributionRow extends Component {
 			pairing.pairingByJudges[judge] = {};
 		}
 		if (isEmpty(pairing.pairingByJudges[judge][period])) {
-			pairing.pairingByJudges[judge][period] = { project, period, judge: null };
+			pairing.pairingByJudges[judge][period] = { project: null, period, judge };
 		}
 		pairing.pairingByJudges[judge][period] = {
 			project: project,
@@ -173,8 +173,8 @@ class AttributionRow extends Component {
 			judge: judge
 		};
 
-		if (results[project] && !isEmpty(results[project][period])) {
-			results[project][period] = {};
+		if (results[project] && !isEmpty(results[project][judge])) {
+			results[project][judge] = {};
 		}
 
 		//Save new info

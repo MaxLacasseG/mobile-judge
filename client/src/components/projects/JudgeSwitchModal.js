@@ -66,8 +66,8 @@ export default class JudgeSwitchModal extends Component {
 					data-backdrop="static"
 					data-keyboard="false"
 				>
-					<div className="modal-dialog" role="document">
-						<div className="modal-content">
+					<div className="modal-dialog modal-lg" role="document">
+						<div className="modal-content ">
 							<div className="modal-header">
 								<h5 className="modal-title" id="modalJudgeLabel">
 									Modifier un juge
@@ -84,10 +84,22 @@ export default class JudgeSwitchModal extends Component {
 								</button>
 							</div>
 							<div className="modal-body" id="modalJudge-body">
-								<h4 className="mx-auto">Projet {this.props.project}</h4>
 								<h4 className="mx-auto">
-									Période {String.fromCharCode(64 + parseInt(this.props.period))}
+									Projet {this.props.project} - Période{" "}
+									{String.fromCharCode(64 + parseInt(this.props.period))}
 								</h4>
+								<div className="py-4">
+									{this.props.judge !== undefined && (
+										<button
+											type="button"
+											className="btn btn-primary"
+											onClick={this.GoToGrid}
+										>
+											Voir la fiche
+										</button>
+									)}
+								</div>
+
 								<div className="form-group mx-auto">
 									<label htmlFor="">Liste des juges disponibles</label>
 									<select
@@ -111,7 +123,7 @@ export default class JudgeSwitchModal extends Component {
 								{judge && (
 									<button
 										type="button"
-										className="btn btn-danger"
+										className="btn btn-danger mr-auto"
 										onClick={this.RemoveJudge}
 									>
 										<span>
@@ -120,24 +132,19 @@ export default class JudgeSwitchModal extends Component {
 										Supprimer le juge
 									</button>
 								)}
-								{this.props.judge !== undefined && (
+								{this.props.list.length > 0 && (
 									<button
 										type="button"
-										className="btn btn-primary"
-										onClick={this.GoToGrid}
+										className={classnames("btn btn-secondary", {
+											"btn-disabled": isInvalid
+										})}
+										onClick={this.SavePairing}
 									>
-										Voir la fiche
+										{isInvalid
+											? "Choisir un juge dans la liste"
+											: "Modifier le juge"}
 									</button>
 								)}
-								<button
-									type="button"
-									className={classnames("btn btn-primary", {
-										disabled: isInvalid
-									})}
-									onClick={this.SavePairing}
-								>
-									Modifier le juge
-								</button>
 								<button
 									type="button"
 									className="btn btn-secondary"

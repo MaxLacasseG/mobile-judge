@@ -81,8 +81,14 @@ a {
 		background-color: $color-accent3;
 	}
 	&.btn-danger {
-		background-color: $color-main;
+		background-color: rgb(174, 27, 2);
 		color: white;
+	}
+	&.btn-disabled {
+		background-color: rgb(99, 99, 99);
+		color: rgb(181, 181, 181);
+		font-style: italic;
+		cursor: not-allowed;
 	}
 	&.btn-success {
 		background-color: darken($color-accent3, 10%);

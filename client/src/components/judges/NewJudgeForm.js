@@ -17,13 +17,16 @@ class NewJudgeForm extends Component {
 			city: "",
 			postalCode: "",
 			finalId: this.props.final.selectedFinal._id,
-			specialCharacter: ""
+			specialCharacter: this.props.final.selectedFinal.specialCharacter
 		};
 		this.initialState = this.state;
 	}
 
 	componentDidMount = () => {
-		this.setState({ finalId: this.props.final.selectedFinal._id });
+		this.setState({
+			finalId: this.props.final.selectedFinal._id,
+			specialCharacter: this.props.final.selectedFinal.specialCharacter
+		});
 	};
 
 	componentWillUnmount = () => {
@@ -32,7 +35,10 @@ class NewJudgeForm extends Component {
 
 	componentDidUpdate = (prevProps, prevState) => {
 		if (prevProps.final !== this.props.final) {
-			this.setState({ finalId: this.props.final.selectedFinal._id });
+			this.setState({
+				finalId: this.props.final.selectedFinal._id,
+				specialCharacter: this.props.final.selectedFinal.specialCharacter
+			});
 		}
 		if (
 			this.props.action.response !== prevProps.action.response &&
@@ -229,26 +235,6 @@ class NewJudgeForm extends Component {
 						)}
 					</div>
 				</div>
-				<hr />
-				<div className="form-group">
-					<label htmlFor="specialCharacter">Caractère spécial pour le mot de passe</label>
-					<input
-						type="input"
-						className={classnames("form-control", {
-							"is-invalid": errors.specialCharacter
-						})}
-						id="specialCharacter"
-						name="specialCharacter"
-						maxLength="1"
-						minLength="1"
-						onChange={this.OnChange}
-						value={this.state.specialCharacter}
-					/>
-					{errors.specialCharacter && (
-						<div className="invalid-feedback">{errors.specialCharacter}</div>
-					)}
-				</div>
-
 				<button type="submit" className="btn form-control">
 					<i className="fa fa-plus-circle fa-lg" /> Créer le juge
 				</button>
