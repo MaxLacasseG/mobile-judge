@@ -7,6 +7,13 @@ export default class JudgeSwitchModal extends Component {
 			judge: ""
 		};
 	}
+
+	GoToGrid = () => {
+		const { project, judge, period, results } = this.props;
+		this.props.GoToGrid(project, judge, period, results);
+		this.props.ClearModal();
+	};
+
 	SavePairing = () => {
 		if (this.state.judge === "") return;
 		this.props.SavePairing(this.props.project, this.props.period, this.state.judge);
@@ -82,6 +89,15 @@ export default class JudgeSwitchModal extends Component {
 								</div>
 							</div>
 							<div className="modal-footer">
+								{this.props.judge !== undefined && (
+									<button
+										type="button"
+										className="btn btn-primary"
+										onClick={this.GoToGrid}
+									>
+										Voir la fiche
+									</button>
+								)}
 								<button
 									type="button"
 									className={classnames("btn btn-primary", {

@@ -174,24 +174,26 @@ class AttributionRow extends Component {
 		this.ManageCols();
 	};
 
-	GetAvailableJudges = (project, period, list) => {
+	GetAvailableJudges = (project, period, list) => {};
+	ShowJudgeModal = (project, judge, period, results) => {
+		let list = this.props.judge.judgesList;
+		list = this.CheckAvailibility(list, period);
+
 		const modal = (
 			<JudgeSwitchModal
 				project={project}
 				period={period}
+				judge={judge}
+				results={results}
 				list={list}
 				ClearModal={this.ClearModal}
 				SavePairing={this.SavePairing}
+				GoToGrid={this.GoToGrid}
 			/>
 		);
 		this.setState({ modal }, () => {
 			document.getElementById("modalJudge-btn").click();
 		});
-	};
-	ShowAvailableJudges = (project, period) => {
-		let list = this.props.judge.judgesList;
-		list = this.CheckAvailibility(list, period);
-		this.GetAvailableJudges(project, period, list);
 	};
 
 	/**
@@ -244,15 +246,15 @@ class AttributionRow extends Component {
 		return newList;
 	};
 
+	EditJudge = e => {
+		console.log(e.currentTarget);
+	};
+
 	HandleClick = e => {
 		const { project, judge, period } = e.currentTarget.dataset;
 		const results = this.props.final.selectedFinal.results;
 
-		//IF one is UNDEFINED ask for new attribution
-		if (!project || !judge || !period) return this.ShowAvailableJudges(project, period);
-
-		//Go to grid
-		this.GoToGrid(project, judge, period, results);
+		this.ShowJudgeModal(project, judge, period, results);
 	};
 
 	ClearModal = () => {

@@ -221,7 +221,7 @@ export const SaveResult = (
 		.then(response => {
 			//IF isAdmin, GO TO project view panel
 			if (isAdmin) {
-				console.log("save result", finalId);
+				//console.log("save result", finalId);
 				dispatch(SelectFinalById(finalId));
 				history.push(`/admin/finale/${finalId}/vue-projets`);
 			} //ELSE , GO TO project judge dashboard
