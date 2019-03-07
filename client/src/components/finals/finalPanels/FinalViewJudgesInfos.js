@@ -33,25 +33,34 @@ class FinalViewJudgesInfos extends Component {
 	OnHandleClick = e => {
 		//console.log(e.currentTarget.contentEditable);
 		const target = e.currentTarget.parentNode.parentNode;
-		target.isContentEditable === true ? this.EditModeOff(target) : this.EditModeOn(target);
+		const icon = target.querySelector(".edit-icon");
+		const numberZone = target.querySelector(".number-zone");
+
+		numberZone.isContentEditable === true
+			? this.EditModeOff(target, icon, numberZone)
+			: this.EditModeOn(target, icon, numberZone);
 	};
 
-	EditModeOn = target => {
+	EditModeOn = (target, icon, numberZone) => {
 		this.ResetAll();
-		const icon = target.querySelector(".edit-icon");
+		//Change icon
 		icon.classList.remove("fa-edit");
 		icon.classList.add("fa-save");
+		//Add border
 		target.classList.add("edit-mode");
-		target.contentEditable = "true";
+		//Change edit mode
+		numberZone.contentEditable = "true";
 	};
 
-	EditModeOff = target => {
-		const icon = target.querySelector(".edit-icon");
+	EditModeOff = (target, icon, numberZone) => {
+		//Change icon
 		icon.classList.remove("fa-save");
 		icon.classList.add("fa-edit");
+		//Remove border
 		target.classList.remove("edit-mode");
-		target.contentEditable = "false";
-		//console.log(target.innerText, target.dataset.judgeid, this.props.final.selectedFinal._id);
+		//Change edit mode
+		numberZone.contentEditable = "false";
+
 		this.props.SetJudgeNumber(
 			target.innerText,
 			target.dataset.judgeid,
@@ -62,7 +71,9 @@ class FinalViewJudgesInfos extends Component {
 	ResetAll = () => {
 		const elems = document.querySelectorAll(".edit-mode");
 		for (let elem of elems) {
-			this.EditModeOff(elem);
+			const icon = elem.querySelector(".number-zone");
+			const numberZone = elem.querySelector(".number-zone");
+			this.EditModeOff(elem, icon, numberZone);
 		}
 	};
 
@@ -73,7 +84,7 @@ class FinalViewJudgesInfos extends Component {
 			return (
 				<div className="row judge-row pb-3" key={judge._id}>
 					<div
-						className="col-md-1 judge-col username"
+						className="col-md-2 judge-col username"
 						data-number={judge.number}
 						data-judgeid={judge.judgeId}
 					>
@@ -84,7 +95,7 @@ class FinalViewJudgesInfos extends Component {
 								className="p-2 mr-2 edit-icon fas fa-edit"
 							/>
 						</span>
-						{judge.number}
+						<span className="number-zone">{judge.number}</span>
 					</div>
 					<div className="col-md judge-col username">
 						{judge.information.generalInformation.firstName}{" "}
@@ -108,7 +119,7 @@ class FinalViewJudgesInfos extends Component {
 		return (
 			<Fragment>
 				<div className="row judge-row px-3 mb-3">
-					<div className="col-md-1 text-center">Numéro du juge</div>
+					<div className="col-md-2 text-center">Numéro du juge</div>
 					<div className="col-md text-center">Nom</div>
 					<div className="col-md-2 text-center">Téléphone mobile</div>
 					<div className="col-md text-center">Nom d'utilisateur</div>

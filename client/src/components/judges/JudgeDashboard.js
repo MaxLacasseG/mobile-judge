@@ -60,69 +60,72 @@ class JudgeDashboard extends Component {
 		const projects = this.props.project.projectsList;
 		const results = this.props.final.selectedFinal.results;
 
-		const projectList =
-			projects &&
-			Object.keys(projects).map(key => {
-				let isComplete = this.CheckIfIsComplete(projects[key].project, projects[key].judge);
+		const projectList = projects
+			? Object.keys(projects).map(key => {
+					let isComplete = this.CheckIfIsComplete(
+						projects[key].project,
+						projects[key].judge
+					);
 
-				const linkText = isComplete ? (
-					<span>Projet {projects[key].project} | Jugement complété</span>
-				) : (
-					<span>Projet {projects[key].project} | Jugement incomplet</span>
-				);
-				const linkIcon = isComplete ? (
-					<span>
-						<i className="fas fa-check" />
-					</span>
-				) : null;
-				return (
-					<div
-						className={classnames("row mb-3 period-row p-2", {
-							"is-complete": isComplete
-						})}
-						key={projects[key].project}
-					>
-						<div className="col-md-1">{linkIcon}</div>
-						<div className="col-md-2">
-							<span className="">
-								<strong>
-									Période {String.fromCharCode(64 + projects[key].period)}
-								</strong>
-							</span>
-						</div>
-						<div className="col">
-							<Link
-								to={{
-									pathname: `/projet/${projects[key].project}`,
-									state: {
-										period: projects[key].period,
-										project: projects[key].project,
-										judge: this.props.auth.user.number,
-										finalId: this.props.auth.user.finalId,
-										isAdmin: false,
-										results: this.CheckExistingResult(
-											projects[key].project,
-											this.props.auth.user.number,
-											results
-										)
-											? this.ImportResults(
-													projects[key].project,
-													this.props.auth.user.number,
-													results
-											  )
-											: {}
-									}
-								}}
-							>
-								{linkText}{" "}
-								<span className="ml-3">
-									<i className="fas fa-sign-in-alt" />
+					const linkText = isComplete ? (
+						<span>Projet {projects[key].project} | Jugement complété</span>
+					) : (
+						<span>Projet {projects[key].project} | Jugement incomplet</span>
+					);
+					const linkIcon = isComplete ? (
+						<span>
+							<i className="fas fa-check" />
+						</span>
+					) : null;
+					return (
+						<div
+							className={classnames("row mb-3 period-row p-2", {
+								"is-complete": isComplete
+							})}
+							key={projects[key].project}
+						>
+							<div className="col-md-1">{linkIcon}</div>
+							<div className="col-md-2">
+								<span className="">
+									<strong>
+										Période {String.fromCharCode(64 + projects[key].period)}
+									</strong>
 								</span>
-							</Link>
+							</div>
+							<div className="col">
+								<Link
+									to={{
+										pathname: `/projet/${projects[key].project}`,
+										state: {
+											period: projects[key].period,
+											project: projects[key].project,
+											judge: this.props.auth.user.number,
+											finalId: this.props.auth.user.finalId,
+											isAdmin: false,
+											results: this.CheckExistingResult(
+												projects[key].project,
+												this.props.auth.user.number,
+												results
+											)
+												? this.ImportResults(
+														projects[key].project,
+														this.props.auth.user.number,
+														results
+												  )
+												: {}
+										}
+									}}
+								>
+									{linkText}{" "}
+									<span className="ml-3">
+										<i className="fas fa-sign-in-alt" />
+									</span>
+								</Link>
+							</div>
 						</div>
-					</div>
-				);
-			});
+					);
+			  })
+			: "Aucun projet d'assigné pour l'instant";
 
 		const { gender, lastName, firstName } = this.props.auth.user.information.generalInformation;
 		const number = this.props.auth.user.number;
