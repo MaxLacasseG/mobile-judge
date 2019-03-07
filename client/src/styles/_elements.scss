@@ -150,6 +150,9 @@ a {
     &:hover {
         background-color: lighten($color-accent3, 40%);
     }
+    & .more-infos {
+        font-size: 1.75em;
+    }
 }
 
 .grid-cell-header {

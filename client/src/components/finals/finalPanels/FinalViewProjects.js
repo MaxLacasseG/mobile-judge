@@ -197,7 +197,7 @@ class FinalViewProjects extends Component {
 					<div className="projectsListItem row" data-projectrow={project.number}>
 						{/** PROJECT INFOS COLUMN */}
 						<div className="col-md-3 row">
-							<div className="col-1">
+							<div className="col-md-1">
 								<strong>
 									{project.number === null ? (
 										<i
@@ -217,19 +217,21 @@ class FinalViewProjects extends Component {
 									project.information.projectInformation.category,
 									true
 								)}
-							</div>
-							<div className="col-md-1">
+								{"  "}
 								{this.FormatType(project.information.projectInformation.type, true)}
 							</div>
-							<div
-								className="col-md-1 more-infos"
-								data-project={project.number}
-								onMouseOver={this.ShowProjectInfos}
-								style={{ cursor: "pointer" }}
-							>
-								<strong>
-									<i className="fas fa-ellipsis-v" />
-								</strong>
+							<div className="col-md">
+								<div className="ml-1 btn btn-accent2 btn-sm">Changer le type</div>
+							</div>
+							<div className="col-md-1 p-0">
+								<span className="text-left">
+									<i
+										className="fas more-infos fa-info-circle "
+										data-project={project.number}
+										onMouseOver={this.ShowProjectInfos}
+										style={{ cursor: "pointer" }}
+									/>
+								</span>
 							</div>
 						</div>
 
