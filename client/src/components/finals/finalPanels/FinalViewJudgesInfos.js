@@ -71,7 +71,7 @@ class FinalViewJudgesInfos extends Component {
 	ResetAll = () => {
 		const elems = document.querySelectorAll(".edit-mode");
 		for (let elem of elems) {
-			const icon = elem.querySelector(".number-zone");
+			const icon = elem.querySelector(".edit-icon");
 			const numberZone = elem.querySelector(".number-zone");
 			this.EditModeOff(elem, icon, numberZone);
 		}
@@ -84,18 +84,18 @@ class FinalViewJudgesInfos extends Component {
 			return (
 				<div className="row judge-row pb-3" key={judge._id}>
 					<div
-						className="col-md-2 judge-col username"
+						className="col-md-2 judge-col username judge-number"
 						data-number={judge.number}
 						data-judgeid={judge.judgeId}
 					>
-						{" "}
 						<span>
 							<i
 								onClick={this.OnHandleClick}
+								data-judgeid={judge.judgeId}
 								className="p-2 mr-2 edit-icon fas fa-edit"
 							/>
 						</span>
-						<span className="number-zone">{judge.number}</span>
+						<div className="number-zone">{judge.number}</div>
 					</div>
 					<div className="col-md judge-col username">
 						{judge.information.generalInformation.firstName}{" "}
