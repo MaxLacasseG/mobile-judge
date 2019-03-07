@@ -86,7 +86,7 @@ export default class JudgeSwitchModal extends Component {
 							</div>
 							<hr />
 							<div className="modal-body" id="modalJudge-body">
-								<div class="mb-4 border-bottom">
+								<div className="mb-4 border-bottom">
 									<h5 className="mx-auto">Saisir ou modifier un jugement</h5>
 									<div className="my-2">
 										{this.props.judge === undefined ? (

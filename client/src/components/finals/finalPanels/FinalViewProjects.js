@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from "react";
+import ReactDOM from "react-dom";
 import { connect } from "react-redux";
 import { SelectFinalById } from "../../../store/actions/finalActions";
 import { SelectProjectsByFinalId } from "../../../store/actions/projectActions";
@@ -6,6 +7,7 @@ import { SelectJudgesByFinalId } from "../../../store/actions/judgeActions";
 import FinalNav from "../../pages/partials/FinalNav";
 import AttributionRow from "../../projects/AttributionRow";
 import isEmpty from "../../../validation/isEmpty";
+import tippy from "tippy.js";
 class FinalViewProjects extends Component {
 	constructor(props) {
 		super(props);
@@ -82,6 +84,104 @@ class FinalViewProjects extends Component {
 		elem.setAttribute("title", "Le nombre de juge est insuffisant pour ce projet");
 	};
 
+	ShowProjectInfos = e => {
+		const target = document.querySelector(
+			`.more-infos[data-project="${e.currentTarget.dataset.project}"]`
+		);
+		const number = target.dataset.project;
+		let project = this.props.project.projectsList.filter(project => {
+			return project.number == number;
+		});
+
+		if (isEmpty(project)) return;
+		project = project[0];
+		const classification = project.classification;
+		const { type, category, summary } = project.information.projectInformation;
+		const participant1 = project.participants[0] && project.participants[0];
+		const participant2 = project.participants[1] && project.participants[1];
+
+		const container = document.createElement("div");
+		const divs = ReactDOM.render(
+			<div className="p-3">
+				<div className="row">
+					<div className="col-md-12 text-left">
+						<h3>Fiche du projet</h3>
+					</div>
+				</div>
+				<div className="row border-bottom">
+					<div className="col-md-12 text-left">
+						<h4>
+							N<sup>o</sup>
+							{project.number} | {project.information.projectInformation.title}
+						</h4>
+					</div>
+				</div>
+				{project.participants.length > 0 && (
+					<Fragment>
+						<div className="row pt-2">
+							<div class="col-md-12 text-left">
+								<h5>Équipe</h5>
+							</div>
+						</div>
+						<div className="row border-bottom pb-2">
+							<div class="col-md-12 text-left">
+								{participant1 && (
+									<span>
+										{participant1.information.generalInformation.firstName}{" "}
+										{participant1.information.generalInformation.lastName}
+									</span>
+								)}
+								{participant2 && <span>&emsp;&amp;&emsp;</span>}
+								{participant2 && (
+									<span>
+										{participant2.information.generalInformation.firstName}{" "}
+										{participant2.information.generalInformation.lastName}
+									</span>
+								)}
+							</div>
+						</div>
+					</Fragment>
+				)}
+				<div className="row pt-2">
+					<div className="col-md-1  text-left">Type</div>
+					<div class="col text-left">
+						<p> {this.FormatType(type)}</p>
+					</div>
+				</div>
+				<div className="row">
+					<div className="col-md-1  text-left">Catégorie</div>
+					<div class="col text-left">
+						<p> {this.FormatCategory(category)}</p>
+					</div>
+				</div>
+				<div className="row">
+					<div className="col-md-1  text-left">Classe</div>
+					<div class="col text-left">
+						<p> {classification}</p>
+					</div>
+				</div>
+
+				<div className="row border-top pt-2">
+					<div class="col-md-12 text-left">
+						<h5>Résumé</h5>
+					</div>
+					<div class="col-md-12 text-justify">
+						<p className="text-justify">{summary}</p>
+					</div>
+				</div>
+			</div>,
+			container
+		);
+		tippy(target, {
+			content: divs,
+			placement: "top",
+			arrow: true,
+			maxWidth: "60%",
+			inertia: true,
+			boundary: "viewport"
+		});
+	};
+
 	render() {
 		const id = this.props.match.params[0];
 		const final = this.props.final.selectedFinal;
@@ -121,7 +221,12 @@ class FinalViewProjects extends Component {
 							<div className="col-md-1">
 								{this.FormatType(project.information.projectInformation.type, true)}
 							</div>
-							<div className="col-md-1">
+							<div
+								className="col-md-1 more-infos"
+								data-project={project.number}
+								onMouseOver={this.ShowProjectInfos}
+								style={{ cursor: "pointer" }}
+							>
 								<strong>
 									<i className="fas fa-ellipsis-v" />
 								</strong>
