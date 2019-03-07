@@ -227,8 +227,8 @@ class FinalViewProjects extends Component {
 				<Fragment key={project.projectId}>
 					<div className="projectsListItem row" data-projectrow={project.number}>
 						{/** PROJECT INFOS COLUMN */}
-						<div className="col-md-3 row">
-							<div className="col-md-1">
+						<div className="col-md-5 row">
+							<div className="col-1">
 								<strong>
 									{project.number === null ? (
 										<i
@@ -240,10 +240,10 @@ class FinalViewProjects extends Component {
 									)}
 								</strong>
 							</div>
-							<div className="col-md">
+							<div className="col">
 								{project.information.projectInformation.title}
 							</div>
-							<div className="col-md-1">
+							<div className="col-1">
 								{this.FormatCategory(
 									project.information.projectInformation.category,
 									true
@@ -251,7 +251,7 @@ class FinalViewProjects extends Component {
 								{"  "}
 								{this.FormatType(project.information.projectInformation.type, true)}
 							</div>
-							<div className="col-md">
+							<div className="col">
 								<div
 									className="ml-1 btn btn-fonce btn-sm"
 									onClick={this.HandleClick}
@@ -262,7 +262,7 @@ class FinalViewProjects extends Component {
 									Changer le type
 								</div>
 							</div>
-							<div className="col-md-1 p-0">
+							<div className="col-1 p-0">
 								<span className="text-left">
 									<i
 										className="fas more-infos fa-info-circle "
@@ -298,7 +298,7 @@ class FinalViewProjects extends Component {
 				<div className="p-5 ">
 					{/* HEADER */}
 					<div className="row">
-						<div className="col-md-3 row" />
+						<div className="col-md-5 row" />
 						<div className="col-md row">{this.CreateTableHeader()}</div>
 					</div>
 					{projectsList}
