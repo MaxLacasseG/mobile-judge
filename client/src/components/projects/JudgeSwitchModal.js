@@ -69,9 +69,10 @@ export default class JudgeSwitchModal extends Component {
 					<div className="modal-dialog modal-lg" role="document">
 						<div className="modal-content ">
 							<div className="modal-header">
-								<h5 className="modal-title" id="modalJudgeLabel">
-									Modifier un juge
-								</h5>
+								<h3 className="modal-title text-center" id="modalJudgeLabel">
+									Projet {this.props.project} - Période{" "}
+									{String.fromCharCode(64 + parseInt(this.props.period))}
+								</h3>
 								<button
 									type="button"
 									className="close"
@@ -83,24 +84,35 @@ export default class JudgeSwitchModal extends Component {
 									<span aria-hidden="true">&times;</span>
 								</button>
 							</div>
+							<hr />
 							<div className="modal-body" id="modalJudge-body">
-								<h4 className="mx-auto">
-									Projet {this.props.project} - Période{" "}
-									{String.fromCharCode(64 + parseInt(this.props.period))}
-								</h4>
-								<div className="py-4">
-									{this.props.judge !== undefined && (
-										<button
-											type="button"
-											className="btn btn-primary"
-											onClick={this.GoToGrid}
-										>
-											Voir la fiche
-										</button>
-									)}
+								<div class="mb-4 border-bottom">
+									<h5 className="mx-auto">Saisir ou modifier un jugement</h5>
+									<div className="my-2">
+										{this.props.judge === undefined ? (
+											<p>Aucun juge sélectionné</p>
+										) : (
+											<button
+												type="button"
+												className="btn btn-accent2 btn-block py-2"
+												onClick={this.GoToGrid}
+											>
+												Voir la fiche
+											</button>
+										)}
+									</div>
 								</div>
 
 								<div className="form-group mx-auto">
+									<h5 className="mx-auto">
+										Changer de juge
+										<small className="pl-3">
+											<span>
+												<i className="fas fa-exclamation-circle" />
+											</span>{" "}
+											Attention, cela effacera un jugement enregistré
+										</small>
+									</h5>
 									<label htmlFor="">Liste des juges disponibles</label>
 									<select
 										className="custom-select"
@@ -129,7 +141,7 @@ export default class JudgeSwitchModal extends Component {
 										<span>
 											<i className="fas fa-trash" />
 										</span>{" "}
-										Supprimer le juge
+										Supprimer le juge pour cette période
 									</button>
 								)}
 								{this.props.list.length > 0 && (
