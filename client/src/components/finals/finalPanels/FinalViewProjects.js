@@ -6,12 +6,15 @@ import { SelectProjectsByFinalId } from "../../../store/actions/projectActions";
 import { SelectJudgesByFinalId } from "../../../store/actions/judgeActions";
 import FinalNav from "../../pages/partials/FinalNav";
 import AttributionRow from "../../projects/AttributionRow";
+import TypeSwitchModal from "../../projects/TypeSwitchModal";
 import isEmpty from "../../../validation/isEmpty";
 import tippy from "tippy.js";
 class FinalViewProjects extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {};
+		this.state = {
+			modal: ""
+		};
 	}
 
 	componentDidMount = () => {
@@ -119,12 +122,12 @@ class FinalViewProjects extends Component {
 				{project.participants.length > 0 && (
 					<Fragment>
 						<div className="row pt-2">
-							<div class="col-md-12 text-left">
+							<div className="col-md-12 text-left">
 								<h5>Équipe</h5>
 							</div>
 						</div>
 						<div className="row border-bottom pb-2">
-							<div class="col-md-12 text-left">
+							<div className="col-md-12 text-left">
 								{participant1 && (
 									<span>
 										{participant1.information.generalInformation.firstName}{" "}
@@ -144,28 +147,28 @@ class FinalViewProjects extends Component {
 				)}
 				<div className="row pt-2">
 					<div className="col-md-1  text-left">Type</div>
-					<div class="col text-left">
+					<div className="col text-left">
 						<p> {this.FormatType(type)}</p>
 					</div>
 				</div>
 				<div className="row">
 					<div className="col-md-1  text-left">Catégorie</div>
-					<div class="col text-left">
+					<div className="col text-left">
 						<p> {this.FormatCategory(category)}</p>
 					</div>
 				</div>
 				<div className="row">
 					<div className="col-md-1  text-left">Classe</div>
-					<div class="col text-left">
+					<div className="col text-left">
 						<p> {classification}</p>
 					</div>
 				</div>
 
 				<div className="row border-top pt-2">
-					<div class="col-md-12 text-left">
+					<div className="col-md-12 text-left">
 						<h5>Résumé</h5>
 					</div>
-					<div class="col-md-12 text-justify">
+					<div className="col-md-12 text-justify">
 						<p className="text-justify">{summary}</p>
 					</div>
 				</div>
@@ -180,6 +183,34 @@ class FinalViewProjects extends Component {
 			inertia: true,
 			boundary: "viewport"
 		});
+	};
+
+	SaveNewType = () => {};
+
+	ShowTypeSwitchModal = (projectid, projectnumber, type, results) => {
+		const modal = (
+			<TypeSwitchModal
+				projectid={projectid}
+				projectnumber={projectnumber}
+				type={type}
+				results={results}
+				ClearModal={this.ClearModal}
+				SaveNewType={this.SaveNewType}
+			/>
+		);
+		this.setState({ modal }, () => {
+			document.getElementById("modalTypeSwitch-btn").click();
+		});
+	};
+	ClearModal = () => {
+		document.getElementById("closeModalBtn").click();
+		this.setState({ modal: "" });
+	};
+	HandleClick = e => {
+		console.log(e.currentTarget.dataset);
+		const { projectid, type, projectnumber } = e.currentTarget.dataset;
+		const results = this.props.final.selectedFinal.results;
+		this.ShowTypeSwitchModal(projectid, projectnumber, type, results);
 	};
 
 	render() {
@@ -221,7 +252,15 @@ class FinalViewProjects extends Component {
 								{this.FormatType(project.information.projectInformation.type, true)}
 							</div>
 							<div className="col-md">
-								<div className="ml-1 btn btn-accent2 btn-sm">Changer le type</div>
+								<div
+									className="ml-1 btn btn-fonce btn-sm"
+									onClick={this.HandleClick}
+									data-projectid={project._id}
+									data-projectnumber={project.number}
+									data-type={project.information.projectInformation.type}
+								>
+									Changer le type
+								</div>
 							</div>
 							<div className="col-md-1 p-0">
 								<span className="text-left">
@@ -254,6 +293,7 @@ class FinalViewProjects extends Component {
 
 		return (
 			<Fragment>
+				{this.state.modal}
 				<FinalNav pageTitle="Finale - Vue par projets" id={id} finalName={final.longName} />
 				<div className="p-5 ">
 					{/* HEADER */}
