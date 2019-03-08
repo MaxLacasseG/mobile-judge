@@ -6,7 +6,7 @@ controller.Find = filter => {
 	return Project.find(filter).sort({ number: 1 });
 };
 
-controller.rechercherId = projetId => {
+controller.FindById = projetId => {
 	return Project.findById(projetId);
 };
 
@@ -40,9 +40,8 @@ controller.Create = projectInfos => {
 	);
 };
 
-controller.modifier = projetId => {
-	//TODO: Validation
-	return Project.findByIdAndUpdate(projetId._id, projetId, { new: true });
+controller.Update = projectInfos => {
+	return Project.findByIdAndUpdate(projectInfos._id, projectInfos, { new: true });
 };
 
 controller.supprimerUn = projetId => {

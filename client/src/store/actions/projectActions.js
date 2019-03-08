@@ -10,7 +10,7 @@ import {
 	CLEAR_PROJECT_INFOS
 } from "./types";
 import axios from "axios";
-
+import { ResetProjectJudgement } from "./finalActions";
 export const CreateProject = projectInfos => dispatch => {
 	axios
 		.post("/api/project/create", projectInfos)
@@ -82,6 +82,35 @@ export const GetProjectInfos = (finalId, projectNumber) => dispatch => {
 		.get("/api/project/number", { params: { finalId, projectNumber } })
 		.then(project => {
 			dispatch({ type: GET_PROJECT, payload: project.data });
+			dispatch({
+				type: SET_ACTION_RESPONSE,
+				payload: { type: GET_PROJECT, response: "success" }
+			});
+			dispatch({ type: CLEAR_ERRORS });
+		})
+		.catch(err => {
+			console.log(err);
+			dispatch({
+				type: SET_ACTION_RESPONSE,
+				payload: { type: GET_PROJECT, response: "fail" }
+			});
+			dispatch({ type: GET_ERRORS, payload: err.response.data });
+		});
+};
+
+export const SwitchProjectType = (projectId, newType) => dispatch => {
+	axios
+		.put("/api/project/switch-type", { projectId, newType })
+		.then(savedProject => {
+			savedProject = savedProject.data;
+			const finalId = savedProject.finalId;
+			const projectNumber = savedProject.number;
+
+			//ResetResults
+			dispatch(ResetProjectJudgement(finalId, projectNumber));
+			dispatch(SelectProjectsByFinalId(finalId));
+
+			//Dispatch GetProjects
 			dispatch({
 				type: SET_ACTION_RESPONSE,
 				payload: { type: GET_PROJECT, response: "success" }

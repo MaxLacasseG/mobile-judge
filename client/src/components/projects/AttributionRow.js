@@ -51,6 +51,13 @@ class AttributionRow extends Component {
 		//SAVE cols into state
 		this.setState({ cols });
 	};
+	componentDidUpdate = (prevProps, prevState) => {
+		if (prevProps.final.selectedFinal !== this.props.final.selectedFinal) {
+			console.log("UPDATE CHANGE IN FINAL INFOS");
+
+			this.ManageCols();
+		}
+	};
 
 	/**
 	 * Checks for existing pairing
@@ -218,17 +225,19 @@ class AttributionRow extends Component {
 
 	/**
 	 * Removes judges that already paired with the project during another period
+	 * @param {object[]} list the from props.judge.judgesList
+	 * @return {object[]} the filtered list
 	 */
 	CheckJudgeOtherPeriods = list => {
 		let newList = list.filter(judge => {
-			let judgeOtherPeriods = true;
+			if (judge.number === null) return false;
 
+			// for each period check availability
 			for (let period in this.props.attributionByProject) {
-				if (this.props.attributionByProject[period].judge === judge.number)
-					return (judgeOtherPeriods = false);
+				if (this.props.attributionByProject[period].judge === judge.number) return false;
 			}
 
-			return judgeOtherPeriods;
+			return true;
 		});
 		return newList;
 	};
@@ -237,18 +246,20 @@ class AttributionRow extends Component {
 	 * Removes judges that are evaluating another project during given period
 	 */
 	CheckIfIsJudgingAtPeriod = (list, period) => {
-		if (isEmpty(this.props.final)) return;
+		list.map(elem => {
+			console.log("vertical check", period, elem.number);
+		});
 		const pairing = this.props.final.selectedFinal.pairing.pairingByProjects;
-
+		console.log(pairing);
 		let newList = list.filter(judge => {
-			let available = true;
+			if (judge.number === null) return false;
 
 			//Remove judge from list, if exist in pairing for same period,
 			for (let project in pairing) {
-				if (pairing[project][period].judge === judge.number) return (available = false);
+				if (pairing[project][period].judge === judge.number) return false;
 			}
 
-			return available;
+			return true;
 		});
 		return newList;
 	};
@@ -283,7 +294,7 @@ class AttributionRow extends Component {
 		//Check if results is not empty
 		//Empty results for the specific period
 		if (results && results[project]) {
-			results[project][judge] = {};
+			delete results[project][judge];
 		}
 
 		console.log("remove end", final, pairing, results);
@@ -292,7 +303,7 @@ class AttributionRow extends Component {
 		final.results = results;
 
 		this.props.UpdateFinal(final);
-		this.ManageCols();
+		//this.ManageCols();
 	};
 
 	HandleClick = e => {

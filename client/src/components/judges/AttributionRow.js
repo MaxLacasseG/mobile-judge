@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from "react";
+import { connect } from "react-redux";
 import isEmpty from "../../validation/isEmpty";
 import classnames from "classnames";
 /**
@@ -8,8 +9,101 @@ import classnames from "classnames";
  */
 
 class AttributionRow extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			cols: [],
+			pairing: ""
+		};
+	}
 	componentDidMount = () => {
 		//if (!this.CheckJudgeAmount()) this.props.ShowMissingJudge(this.props.number);
+		window.setTimeout(() => {
+			this.ManageCols();
+		}, 300);
+	};
+
+	componentDidUpdate = (prevProps, prevState) => {
+		if (prevProps.final.selectedFinal !== this.props.final.selectedFinal) {
+			console.log("UPDATE CHANGE IN FINAL INFOS");
+
+			//this.ManageCols();
+		}
+	};
+
+	ManageCols = () => {
+		const judgeNumber = this.props.judgeNumber;
+		const cols = [];
+
+		//FOR each period, fill the col with data
+		for (let period = 1; period <= 8; period++) {
+			const projectNumber = this.GetPairingInfos(judgeNumber, period);
+			cols.push(this.FillCol(projectNumber, period, judgeNumber));
+		}
+
+		//SAVE cols into state
+		this.setState({ cols });
+	};
+
+	/**
+	 * Checks for existing pairing
+	 * @param	{number} judgeNumber
+	 * @param	{number} period
+	 * @returns {number|undefined|null} 	judge returns the project number, an empty string if no project is assigned,null if no pairing is found
+	 */
+	GetPairingInfos = (judgeNumber, period) => {
+		const pairingInfos = this.props.final.selectedFinal.pairing.pairingByJudges;
+		// Nothing is assigned to the project
+		if (isEmpty(pairingInfos) || isEmpty(pairingInfos[judgeNumber])) return null;
+		// No judge is assigned
+		if (isEmpty(pairingInfos[judgeNumber][period])) return undefined;
+
+		return pairingInfos[judgeNumber][period].project;
+	};
+
+	FillCol = (projectNumber, period, judgeNumber) => {
+		const isComplete = this.CheckJudgmentStatus(projectNumber, judgeNumber);
+		return (
+			<div
+				key={projectNumber + "" + period}
+				className={classnames("col-md grid-cell", {
+					"grid-cell-complete": isComplete
+				})}
+				data-judge={judgeNumber}
+				data-project={projectNumber}
+				data-period={period}
+			>
+				{isEmpty(projectNumber) ? (
+					" - "
+				) : (
+					<div>
+						Projet {projectNumber}{" "}
+						{isComplete && (
+							<span>
+								<i className="fas fa-check" />
+							</span>
+						)}
+					</div>
+				)}
+			</div>
+		);
+	};
+
+	/**
+	 * Check is judgement is completed for specific project and judge
+	 * @param {number} projectNumber
+	 * @param {number} judgeNumber
+	 * @return {true|false} Returns true if judgement is complete.Else returns false.
+	 */
+	CheckJudgmentStatus = (projectNumber, judgeNumber) => {
+		const results = this.props.final.selectedFinal.results;
+		if (
+			results === undefined ||
+			isEmpty(results[projectNumber]) ||
+			isEmpty(results[projectNumber][judgeNumber])
+		)
+			return false;
+		return results[projectNumber][judgeNumber].isComplete;
 	};
 
 	CheckJudgeAmount = () => {
@@ -25,75 +119,14 @@ class AttributionRow extends Component {
 		return judgeNumber < this.props.minJudges ? false : true;
 	};
 
-	ChangeAttribution = e => {
-		console.log(e.target.dataset.project, e.target.dataset.judge, e.target.dataset.period);
-	};
-
 	render() {
-		let cols = [];
-
-		//If no information is given show "-",
-		//else show project for each period
-		if (isEmpty(this.props.attributionInfos) || Object.keys(this.props.attributionInfos) < 8) {
-			for (let i = 0; i < 8; i++) {
-				cols.push(
-					<div className="col-md grid-cell" key={i}>
-						{" - "}
-					</div>
-				);
-			}
-		} else {
-			for (let i = 1; i <= 8; i++) {
-				if (isEmpty(this.props.attributionInfos[i])) {
-					cols.push(
-						<div className="col-md grid-cell" key={i}>
-							{" - "}
-						</div>
-					);
-				} else {
-					const period = i;
-					const project = this.props.attributionInfos[period].project;
-					const judge = this.props.attributionInfos[period].judge;
-					let isComplete = false;
-
-					//Checks if judgement is completed
-					if (this.props.results !== undefined && !isEmpty(this.props.results[project])) {
-						if (!isEmpty(this.props.results[project][judge])) {
-							isComplete = this.props.results[project][judge].isComplete;
-						}
-					}
-
-					//Creates each individual grid cell
-					cols.push(
-						<div
-							key={i}
-							className={classnames("col-md grid-cell", {
-								"grid-cell-complete": isComplete
-							})}
-							data-judge={judge}
-							data-project={project}
-							data-period={period}
-							onClick={this.ChangeAttribution}
-						>
-							{isEmpty(project) ? (
-								" - "
-							) : (
-								<div>
-									Projet {project}{" "}
-									{isComplete && (
-										<span>
-											<i className="fas fa-check" />
-										</span>
-									)}
-								</div>
-							)}
-						</div>
-					);
-				}
-			}
-		}
-		return <Fragment>{cols}</Fragment>;
+		return <Fragment>{this.state.cols}</Fragment>;
 	}
 }
 
-export default AttributionRow;
+const mapStateToProps = state => ({
+	judge: state.judge,
+	final: state.final
+});
+
+export default connect(mapStateToProps)(AttributionRow);

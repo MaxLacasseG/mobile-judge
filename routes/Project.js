@@ -43,7 +43,7 @@ router.get("/juge", (req, res) => {
 });
 
 router.get("/id", (req, res) => {
-	ProjectController.rechercherId(req.query.projetId)
+	ProjectController.FindById(req.query.projetId)
 		.then(resultat => {
 			if (isEmpty(resultat)) throw { success: false, msg: "Aucun projet trouvé" };
 			res.status(200).json(resultat);
@@ -93,6 +93,25 @@ router.put("/modifier", (req, res) => {
 			res.status(200).json(resultat);
 		})
 		.catch(err => {
+			res.status(400).json(err);
+		});
+});
+
+router.put("/switch-type", (req, res) => {
+	ProjectController.Find({ _id: req.body.projectId })
+		.then(foundProject => {
+			if (isEmpty(foundProject)) throw { success: false, msg: "Aucun projet trouvé" };
+
+			foundProject = foundProject[0];
+			foundProject.information.projectInformation.type = req.body.newType;
+
+			return ProjectController.Update(foundProject);
+		})
+		.then(resultat => {
+			res.status(200).json(resultat);
+		})
+		.catch(err => {
+			logger.log(err);
 			res.status(400).json(err);
 		});
 });

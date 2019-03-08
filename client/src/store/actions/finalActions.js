@@ -12,6 +12,7 @@ import {
 	IS_FINAL_ACTIVE
 } from "./types";
 import axios from "axios";
+import isEmpty from "../../validation/isEmpty";
 
 export const CreateFinal = (finalInfos, userId, isAdmin) => dispatch => {
 	axios
@@ -150,7 +151,39 @@ export const SaveFinalPairing = pairingInfos => dispatch => {
 			dispatch({ type: GET_ERRORS, payload: err.response.data });
 		});
 };
+export const ResetProjectJudgement = (finalId, projectNumber) => dispatch => {
+	axios
+		.get("/api/final/id", { params: { finalId } })
+		.then(final => {
+			final = final.data;
+			//If no result, return
+			if (isEmpty(final.results) || isEmpty(final.results[projectNumber]))
+				throw {
+					response: { data: { msg: "Aucun jugement enregistré pour le projet demandé" } }
+				};
 
+			//Delete property for each result
+			const results = final.results;
+			//console.log("results avant", results);
+			delete results[projectNumber];
+
+			//Put back new results into final
+			final.results = results;
+			//console.log("results après", results);
+
+			return axios.put("/api/final/reset-project", final);
+		})
+		.then(finalInfos => {
+			dispatch(SelectFinalById(finalInfos.data._id));
+		})
+		.catch(err => {
+			dispatch({
+				type: SET_ACTION_RESPONSE,
+				payload: { type: SAVE_FINAL_PAIRING, response: "fail" }
+			});
+			dispatch({ type: GET_ERRORS, payload: err.response.data });
+		});
+};
 export const UpdateFinal = final => dispatch => {
 	axios
 		.put("/api/final/update", final)

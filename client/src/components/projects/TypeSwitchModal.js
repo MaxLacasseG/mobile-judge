@@ -10,8 +10,7 @@ export default class TypeSwitchModal extends Component {
 	}
 
 	componentDidMount = () => {
-		//TODO: set type state
-		console.log("mount", this.props);
+		//console.log("mount", this.props);
 	};
 
 	FormatType = (type, short = false) => {
@@ -33,10 +32,9 @@ export default class TypeSwitchModal extends Component {
 	};
 
 	SaveNewType = () => {
-		if (this.state.project === "") return;
-		const { project } = this.props;
+		if (this.state.type === "") return;
 
-		//this.props.SavePairing(project, period, this.state.judge);
+		this.props.SwitchProjectType(this.props.projectid, this.state.type);
 		this.props.ClearModal();
 	};
 

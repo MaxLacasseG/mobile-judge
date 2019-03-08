@@ -78,7 +78,7 @@ class EvaluationGrid extends Component {
 				return highVulgarisationGrid;
 			case "experimentation":
 				return highExperimentationGrid;
-			case "design":
+			case "conception":
 				return highschoolConceptionGrid;
 			default:
 				return null;
@@ -307,7 +307,7 @@ class EvaluationGrid extends Component {
 									{" "}
 									Période{" "}
 									{String.fromCharCode(
-										65 + parseInt(this.props.location.state.period)
+										64 + parseInt(this.props.location.state.period)
 									)}
 								</div>
 							</div>

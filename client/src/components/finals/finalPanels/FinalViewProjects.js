@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import ReactDOM from "react-dom";
 import { connect } from "react-redux";
 import { SelectFinalById } from "../../../store/actions/finalActions";
-import { SelectProjectsByFinalId } from "../../../store/actions/projectActions";
+import { SelectProjectsByFinalId, SwitchProjectType } from "../../../store/actions/projectActions";
 import { SelectJudgesByFinalId } from "../../../store/actions/judgeActions";
 import FinalNav from "../../pages/partials/FinalNav";
 import AttributionRow from "../../projects/AttributionRow";
@@ -146,19 +146,19 @@ class FinalViewProjects extends Component {
 					</Fragment>
 				)}
 				<div className="row pt-2">
-					<div className="col-md-1  text-left">Type</div>
+					<div className="col-md-2  text-left">Type</div>
 					<div className="col text-left">
 						<p> {this.FormatType(type)}</p>
 					</div>
 				</div>
 				<div className="row">
-					<div className="col-md-1  text-left">Catégorie</div>
+					<div className="col-md-2  text-left">Catégorie</div>
 					<div className="col text-left">
 						<p> {this.FormatCategory(category)}</p>
 					</div>
 				</div>
 				<div className="row">
-					<div className="col-md-1  text-left">Classe</div>
+					<div className="col-md-2  text-left">Classe</div>
 					<div className="col text-left">
 						<p> {classification}</p>
 					</div>
@@ -175,27 +175,27 @@ class FinalViewProjects extends Component {
 			</div>,
 			container
 		);
-		tippy(target, {
+		tippy(target.parentNode, {
 			content: divs,
-			placement: "top",
-			arrow: true,
+			placement: "top-start",
 			maxWidth: "60%",
+			flipBehavior: ["bottom", "top"],
+			flipOnUpdate: true,
+			interactiveBorder: 100,
 			inertia: true,
-			boundary: "viewport"
+			boundary: "viewport",
+			followCursor: true
 		});
 	};
 
-	SaveNewType = () => {};
-
-	ShowTypeSwitchModal = (projectid, projectnumber, type, results) => {
+	ShowTypeSwitchModal = (projectid, projectnumber, type) => {
 		const modal = (
 			<TypeSwitchModal
 				projectid={projectid}
 				projectnumber={projectnumber}
 				type={type}
-				results={results}
 				ClearModal={this.ClearModal}
-				SaveNewType={this.SaveNewType}
+				SwitchProjectType={this.props.SwitchProjectType}
 			/>
 		);
 		this.setState({ modal }, () => {
@@ -207,7 +207,6 @@ class FinalViewProjects extends Component {
 		this.setState({ modal: "" });
 	};
 	HandleClick = e => {
-		console.log(e.currentTarget.dataset);
 		const { projectid, type, projectnumber } = e.currentTarget.dataset;
 		const results = this.props.final.selectedFinal.results;
 		this.ShowTypeSwitchModal(projectid, projectnumber, type, results);
@@ -225,6 +224,7 @@ class FinalViewProjects extends Component {
 
 			return (
 				<Fragment key={project.projectId}>
+					<div id="popup" style={{ position: "fixed", zIndex: "100", top: "50%" }} />
 					<div className="projectsListItem row" data-projectrow={project.number}>
 						{/** PROJECT INFOS COLUMN */}
 						<div className="col-md-5 row">
@@ -314,5 +314,5 @@ const mapStateToProps = state => ({
 
 export default connect(
 	mapStateToProps,
-	{ SelectFinalById, SelectProjectsByFinalId, SelectJudgesByFinalId }
+	{ SelectFinalById, SelectProjectsByFinalId, SwitchProjectType, SelectJudgesByFinalId }
 )(FinalViewProjects);

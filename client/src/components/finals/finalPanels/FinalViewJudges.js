@@ -137,7 +137,7 @@ class FinalViewJudges extends Component {
 						{/** PAIRING COLUMNS */}
 						<div className="col-md row">
 							<AttributionRow
-								number={judge.number}
+								judgeNumber={judge.number}
 								attributionInfos={attributionInfos}
 								minJudges="5"
 								results={final.results}
