@@ -4,7 +4,7 @@ import { SelectFinalById } from "../../../store/actions/finalActions";
 import { SelectJudgesByFinalId } from "../../../store/actions/judgeActions";
 import { SelectProjectsByFinalId } from "../../../store/actions/projectActions";
 import AttributionRow from "../../judges/AttributionRow";
-
+import PairingAlgo from "../judgeProjectPairing/PairingAlgo";
 import FinalNav from "../../pages/partials/FinalNav";
 import isEmpty from "../../../validation/isEmpty";
 
@@ -151,6 +151,7 @@ class FinalViewJudges extends Component {
 		return (
 			<Fragment>
 				<FinalNav pageTitle="Finale - Vue par juges" id={id} finalName={final.longName} />
+				<PairingAlgo />
 				<div className="p-5 ">
 					{/* HEADER */}
 					<div className="row">
