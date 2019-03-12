@@ -23,7 +23,7 @@ class JudgeRoute extends Component {
 	render() {
 		const auth = this.props.auth;
 		const isActive = this.state.isActive;
-		console.log("isAuthenticated", auth.isAuthenticated);
+		//console.log("isAuthenticated", auth.isAuthenticated);
 		return (
 			<Fragment>
 				{!isActive ? (

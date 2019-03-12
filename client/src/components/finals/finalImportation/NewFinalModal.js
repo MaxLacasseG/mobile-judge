@@ -84,6 +84,7 @@ class NewFinalModal extends Component {
 				"education",
 				"generalInformation",
 				"judgingPreference",
+				"judgingExperience",
 				"work"
 			]);
 			newJudge.judgeId = judge._id;

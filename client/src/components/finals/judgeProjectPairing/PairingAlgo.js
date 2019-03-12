@@ -11,12 +11,29 @@ class PairingAlgo extends Component {
 			nbProjectsPerPeriod: null,
 			nbProjectsOver: null,
 			level: null,
-			removeFirstLastPeriod: false
+			removeFirstLastPeriod: false,
+			englishJudges: [],
+			bilangualJudges: [],
+			frenchJudges: [],
+			englishProjects: [],
+			bilangualProjects: [],
+			frenchProjects: []
 		};
 	}
 
 	componentDidMount = () => {
-		console.log(this.InitializeRandomizer("highschool"));
+		//console.log(this.InitializeRandomizer("highschool"));
+		/* let project = this.props.project.projectsList[0];
+		const judgesList = this.props.judge.judgesList.filter(judge => {
+			return judge.number !== undefined && judge.number !== null;
+		});
+		console.log(judgesList);
+		for (const judge of judgesList) {
+			this.SelectJudge(judge, project);
+		} */
+		this.OrderJudgesByLanguage();
+		this.OrderProjectsByLanguage();
+		console.log(this.state);
 	};
 
 	InitializeRandomizer = selectedLevel => {
@@ -57,6 +74,59 @@ class PairingAlgo extends Component {
 		return true;
 	};
 
+	OrderJudgesByLanguage = () => {
+		const judgesList = this.props.judge.judgesList;
+		const englishJudges = [],
+			bilangualJudges = [],
+			frenchJudges = [];
+		judgesList.map(judge => {
+			if (
+				judge.information.judgingExperience.judgingFrench === "no" &&
+				judge.information.judgingExperience.judgingEnglish === "yes"
+			) {
+				return englishJudges.push(judge);
+			} else if (
+				judge.information.judgingExperience.judgingFrench === "yes" &&
+				judge.information.judgingExperience.judgingEnglish === "yes"
+			) {
+				return bilangualJudges.push(judge);
+			} else if (
+				judge.information.judgingExperience.judgingFrench === "yes" &&
+				judge.information.judgingExperience.judgingEnglish === "no"
+			) {
+				return frenchJudges.push(judge);
+			}
+		});
+		this.setState({ englishJudges, bilangualJudges, frenchJudges });
+	};
+
+	OrderProjectsByLanguage = () => {
+		const projectsList = this.props.project.projectsList;
+		const englishProjects = [],
+			bilangualProjects = [],
+			frenchProjects = [];
+
+		projectsList.map(project => {
+			if (
+				project.information.projectInformation.languageFrench === "no" &&
+				project.information.projectInformation.languageEnglish === "yes"
+			) {
+				return englishProjects.push(project);
+			} else if (
+				project.information.projectInformation.languageFrench === "yes" &&
+				project.information.projectInformation.languageEnglish === "yes"
+			) {
+				return bilangualProjects.push(project);
+			} else if (
+				project.information.projectInformation.languageFrench === "yes" &&
+				project.information.projectInformation.languageEnglish === "no"
+			) {
+				return frenchProjects.push(project);
+			}
+		});
+		this.setState({ englishProjects, bilangualProjects, frenchProjects });
+	};
+
 	AssignPause = (pairingByProjects, nbPeriods, nbPauses) => {
 		for (const project in pairingByProjects) {
 			for (let indexPause = 0; indexPause < nbPauses; indexPause++) {
@@ -70,6 +140,62 @@ class PairingAlgo extends Component {
 		}
 		return pairingByProjects;
 	};
+
+	SelectJudge = (judge, project) => {
+		let rank = 0;
+		let projectCategory = project.information.projectInformation.category;
+		let projectType = project.information.projectInformation.type;
+		let projectClassification = project.classification;
+		let judgingPreference = judge.information.judgingPreference;
+
+		//console.log("avant", rank);
+		rank += this.CheckCategoryPref(judgingPreference, projectCategory);
+		//console.log("apresCat", rank);
+		rank += this.CheckClassificationPref(judgingPreference, projectClassification);
+		//console.log("apresClass", rank);
+		rank += this.CheckTypePref(judgingPreference, projectType);
+		//console.log("apresType", rank);
+		console.log("project:", project.number, "judge:", judge.number, rank);
+	};
+
+	CheckCategoryPref = (judgingPreference, projectCategory) => {
+		if (judgingPreference === undefined) return -1000;
+
+		if (projectCategory === judgingPreference.categoryFirst) {
+			return 1000;
+		} else if (projectCategory === judgingPreference.categorySecond) {
+			return 750;
+		} else if (projectCategory === judgingPreference.categoryThird) {
+			return 500;
+		}
+		return 0;
+	};
+
+	CheckClassificationPref = (judgingPreference, projectClassification) => {
+		if (judgingPreference === undefined) return -1000;
+
+		if (projectClassification === judgingPreference.academicFirst) {
+			return 1000;
+		} else if (projectClassification === judgingPreference.academicSecond) {
+			return 750;
+		} else if (projectClassification === judgingPreference.academicThird) {
+			return 500;
+		}
+		return 0;
+	};
+
+	CheckTypePref = (judgingPreference, projectType) => {
+		if (judgingPreference === undefined) return -1000;
+
+		if (projectType === judgingPreference.typeFirst) {
+			return 1000;
+		} else if (projectType === judgingPreference.typeSecond) {
+			return 750;
+		}
+		return 0;
+	};
+
+	AssignJudgesToPeriods = () => {};
 
 	render() {
 		return (

@@ -52,7 +52,10 @@ export default class EvaluationButtonGroup extends Component {
 								type="radio"
 								value={i}
 								name={this.props.id}
+								style={{ cursor: "pointer" }}
 								onChange={this.OnHandleRadio}
+								onClick={this.OnHandleRadio}
+								onTouchStart={this.OnHandleRadio}
 							/>
 						</label>
 					))}
@@ -70,7 +73,10 @@ export default class EvaluationButtonGroup extends Component {
 								type="radio"
 								value={i + 6}
 								name={this.props.id}
+								style={{ cursor: "pointer" }}
 								onChange={this.OnHandleRadio}
+								onClick={this.OnHandleRadio}
+								onTouchStart={this.OnHandleRadio}
 							/>
 						</label>
 					))}
