@@ -95,7 +95,9 @@ class JudgeLogin extends Component {
 								<input type="password" style={{ display: "none" }} />
 
 								<div className="form-group">
-									<label htmlFor="finalId">Finale régionale</label>
+									<label htmlFor="finalId">
+										Finale régionale des Expo-sciences Hydro-Québec
+									</label>
 									<select
 										className={classnames("selectpicker custom-select", {
 											"is-invalid": errors.finalId
@@ -106,9 +108,7 @@ class JudgeLogin extends Component {
 										onChange={this.OnSelect}
 									>
 										<optgroup className="judge-finals-options">
-											<option value="">
-												Sélectionner une finale régionale
-											</option>
+											<option value="">Sélectionner la finale</option>
 											{activeFinalList}
 										</optgroup>
 									</select>
