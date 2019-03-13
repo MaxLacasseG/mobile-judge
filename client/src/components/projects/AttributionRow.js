@@ -155,35 +155,63 @@ class AttributionRow extends Component {
 		project = parseInt(project);
 		period = parseInt(period);
 		judge = parseInt(judge);
+		let oldJudge;
 
+		// CHANGE PAIRINGBYPROJECTS
 		if (isEmpty(pairing.pairingByProjects[project])) {
 			pairing.pairingByProjects[project] = {};
 		}
 		if (isEmpty(pairing.pairingByProjects[project][period])) {
 			pairing.pairingByProjects[project][period] = { project, period, judge: null };
 		}
+		//saves old judge infos
+		oldJudge = pairing.pairingByProjects[project][period].judge;
+
+		//Saves change new judge infos
 		pairing.pairingByProjects[project][period] = {
 			project: project,
 			period: period,
 			judge: judge
 		};
 
+		// CHANGE PAIRINGBYJUDGES
 		if (isEmpty(pairing.pairingByJudges[judge])) {
 			pairing.pairingByJudges[judge] = {};
 		}
+
 		if (isEmpty(pairing.pairingByJudges[judge][period])) {
 			pairing.pairingByJudges[judge][period] = { project: null, period, judge };
 		}
+
 		pairing.pairingByJudges[judge][period] = {
 			project: project,
 			period: period,
 			judge: judge
 		};
 
-		if (results[project] && !isEmpty(results[project][judge])) {
-			results[project][judge] = {};
+		console.log("JUDGE SWITCH", oldJudge, judge);
+		// RESET OLD JUDGE
+		if (oldJudge && !isEmpty(pairing.pairingByJudges[oldJudge][period])) {
+			delete pairing.pairingByJudges[oldJudge][period];
 		}
 
+		// CHANGE RESULTS
+		if (results[project] !== undefined && results[project][oldJudge] !== undefined) {
+			delete results[project][oldJudge];
+			if (isEmpty(results[project])) {
+				delete results[project];
+			}
+		}
+
+		// CHANGE RESULTS
+		if (results[project] && results[project][judge] !== undefined) {
+			delete results[project][judge];
+			if (isEmpty(results[project])) {
+				delete results[project];
+			}
+		}
+
+		console.log(results);
 		//Save new info
 		final.pairing = pairing;
 		final.results = results;
