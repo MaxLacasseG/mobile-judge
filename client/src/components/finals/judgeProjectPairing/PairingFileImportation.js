@@ -88,7 +88,10 @@ class PairingFileImportation extends Component {
 			pairingByJudges
 		};
 
-		const finalInfos = { _id: this.props.finalId, pairing: pairing };
+		//Reset results
+		const results = {};
+
+		const finalInfos = { _id: this.props.finalId, pairing, results };
 		this.props.SaveFinalPairing(finalInfos);
 	};
 
@@ -194,10 +197,10 @@ class PairingFileImportation extends Component {
 							</div>
 						</div>
 						<div className="row">
-							<div className="col-md-6 offset-3">
+							<div className="col-md-12 mx-auto">
 								<input
 									type="submit"
-									className="btn"
+									className="btn btn-block"
 									name="jsonSubmit"
 									id="jsonSubmit"
 									value="Assigner des juges aux projets"
@@ -205,8 +208,8 @@ class PairingFileImportation extends Component {
 								/>
 								<p>
 									<small>
-										Attention, ceci risque réinitialise tous les changements
-										manuels effectués
+										Attention, ceci risque réinitialise la finale et efface les
+										jugements effectués!
 									</small>
 								</p>
 							</div>
