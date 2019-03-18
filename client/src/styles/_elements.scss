@@ -1,351 +1,351 @@
 .App {
-	font-family: $font-text;
+    font-family: $font-text;
 }
 
 .bg {
-	min-height: 100vh;
-	background: url("/img/concrete_seamless.png");
+    min-height: 100vh;
+    background: url("/img/concrete_seamless.png");
 }
 
 .admin-login,
 .judge-login {
-	height: 100%;
-	min-height: 100vh;
-	width: 100%;
-	background-color: $color-bg-accueil;
-	color: $color-main;
-	background: url("/img/concrete_seamless.png");
+    height: 100%;
+    min-height: 100vh;
+    width: 100%;
+    background-color: $color-bg-accueil;
+    color: $color-main;
+    background: url("/img/concrete_seamless.png");
 }
 
 .logo {
-	height: auto;
-	max-height: 250px;
-	max-width: 85%;
+    height: auto;
+    max-height: 250px;
+    max-width: 85%;
 }
 
 .nav {
-	background: url("/img/concrete_seamless.png");
-	color: $color-main;
-	.logo {
-		max-height: 150px;
-	}
+    background: url("/img/concrete_seamless.png");
+    color: $color-main;
+    .logo {
+        max-height: 150px;
+    }
 }
 
 a {
-	color: $color-main;
-	&:hover,
-	&:visited,
-	&:active {
-		color: darken($color-main, 10%);
-	}
-	&.selected {
-		color: darken($color-accent1, 3%);
-		text-decoration: underline;
-	}
+    color: $color-main;
+    &:hover,
+    &:visited,
+    &:active {
+        color: darken($color-main, 10%);
+    }
+    &.selected {
+        color: darken($color-accent1, 3%);
+        text-decoration: underline;
+    }
 }
 
 .text-link {
-	color: $color-accent3;
-	&:hover,
-	&:visited,
-	&:active {
-		color: darken($color-accent3, 10%);
-	}
+    color: $color-accent3;
+    &:hover,
+    &:visited,
+    &:active {
+        color: darken($color-accent3, 10%);
+    }
 }
 
 .section-header {
-	margin-bottom: 1em;
+    margin-bottom: 1em;
 }
 
 .spliter {
-	border-right: 5px $color-accent1 solid;
+    border-right: 5px $color-accent1 solid;
 }
 
 .btn {
-	border: none;
-	background-color: $color-accent1;
-	font-family: "Open Sans", sans-serif;
-	&:hover {
-		background-color: darken($color-accent1, 5%);
-		color: white;
-	}
-	&:visited {
-		background-color: $color-accent1;
-		color: white;
-	}
-	&:active {
-		background-color: darken($color-accent1, 30%);
-		color: white;
-	}
-	&.btn-accent2 {
-		background-color: $color-accent3;
-	}
-	&.btn-fonce {
-		background-color: desaturate($color-accent1, 30%);
-		color: white;
-		&:hover {
-			background-color: $color-accent1;
-		}
-	}
-	&.btn-danger {
-		background-color: rgb(174, 27, 2);
-		color: white;
-	}
-	&.btn-disabled {
-		background-color: rgb(99, 99, 99);
-		color: rgb(181, 181, 181);
-		font-style: italic;
-		cursor: not-allowed !important;
-	}
-	&.btn-success {
-		background-color: darken($color-accent3, 10%);
-		color: white;
-	}
-	&.btn-sort {
-		border: none;
-		&.sort-active {
-			&:hover,
-			&:active,
-			& {
-				border: 4px solid lighten($color-accent2, 25%);
-				background-color: lighten($color-accent2, 35%);
-				color: darken($color-accent2, 35%);
-			}
-		}
-		&.sort-up {
-			&::after {
-				font-family: "Font Awesome 5 Free";
-				content: "\f0d8";
-				display: inline-block;
-				padding-left: 10px;
-				vertical-align: middle;
-				font-weight: 900;
-			}
-		}
-		&.sort-down {
-			&::after {
-				font-family: "Font Awesome 5 Free";
-				content: "   \f0d7";
-				display: inline-block;
-				padding-left: 10px;
-				vertical-align: middle;
-				font-weight: 900;
-			}
-		}
-	}
+    border: none;
+    background-color: $color-accent1;
+    font-family: "Open Sans", sans-serif;
+    &:hover {
+        background-color: darken($color-accent1, 5%);
+        color: white;
+    }
+    &:visited {
+        background-color: $color-accent1;
+        color: white;
+    }
+    &:active {
+        background-color: darken($color-accent1, 30%);
+        color: white;
+    }
+    &.btn-accent2 {
+        background-color: $color-accent3;
+    }
+    &.btn-fonce {
+        background-color: desaturate($color-accent1, 30%);
+        color: white;
+        &:hover {
+            background-color: $color-accent1;
+        }
+    }
+    &.btn-danger {
+        background-color: rgb(174, 27, 2);
+        color: white;
+    }
+    &.btn-disabled {
+        background-color: rgb(99, 99, 99);
+        color: rgb(181, 181, 181);
+        font-style: italic;
+        cursor: not-allowed !important;
+    }
+    &.btn-success {
+        background-color: darken($color-accent3, 10%);
+        color: white;
+    }
+    &.btn-sort {
+        border: none;
+        &.sort-active {
+            &:hover,
+            &:active,
+            & {
+                border: 4px solid lighten($color-accent2, 25%);
+                background-color: lighten($color-accent2, 35%);
+                color: darken($color-accent2, 35%);
+            }
+        }
+        &.sort-up {
+            &::after {
+                font-family: "Font Awesome 5 Free";
+                content: "\f0d8";
+                display: inline-block;
+                padding-left: 10px;
+                vertical-align: middle;
+                font-weight: 900;
+            }
+        }
+        &.sort-down {
+            &::after {
+                font-family: "Font Awesome 5 Free";
+                content: "   \f0d7";
+                display: inline-block;
+                padding-left: 10px;
+                vertical-align: middle;
+                font-weight: 900;
+            }
+        }
+    }
 }
 
 .icon-button {
-	background: none;
-	border: none;
-	padding: 0;
-	margin: 0;
-	cursor: pointer;
-	&:hover {
-		color: $color-accent1;
-	}
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    &:hover {
+        color: $color-accent1;
+    }
 }
 
 .projectsListItem {
-	background-color: lighten($color-accent1, 40%);
-	border: 1px white solid;
-	font-size: 0.75em;
-	padding: 1em 0.2em;
-	&:nth-child(even) {
-		background-color: lighten($color-accent1, 35%);
-	}
-	&:hover {
-		background-color: lighten($color-accent3, 40%);
-	}
-	& .more-infos {
-		font-size: 1.75em;
-	}
+    background-color: lighten($color-accent1, 40%);
+    border: 1px white solid;
+    font-size: 0.75em;
+    padding: 1em 0.2em;
+    &:nth-child(even) {
+        background-color: lighten($color-accent1, 35%);
+    }
+    &:hover {
+        background-color: lighten($color-accent3, 40%);
+    }
+    & .more-infos {
+        font-size: 1.75em;
+    }
 }
 
 .grid-cell-header {
-	text-align: center;
+    text-align: center;
 }
 
 .grid-cell {
-	text-align: center;
-	border-right: 1px solid $color-accent1;
-	font-weight: bolder;
-	&:first-of-type {
-		border-left: 1px solid darken($color-accent1, 10%);
-	}
-	&:last-of-type {
-		border-right: none;
-	}
-	&.grid-cell-complete {
-		background-color: lighten($color-accent2, 20%);
-	}
-	&:hover {
-		background-color: lighten($color-accent3, 20%);
-		cursor: pointer;
-	}
+    text-align: center;
+    border-right: 1px solid $color-accent1;
+    font-weight: bolder;
+    &:first-of-type {
+        border-left: 1px solid darken($color-accent1, 10%);
+    }
+    &:last-of-type {
+        border-right: none;
+    }
+    &.grid-cell-complete {
+        background-color: lighten($color-accent2, 20%);
+    }
+    &:hover {
+        background-color: lighten($color-accent3, 20%);
+        cursor: pointer;
+    }
 }
 
 .missing-judge {
-	border: red 1px solid;
+    border: red 3px solid;
 }
 
 .judge-finals-options {
-	-webkit-appearance: none;
-	/*Removes default chrome and safari style*/
-	-moz-appearance: none;
-	font-size: 17px;
-	width: 50px;
-	overflow: visible;
-	overflow-wrap: break-word;
-	-moz-white-space: pre-wrap;
-	-o-white-space: pre-wrap;
-	white-space: pre-wrap;
+    -webkit-appearance: none;
+    /*Removes default chrome and safari style*/
+    -moz-appearance: none;
+    font-size: 17px;
+    width: 50px;
+    overflow: visible;
+    overflow-wrap: break-word;
+    -moz-white-space: pre-wrap;
+    -o-white-space: pre-wrap;
+    white-space: pre-wrap;
 }
 
 .judge-row {
-	padding: 1em;
-	border-bottom: 1px solid $color-accent1;
-	&:hover {
-		background-color: lighten($color-accent3, 40%);
-	}
-	& .judge-col {
-		border-right: 1px solid $color-accent1;
-		&.edit-mode {
-			border-bottom: 1.5px solid $color-accent3;
-			& .number-zone {
-				border: 2px solid $color-accent3;
-			}
-		}
-		& .number-zone {
-			display: inline-block;
-			min-width: 30px;
-			min-height: 10px;
-		}
-		& .edit-icon {
-			border-radius: 10px;
-			cursor: pointer;
-			&.fa-edit {
-				background-color: $color-accent1;
-			}
-			&.fa-save {
-				background-color: $color-accent3;
-			}
-		}
-	}
-	& .judge-pwd {
-		text-align: center;
-		&.pwd {
-			filter: blur(4px);
-		}
-	}
+    padding: 1em;
+    border-bottom: 1px solid $color-accent1;
+    &:hover {
+        background-color: lighten($color-accent3, 40%);
+    }
+    & .judge-col {
+        border-right: 1px solid $color-accent1;
+        &.edit-mode {
+            border-bottom: 1.5px solid $color-accent3;
+            & .number-zone {
+                border: 2px solid $color-accent3;
+            }
+        }
+        & .number-zone {
+            display: inline-block;
+            min-width: 30px;
+            min-height: 10px;
+        }
+        & .edit-icon {
+            border-radius: 10px;
+            cursor: pointer;
+            &.fa-edit {
+                background-color: $color-accent1;
+            }
+            &.fa-save {
+                background-color: $color-accent3;
+            }
+        }
+    }
+    & .judge-pwd {
+        text-align: center;
+        &.pwd {
+            filter: blur(4px);
+        }
+    }
 }
 
 .judge-dashboard {
-	min-height: 100vh;
-	background-color: $color-bg-accueil;
-	color: $color-main;
-	background: url("/img/concrete_seamless.png");
+    min-height: 100vh;
+    background-color: $color-bg-accueil;
+    color: $color-main;
+    background: url("/img/concrete_seamless.png");
 }
 
 .evaluation-section {
-	color: darken($color-accent2, 10%);
+    color: darken($color-accent2, 10%);
 }
 
 .evaluation-subsection {
-	color: black;
-	border-radius: 0.4em;
-	border: 2px solid $color-accent1;
-	margin-bottom: 0.5em;
-	&:nth-of-type(even) {
-		background-color: lighten($color-accent1, 20%);
-	}
-	&:nth-of-type(odd) {
-		background-color: lighten($color-accent1, 35%);
-	}
-	&.isComplete {
-		border: 2px solid $color-accent3;
-	}
+    color: black;
+    border-radius: 0.4em;
+    border: 2px solid $color-accent1;
+    margin-bottom: 0.5em;
+    &:nth-of-type(even) {
+        background-color: lighten($color-accent1, 20%);
+    }
+    &:nth-of-type(odd) {
+        background-color: lighten($color-accent1, 35%);
+    }
+    &.isComplete {
+        border: 2px solid $color-accent3;
+    }
 }
 
 .criterion-notes {
-	line-height: 0.3em !important;
+    line-height: 0.3em !important;
 }
 
 .criterion-check {
-	color: darken($color-accent3, 20%);
+    color: darken($color-accent3, 20%);
 }
 
 .grid-button-container {
-	display: flex;
-	flex-wrap: wrap;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .grid-button-group {
-	display: flex;
-	flex-direction: row;
-	justify-content: flex-start;
-	align-items: center;
-	padding: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0;
 }
 
 .grid-button-label {
-	width: 2.3em;
-	height: 2.3em;
-	background-color: white;
-	border: 2px solid $color-accent1;
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	align-items: center;
-	margin: 0.1em 0.1em;
-	@media screen and (min-width: $breakpoint-sm) {
-		margin: 0.2em 0.2em;
-		width: 3em;
-		height: 3em;
-	}
-	@media screen and (min-width: $breakpoint-md) {
-		margin: 0.1em 0.3em;
-		width: 1.8em;
-		height: 1.8em;
-	}
-	&.active {
-		background-color: $color-accent3;
-		border: 2px solid darken($color-accent3, 10%);
-		color: darken($color-accent3, 50%);
-	}
+    width: 2.3em;
+    height: 2.3em;
+    background-color: white;
+    border: 2px solid $color-accent1;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 0.1em 0.1em;
+    @media screen and (min-width: $breakpoint-sm) {
+        margin: 0.2em 0.2em;
+        width: 3em;
+        height: 3em;
+    }
+    @media screen and (min-width: $breakpoint-md) {
+        margin: 0.1em 0.3em;
+        width: 1.8em;
+        height: 1.8em;
+    }
+    &.active {
+        background-color: $color-accent3;
+        border: 2px solid darken($color-accent3, 10%);
+        color: darken($color-accent3, 50%);
+    }
 }
 
 .grid-button {
-	display: none;
+    display: none;
 }
 
 .period-row {
-	border-radius: 0.4em;
-	&:nth-of-type(even) {
-		background-color: lighten($color-accent1, 20%);
-		&.is-complete {
-			border: 4px solid lighten($color-accent2, 10%);
-			background-color: lighten($color-accent2, 20%);
-		}
-	}
-	&:nth-of-type(odd) {
-		background-color: lighten($color-accent1, 35%);
-		&.is-complete {
-			border: 4px solid lighten($color-accent2, 25%);
-			background-color: lighten($color-accent2, 35%);
-		}
-	}
+    border-radius: 0.4em;
+    &:nth-of-type(even) {
+        background-color: lighten($color-accent1, 20%);
+        &.is-complete {
+            border: 4px solid lighten($color-accent2, 10%);
+            background-color: lighten($color-accent2, 20%);
+        }
+    }
+    &:nth-of-type(odd) {
+        background-color: lighten($color-accent1, 35%);
+        &.is-complete {
+            border: 4px solid lighten($color-accent2, 25%);
+            background-color: lighten($color-accent2, 35%);
+        }
+    }
 }
 
 .ranking-row {
-	border-radius: 0.4em;
-	&:nth-of-type(even) {
-		background-color: lighten($color-accent1, 20%);
-	}
-	&:nth-of-type(odd) {
-		background-color: lighten($color-accent1, 35%);
-	}
-	&:hover {
-		background-color: lighten($color-accent3, 40%);
-	}
+    border-radius: 0.4em;
+    &:nth-of-type(even) {
+        background-color: lighten($color-accent1, 20%);
+    }
+    &:nth-of-type(odd) {
+        background-color: lighten($color-accent1, 35%);
+    }
+    &:hover {
+        background-color: lighten($color-accent3, 40%);
+    }
 }
