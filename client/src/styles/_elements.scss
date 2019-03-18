@@ -147,18 +147,24 @@ a {
 }
 
 .projectsListItem {
-    background-color: lighten($color-accent1, 40%);
+    background-color: lighten($color-accent1, 42%);
     border: 1px white solid;
     font-size: 0.75em;
     padding: 1em 0.2em;
-    &:nth-child(even) {
-        background-color: lighten($color-accent1, 35%);
+
+    &:nth-of-type(odd) {
+        background-color: lighten($color-accent1, 33%);
     }
     &:hover {
         background-color: lighten($color-accent3, 40%);
     }
     & .more-infos {
         font-size: 1.75em;
+    }
+    &.missing-judge {
+        box-shadow: 0 0 3px #ff0000;
+        border: red 3px solid;
+        background-color: #ffd3d3;
     }
 }
 
@@ -183,10 +189,6 @@ a {
         background-color: lighten($color-accent3, 20%);
         cursor: pointer;
     }
-}
-
-.missing-judge {
-    border: red 3px solid;
 }
 
 .judge-finals-options {

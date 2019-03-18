@@ -222,8 +222,8 @@ class FinalViewProjects extends Component {
 
             return (
                 <Fragment key={project.projectId}>
-                    <div id="popup" style={{ position: "fixed", zIndex: "100", top: "50%" }} />
                     <div className="projectsListItem row" data-projectrow={project.number}>
+                        <div id="popup" style={{ position: "fixed", zIndex: "100", top: "50%" }} />
                         {/** PROJECT INFOS COLUMN */}
                         <div className="col-md-5 row">
                             <div className="col-1">
@@ -269,7 +269,7 @@ class FinalViewProjects extends Component {
                             <AttributionRow
                                 projectNumber={project.number}
                                 attributionByProject={attributionByProject}
-                                minJudges="5"
+                                minJudges={final.level === "highschool" ? 5 : 3}
                                 ShowMissingJudge={this.ShowMissingJudge}
                                 results={final.results}
                                 history={this.props.history}
