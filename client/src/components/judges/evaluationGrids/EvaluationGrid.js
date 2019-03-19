@@ -10,7 +10,10 @@ import { CheckFinalActive } from "../../../store/actions/finalActions";
 import {
 	highExperimentationGrid,
 	highschoolConceptionGrid,
-	highVulgarisationGrid
+	highVulgarisationGrid,
+	elementaryConceptionGrid,
+	elementaryVulgarisationGrid,
+	elementaryExperimentationGrid
 } from "../../../enums/grids";
 import isEmpty from "../../../validation/isEmpty";
 import classnames from "classnames";
@@ -61,28 +64,47 @@ class EvaluationGrid extends Component {
 		) {
 			this.setState(
 				{
-					type: this.props.project.selectedProject.information.projectInformation.type
+					type: this.props.project.selectedProject.information.projectInformation.type,
+					level: this.props.final.selectedFinal.level
 				},
 				() => {
-					this.setState({ grid: this.SetType(this.state.type) }, () => {
-						this.InitializeResult();
-					});
+					this.setState(
+						{ grid: this.SelectGrid(this.state.type, this.state.level) },
+						() => {
+							this.InitializeResult();
+						}
+					);
 				}
 			);
 		}
 	};
 
-	SetType = type => {
-		switch (type) {
-			case "vulgarization":
-				return highVulgarisationGrid;
-			case "experimentation":
-				return highExperimentationGrid;
-			case "conception":
-				return highschoolConceptionGrid;
-			default:
-				return null;
+	SelectGrid = (type, level) => {
+		console.log(type, level);
+		if (level === "highschool") {
+			switch (type) {
+				case "vulgarization":
+					return highVulgarisationGrid;
+				case "experimentation":
+					return highExperimentationGrid;
+				case "conception":
+					return highschoolConceptionGrid;
+				default:
+					return null;
+			}
+		} else if (level === "elementary") {
+			switch (type) {
+				case "vulgarization":
+					return elementaryVulgarisationGrid;
+				case "experimentation":
+					return elementaryExperimentationGrid;
+				case "conception":
+					return elementaryConceptionGrid;
+				default:
+					return null;
+			}
 		}
+		return null;
 	};
 
 	InitializeResult = () => {

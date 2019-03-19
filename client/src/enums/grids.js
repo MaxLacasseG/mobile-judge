@@ -1,3 +1,5 @@
+//region Highschool grids
+
 export const highschoolConceptionGrid = {
 	level: "highschool",
 	name: "Grille d'évaluation pour un projet de conception, volet secondaire/collégial",
@@ -558,3 +560,351 @@ export const highVulgarisationGrid = {
 		}
 	]
 };
+
+// endregion
+
+//region Elementary grids
+
+export const elementaryConceptionGrid = {
+	level: "elementary",
+	name: "Grille d'évaluation pour un projet de conception, volet primaire",
+	type: "CONCEPTION",
+	sections: [
+		{
+			name: "Scientifique",
+			percentage: 50,
+			subsections: [
+				{
+					name: "Problématique",
+					percentage: 10,
+					criterions: [
+						{
+							id: "1A",
+							description: "Problématique",
+							notes:
+								"La problématique est-elle bien définie?\nD'où vient l'intérêt pour la problématique?",
+							percentage: 10
+						}
+					]
+				},
+				{
+					name: "Conception",
+					percentage: 10,
+					criterions: [
+						{
+							id: "2A",
+							description: "Conception",
+							notes: "Les croquis et les schémas sont-ils de qualité?",
+							percentage: 10
+						}
+					]
+				},
+				{
+					name: "Analyse du produit",
+					percentage: 17,
+					criterions: [
+						{
+							id: "3A",
+							description: "Analyse du produit",
+							notes: "La démonstration de la fonctionnalité est-elle convaincante?",
+							percentage: 17
+						}
+					]
+				},
+				{
+					name: "Bilan",
+					percentage: 13,
+					criterions: [
+						{
+							id: "4A",
+							description:
+								"Les perspectives d'utilisation et d'application sont-elles rencontrées?",
+							percentage: 13
+						}
+					]
+				}
+			]
+		},
+		{
+			name: "Apprentissage",
+			percentage: 20,
+			subsections: [
+				{
+					name: "Apprentissage",
+					percentage: 20,
+					criterions: [
+						{
+							id: "5A",
+							description: "Apprentissage",
+							percentage: 20
+						}
+					]
+				}
+			]
+		},
+		{
+			name: "Communication",
+			percentage: 30,
+			subsections: [
+				{
+					name: "Animation du stand",
+					percentage: 15,
+					criterions: [
+						{
+							id: "6A",
+							description: "Interaction avec l'auditoire et gestion du temps",
+							notes:
+								"Capacité de susciter l'intérêt et la participation de l'auditoire.\n Capacité d'évaluer la compréhension et de répondre adéquatement aux questions.\n Capacité de respecter le temps alloué à la présentation",
+							percentage: 15
+						}
+					]
+				},
+				{
+					name: "Présentation visuelle",
+					percentage: 15,
+					criterions: [
+						{
+							id: "7A",
+							description: "Élaboration d'une présentation attrayante et originale",
+							percentage: 15
+						}
+					]
+				}
+			]
+		}
+	]
+};
+
+export const elementaryExperimentationGrid = {
+	level: "elementary",
+	name: "Grille d'évaluation pour un projet en expérimentation, volet primaire",
+	type: "EXPERIMENTATION",
+	sections: [
+		{
+			name: "Scientifique",
+			percentage: 50,
+			subsections: [
+				{
+					name: "Identification de la problématique",
+					percentage: 8,
+					criterions: [
+						{
+							id: "1A",
+							description: "Connaissance et originalité de la problématique",
+							notes: "Interrogation pertinente sur un phénomène donné.",
+							percentage: 8
+						}
+					]
+				},
+				{
+					name: "Élaboration et suivi du protocole expérimental",
+					percentage: 18,
+					criterions: [
+						{
+							id: "2A",
+							description:
+								"Établissement d'une hypothèse de travail et identification des variables à étudier",
+							percentage: 18
+						}
+					]
+				},
+				{
+					name: "Analyse et interprétation des résultats",
+					percentage: 17,
+					criterions: [
+						{
+							id: "3A",
+							description:
+								"Utilisation adéquate des données recueillies et de la terminologie",
+							percentage: 17
+						}
+					]
+				},
+				{
+					name: "Conclusion",
+					percentage: 7,
+					criterions: [
+						{
+							id: "4A",
+							description: "Synthèse",
+							notes: "Reprise des principaux points de l'analyse",
+							percentage: 7
+						}
+					]
+				}
+			]
+		},
+		{
+			name: "Apprentissage",
+			percentage: 20,
+			subsections: [
+				{
+					name: "Apprentissage",
+					percentage: 20,
+					criterions: [
+						{
+							id: "5A",
+							description: "Apprentissage",
+							percentage: 20
+						}
+					]
+				}
+			]
+		},
+		{
+			name: "Communication",
+			percentage: 30,
+			subsections: [
+				{
+					name: "Animation du stand",
+					percentage: 15,
+					criterions: [
+						{
+							id: "6A",
+							description: "Interaction avec l'auditoire et gestion du temps",
+							notes:
+								"Capacité de susciter l'intérêt et la participation de l'auditoire.\n Capacité d'évaluer la compréhension et de répondre adéquatement aux questions.\n Capacité de respecter le temps alloué à la présentation",
+							percentage: 15
+						}
+					]
+				},
+				{
+					name: "Présentation visuelle",
+					percentage: 15,
+					criterions: [
+						{
+							id: "7A",
+							description: "Soutien approprié à l'animation et à la compréhension",
+							percentage: 15
+						}
+					]
+				}
+			]
+		}
+	]
+};
+
+export const elementaryVulgarisationGrid = {
+	level: "elementary",
+	name: "Grille d'évaluation pour un projet en vulgarisation, volet primaire",
+	type: "Vulgarisation",
+	sections: [
+		{
+			name: "Scientifique",
+			percentage: 50,
+			subsections: [
+				{
+					name: "Choix du sujet",
+					percentage: 9,
+					criterions: [
+						{
+							id: "1A",
+							description: "Connaissance et originalité de la problématique",
+							percentage: 9
+						}
+					]
+				},
+				{
+					name: "Sélection de l'information",
+					percentage: 12,
+					criterions: [
+						{
+							id: "2A",
+							description: "Variété ",
+							notes: "Information complète et sources diversifiées et récentes",
+							percentage: 12
+						}
+					]
+				},
+				{
+					name: "Compréhension du sujet traité",
+					percentage: 15,
+					criterions: [
+						{
+							id: "3A",
+							description: "Compréhension et maîtrise du sujet",
+							notes:
+								"Capacité de transmettre l'information avec clarté.\nCapacité de faire des liens adéquats avec le sujet",
+							percentage: 15
+						}
+					]
+				},
+				{
+					name: "Traitement de l'information",
+					percentage: 9,
+					criterions: [
+						{
+							id: "4A",
+							description: "Structure et cohérence",
+							notes:
+								"Information recueillie présentée selon une suite logique et de complexité croissance facilitant la compréhension de l'auditoire",
+							percentage: 9
+						}
+					]
+				},
+				{
+					name: "Approche et présentation novatrice",
+					percentage: 5,
+					criterions: [
+						{
+							id: "5A",
+							description: "Traitement créatif et originalité",
+							notes:
+								"Support pédagogique illustrant la théorie, schémas, tableaux, synoptiques et objets",
+							percentage: 5
+						}
+					]
+				}
+			]
+		},
+		{
+			name: "Apprentissage",
+			percentage: 20,
+			subsections: [
+				{
+					name: "Apprentissage",
+					percentage: 20,
+					criterions: [
+						{
+							id: "6A",
+							description: "Apprentissage",
+							percentage: 20
+						}
+					]
+				}
+			]
+		},
+		{
+			name: "Communication",
+			percentage: 30,
+			subsections: [
+				{
+					name: "Animation du stand",
+					percentage: 15,
+					criterions: [
+						{
+							id: "7A",
+							description: "Interaction avec l'auditoire et gestion du temps",
+							notes:
+								"Capacité de susciter l'intérêt et la participation de l'auditoire.\n Capacité d'évaluer la compréhension et de répondre adéquatement aux questions.\n Capacité de respecter le temps alloué à la présentation",
+							percentage: 15
+						}
+					]
+				},
+				{
+					name: "Présentation visuelle",
+					percentage: 15,
+					criterions: [
+						{
+							id: "8A",
+							description: "Soutien approprié à l'animation et à la compréhension",
+							percentage: 15
+						}
+					]
+				}
+			]
+		}
+	]
+};
+
+// endregion
