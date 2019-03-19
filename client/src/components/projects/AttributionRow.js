@@ -23,10 +23,15 @@ class AttributionRow extends Component {
 	// #region LIFE CYCLE METHODS
 	// =============
 	componentDidMount = () => {
-		//if (!this.CheckJudgeAmount()) this.props.ShowMissingJudge(this.props.number);
 		window.setTimeout(() => {
 			this.ManageCols();
 		}, 300);
+	};
+
+	componentDidUpdate = (prevProps, prevState) => {
+		if (prevProps.final.selectedFinal !== this.props.final.selectedFinal) {
+			this.ManageCols();
+		}
 	};
 
 	// #endregion
@@ -47,16 +52,9 @@ class AttributionRow extends Component {
 			const judgeNumber = this.GetPairingInfos(projectNumber, period);
 			cols.push(this.FillCol(projectNumber, period, judgeNumber));
 		}
-
+		this.CheckJudgeAmount();
 		//SAVE cols into state
 		this.setState({ cols });
-	};
-	componentDidUpdate = (prevProps, prevState) => {
-		if (prevProps.final.selectedFinal !== this.props.final.selectedFinal) {
-			console.log("UPDATE CHANGE IN FINAL INFOS");
-
-			this.ManageCols();
-		}
 	};
 
 	/**
@@ -142,7 +140,9 @@ class AttributionRow extends Component {
 			return null;
 		});
 
-		return judgeNumber < this.props.minJudges ? false : true;
+		judgeNumber != this.props.minJudges
+			? this.props.ShowMissingJudge(this.props.projectNumber, true)
+			: this.props.ShowMissingJudge(this.props.projectNumber, false);
 	};
 
 	SavePairing = (project, period, judge) => {
