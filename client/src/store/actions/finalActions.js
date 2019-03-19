@@ -230,6 +230,7 @@ export const SaveResult = (
 	period,
 	results,
 	total,
+	totalInternational,
 	isComplete,
 	isAdmin,
 	history
@@ -242,6 +243,7 @@ export const SaveResult = (
 			period,
 			results,
 			total,
+			totalInternational,
 			isComplete
 		})
 		.then(response => {

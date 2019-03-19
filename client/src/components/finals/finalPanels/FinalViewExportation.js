@@ -29,7 +29,7 @@ class FinalViewExportation extends Component {
 	};
 
 	CalculateProjectResults = (projectNumber, projectResults) => {
-		//console.log("final results", projectNumber, projectResults);
+		console.log("final results", projectNumber, projectResults);
 
 		//Checks all the results total for a project
 		const resultArray = Object.keys(projectResults)
@@ -51,11 +51,23 @@ class FinalViewExportation extends Component {
 		//Saves individual results in results state
 		results[projectNumber].individualResults = projectResults;
 
-		//Calc average
-		results[projectNumber].finalAvgResults = this.CalcAvg(resultArray);
+		//Calc international results - Highschool only
+		if (this.props.final.selectedFinal.level === "highschool") {
+			results[projectNumber].finalInternationalResults = this.CalcInternationalResult(
+				resultArray
+			);
+		}
 
-		//Calc trimmed average
-		results[projectNumber].finalTrimmedAvgResults = this.CalcTrimmedAvg(resultArray);
+		//Calc results
+		if (this.props.final.selectedFinal.level === "highschool") {
+			//Calc trimmed average
+			console.log("CALC TRIMMED AVG");
+			results[projectNumber].finalAvgResults = this.CalcTrimmedAvg(resultArray);
+		} else if (this.props.final.selectedFinal.level === "elementary") {
+			console.log("CALC AVG");
+			//Calc average
+			results[projectNumber].finalAvgResults = this.CalcAvg(resultArray);
+		}
 
 		//Saves to state and sort by default
 		this.setState({ results }, () => {
@@ -119,6 +131,23 @@ class FinalViewExportation extends Component {
 		});
 		array.pop();
 		return array;
+	};
+
+	/**
+	 * Calculates the result for the international competition
+	 * Doubles the animation results on 114...
+	 * @param valueArray
+	 * @return float
+	 */
+	CalcInternationalResult = valueArray => {
+		return valueArray.reduce((total, result, index, array) => {
+			total += result;
+			if (index === array.length - 1) {
+				return total / array.length;
+			} else {
+				return total;
+			}
+		});
 	};
 
 	SortByRanking = (results, ranking) => {
@@ -250,8 +279,8 @@ class FinalViewExportation extends Component {
 			csv += `${index + 1};`;
 			for (let key in row) {
 				csv += `${key};`;
-				csv += `${row[key].finalTrimmedAvgResults};`;
-				csv += `${row[key].finalTrimmedAvgResults}\n`;
+				csv += `${row[key].finalAvgResults};`;
+				csv += `${row[key].finalAvgResults}\n`;
 			}
 			return true;
 		});
@@ -281,7 +310,7 @@ class FinalViewExportation extends Component {
 
 			Object.keys(result).map(key => {
 				number = key;
-				trimmedavg = result[key].finalTrimmedAvgResults;
+				trimmedavg = result[key].finalAvgResults;
 				return true;
 			});
 
@@ -355,7 +384,7 @@ class FinalViewExportation extends Component {
 								<button
 									type="button"
 									className="btn btn-reseau btn-sort sort-up sort-active sort-default"
-									onClick={this.SortProjectByTrimmedAvg}
+									onClick={this.SortProjectByAvg}
 									data-direction="-1"
 								>
 									Trier par résultat

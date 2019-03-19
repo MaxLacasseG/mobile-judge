@@ -151,7 +151,7 @@ class FinalViewJudges extends Component {
 		return (
 			<Fragment>
 				<FinalNav pageTitle="Finale - Vue par juges" id={id} finalName={final.longName} />
-				<PairingAlgo />
+
 				<div className="p-5 ">
 					{/* HEADER */}
 					<div className="row">

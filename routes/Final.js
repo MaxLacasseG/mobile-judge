@@ -132,7 +132,8 @@ router.post("/save-result", (req, res) => {
 				period: req.body.period,
 				results: req.body.results,
 				isComplete: req.body.isComplete,
-				total: req.body.total
+				total: req.body.total,
+				totalInternational: req.body.totalInternational
 			};
 
 			final.results = results;
