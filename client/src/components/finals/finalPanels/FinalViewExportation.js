@@ -280,7 +280,7 @@ class FinalViewExportation extends Component {
 			for (let key in row) {
 				csv += `${key};`;
 				csv += `${row[key].finalAvgResults};`;
-				csv += `${row[key].finalAvgResults}\n`;
+				csv += `${row[key].finalInternationalResults}\n`;
 			}
 			return true;
 		});

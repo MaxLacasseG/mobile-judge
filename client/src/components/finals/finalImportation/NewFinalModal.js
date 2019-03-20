@@ -61,10 +61,12 @@ class NewFinalModal extends Component {
 			"shortName",
 			"program",
 			"region",
-			"level"
+			"level",
+			"isSuperExpo"
 		];
 		const newEvent = this.CopyObject(this.state.event, eventFieldsToKeep);
 		newEvent.adminId = this.props.auth.user.id;
+		console.log("NEW EVENT", newEvent);
 
 		//Add all the judges ids to the event
 		newEvent.judges = this.state.judges.map(judge => {
@@ -174,7 +176,9 @@ class NewFinalModal extends Component {
 	};
 
 	OnCheck = e => {
-		this.setState({ [e.target.name]: e.target.checked });
+		const event = this.state.event;
+		event[e.target.name] = e.target.checked;
+		this.setState({ event });
 	};
 
 	OnSelect = e => {
@@ -409,6 +413,34 @@ class NewFinalModal extends Component {
 													</div>
 												)}
 											</div>
+											{this.props.auth.user.type === "SUPER_ADMIN" && (
+												<div className="custom-control custom-checkbox">
+													<input
+														className={classnames(
+															"custom-control-input mb-2",
+															{
+																"is-invalid": errors.isSuperExpo
+															}
+														)}
+														type="checkbox"
+														name="isSuperExpo"
+														id="superLvl"
+														value={true}
+														onChange={this.OnCheck}
+													/>
+													<label
+														className="custom-control-label"
+														htmlFor="superLvl"
+													>
+														Super expo-sciences
+													</label>
+													{errors.isSuperExpo && (
+														<div className="invalid-feedback">
+															{errors.isSuperExpo}
+														</div>
+													)}
+												</div>
+											)}
 										</div>
 
 										<button

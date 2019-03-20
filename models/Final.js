@@ -6,6 +6,7 @@ const FinalSchema = new Schema(
 		_id: { type: Schema.Types.ObjectId },
 		isArchived: { type: Boolean, default: false },
 		isActive: { type: Boolean, default: false },
+		isSuperExpo: { type: Boolean, default: false },
 		eventDate: { type: Date },
 		shortName: { type: String },
 		longName: { type: String },
