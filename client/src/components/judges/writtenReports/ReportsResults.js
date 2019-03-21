@@ -10,7 +10,7 @@ class ReportsResults extends Component {
 
 		const list = Object.keys(projects).map(project => {
 			const projectNumber = projects[project].number;
-			console.log(results, projectNumber);
+			//console.log(results, projectNumber);
 
 			return (
 				<div className="offset-3 col-6 row ranking-row my-2 py-3">

@@ -69,6 +69,13 @@ class FinalViewExportation extends Component {
 			results[projectNumber].finalAvgResults = this.CalcAvg(resultArray);
 		}
 
+		if (this.props.final.selectedFinal.isSuperExpo) {
+			const reportResult = this.props.final.selectedFinal.reportsResults
+				? this.props.final.selectedFinal.reportsResults[projectNumber].reportResult
+				: 0;
+			results[projectNumber].finalAvgResults += parseFloat(reportResult);
+		}
+
 		//Saves to state and sort by default
 		this.setState({ results }, () => {
 			this.SortProjectByDefault();

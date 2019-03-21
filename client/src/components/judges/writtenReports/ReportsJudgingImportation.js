@@ -67,7 +67,7 @@ class ReportsJudgingImportation extends Component {
 			return array;
 		});
 
-		console.log("results", reportsResults, this.props.finalId);
+		//console.log("results", reportsResults, this.props.finalId);
 
 		const finalInfos = { _id: this.props.finalId, reportsResults };
 		this.props.SaveFinalPairing(finalInfos);
