@@ -41,6 +41,19 @@ class FinalViewExportation extends Component {
 			.map(key => {
 				return projectResults[key].total;
 			});
+
+		//Checks all the results total for a project
+		const internationalResultArray = Object.keys(projectResults)
+			.filter(key => {
+				return (
+					projectResults[key].totalInternational !== undefined &&
+					projectResults[key].totalInternational !== null
+				);
+			})
+			.map(key => {
+				return projectResults[key].totalInternational;
+			});
+
 		if (isEmpty(resultArray)) return false;
 
 		//Initialize result state
@@ -48,17 +61,11 @@ class FinalViewExportation extends Component {
 		if (isEmpty(results[projectNumber])) {
 			results[projectNumber] = {};
 		}
+
 		//Saves individual results in results state
 		results[projectNumber].individualResults = projectResults;
 
-		//Calc international results - Highschool only
-		if (this.props.final.selectedFinal.level === "highschool") {
-			results[projectNumber].finalInternationalResults = this.CalcInternationalResult(
-				resultArray
-			);
-		}
-
-		//Calc results
+		//CALCULATES RESULTS
 		if (this.props.final.selectedFinal.level === "highschool") {
 			//Calc trimmed average
 			console.log("CALC TRIMMED AVG");
@@ -69,11 +76,23 @@ class FinalViewExportation extends Component {
 			results[projectNumber].finalAvgResults = this.CalcAvg(resultArray);
 		}
 
+		//ADDS INTERNATIONAL RESULTS
+		if (this.props.final.selectedFinal.level === "highschool") {
+			results[projectNumber].finalInternationalResults = this.CalcInternationalResult(
+				internationalResultArray
+			);
+		}
+
+		//SUPER EXPO-SCIENCES RESULTS
 		if (this.props.final.selectedFinal.isSuperExpo) {
+			//Get report results for project
 			const reportResult = this.props.final.selectedFinal.reportsResults
 				? this.props.final.selectedFinal.reportsResults[projectNumber].reportResult
 				: 0;
+
+			// Add report result to other results
 			results[projectNumber].finalAvgResults += parseFloat(reportResult);
+			results[projectNumber].finalInternationalResults += parseFloat(reportResult);
 		}
 
 		//Saves to state and sort by default

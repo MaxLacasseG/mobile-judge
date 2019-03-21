@@ -48,6 +48,7 @@ class EvaluationGrid extends Component {
 		if (!isEmpty(this.props.location.state.results)) {
 			this.setState({ results: this.props.location.state.results.results }, () => {
 				this.setState({ isComplete: this.CheckIfComplete() });
+
 				if (this.props.location.state.isAdmin) {
 					const { total, totalInternational } = this.CalculateTotal();
 					this.setState({ total, totalInternational });
@@ -83,6 +84,11 @@ class EvaluationGrid extends Component {
 						},
 						() => {
 							this.InitializeResult();
+
+							if (this.props.location.state.isAdmin) {
+								const { total, totalInternational } = this.CalculateTotal();
+								this.setState({ total, totalInternational });
+							}
 						}
 					);
 				}
@@ -260,9 +266,12 @@ class EvaluationGrid extends Component {
 			endTotal += results[criterion].total;
 
 			console.log(this.state.level, this.state.type);
+
 			// Calculates total for international competition
-			if (this.state.level === "highschool") {
+			if (this.props.final.selectedFinal.level === "highschool") {
 				endTotalInternational += results[criterion].total;
+
+				//Doubles animation section results
 				switch (this.state.type) {
 					case "vulgarization":
 						if (criterion === "6A" || criterion === "6B" || criterion === "6C") {
