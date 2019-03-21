@@ -19,6 +19,7 @@ import NotFound from "./components/pages/Page404";
 
 //FINAL MANAGEMENT COMPONENTS
 import FinalViewInfos from "./components/finals/finalPanels/FinalViewInfos";
+import FinalViewReports from "./components/finals/finalPanels/FinalViewReports";
 import FinalViewJudges from "./components/finals/finalPanels/FinalViewJudges";
 import FinalViewPeriods from "./components/finals/finalPanels/FinalViewPeriods";
 import FinalViewProjects from "./components/finals/finalPanels/FinalViewProjects";
@@ -99,6 +100,11 @@ class App extends Component {
 								exact
 								path="/admin/finale/*/exportation"
 								component={FinalViewExportation}
+							/>
+							<SuperAdminRoute
+								exact
+								path="/admin/finale/*/rapports-ecrits"
+								component={FinalViewReports}
 							/>
 							<SuperAdminRoute
 								exact

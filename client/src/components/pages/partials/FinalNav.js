@@ -31,13 +31,24 @@ class FinalNav extends Component {
 						<i className="fas fa-cogs" /> Informations
 					</NavLink>
 					{pairingImported && (
-						<NavLink
-							to={`/admin/finale/${this.props.id}/vue-projets`}
-							activeClassName="selected"
-							className="px-3 icon-button"
-						>
-							<i className="fas fa-user-friends " /> Vue par projets
-						</NavLink>
+						<Fragment>
+							{this.props.final.selectedFinal.isSuperExpo && (
+								<NavLink
+									to={`/admin/finale/${this.props.id}/rapports-ecrits`}
+									activeClassName="selected"
+									className="px-3 icon-button"
+								>
+									<i className="fas fa-clipboard-list" /> Rapports écrits
+								</NavLink>
+							)}
+							<NavLink
+								to={`/admin/finale/${this.props.id}/vue-projets`}
+								activeClassName="selected"
+								className="px-3 icon-button"
+							>
+								<i className="fas fa-user-friends " /> Vue par projets
+							</NavLink>
+						</Fragment>
 					)}
 				</div>
 				<div className="col-md-6 d-flex justify-content-around align-items-center">

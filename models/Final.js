@@ -19,6 +19,7 @@ const FinalSchema = new Schema(
 		adminId: { type: Schema.Types.ObjectId, ref: "Admin" },
 		pairing: { type: Object },
 		results: { type: Object, default: {} },
+		reportsResults: { type: Object, default: {} },
 		specialCharacter: { type: String }
 	},
 	{ minimize: false }
