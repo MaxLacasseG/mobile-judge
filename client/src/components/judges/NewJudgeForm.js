@@ -4,6 +4,7 @@ import { AddNewJudge } from "../../store/actions/judgeActions";
 import { ClearResponse } from "../../store/actions/responseActions";
 import PropTypes from "prop-types";
 import classnames from "classnames";
+import { format } from "util";
 
 class NewJudgeForm extends Component {
 	constructor(props) {
@@ -58,7 +59,11 @@ class NewJudgeForm extends Component {
 	};
 
 	OnChangePostalCode = e => {
-		this.setState({ [e.target.name]: e.target.value });
+		let formattedString = e.target.value
+			.replace(/([\w][\d][\w])([ ]?)([\d][\w][\d])/, "$1 $3")
+			.toUpperCase();
+
+		this.setState({ [e.target.name]: formattedString });
 	};
 
 	OnCheck = e => {
@@ -176,7 +181,7 @@ class NewJudgeForm extends Component {
 							})}
 							id="phone"
 							name="phone"
-							pattern="[0-9]{3} [0-9]{3}-[0-9]{4}"
+							pattern="[0-9]{3}[ -]?[0-9]{3}[ -]?[0-9]{4}"
 							placeholder="222 222-2222"
 							onChange={this.OnChange}
 							value={this.state.phone}
@@ -225,7 +230,7 @@ class NewJudgeForm extends Component {
 							})}
 							name="postalCode"
 							id="postalCode"
-							pattern="([A-Z][0-9][A-Z])\s?([0-9][A-Z][0-9])"
+							pattern="([A-Z][0-9][A-Z])([ ]?)([0-9][A-Z][0-9])"
 							placeholder="H1V 0B2"
 							onChange={this.OnChangePostalCode}
 							value={this.state.postalCode}
