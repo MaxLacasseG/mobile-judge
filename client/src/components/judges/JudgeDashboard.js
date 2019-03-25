@@ -134,12 +134,12 @@ class JudgeDashboard extends Component {
 				<div className="col-12 py-2">
 					<hr />
 					<p className="lead py-3 text-center">
-						Merci{" "}
 						<strong>
 							{gender === "F" ? "Mme" : gender === "M" ? "M." : null} {firstName}{" "}
-							{lastName}{" "}
+							{lastName} ,
 						</strong>
-						de soutenir la relève scientifique !
+						le Réseau Technoscience vous remercie de soutenir la relève scientifique
+						lors des Expo-sciences Hydro-Québec!
 					</p>
 					<hr />
 				</div>

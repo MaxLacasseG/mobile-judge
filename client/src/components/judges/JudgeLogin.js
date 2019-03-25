@@ -80,9 +80,10 @@ class JudgeLogin extends Component {
 					</div>
 					<div className="row text-center">
 						<div className="col-md-6 mx-auto">
-							<h6>
+							<h5>
 								L'application du jugement <br /> des Expo-sciences Hydro-Québec
-							</h6>
+							</h5>
+							<h6 className="my-3">Une application Web du Réseau Technoscience</h6>
 						</div>
 					</div>
 					<div className="row">
@@ -160,6 +161,13 @@ class JudgeLogin extends Component {
 							</form>
 						</div>
 					</div>
+					<footer className="text-center">
+						L'application <strong>Jugement mobile</strong> a été développée par le{" "}
+						<a href="http://technoscience.ca" target="_blank" rel="noopener noreferrer">
+							<em>Réseau Technoscience</em>
+						</a>
+						, &copy; 2019.
+					</footer>
 				</div>
 			</div>
 		);

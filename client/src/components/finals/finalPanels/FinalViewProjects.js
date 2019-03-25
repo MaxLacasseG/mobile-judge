@@ -313,6 +313,13 @@ class FinalViewProjects extends Component {
 					</div>
 					{projectsList}
 				</div>
+				<footer className="text-center">
+					L'application <strong>Jugement mobile</strong> a été développée par le{" "}
+					<a href="http://technoscience.ca" target="_blank" rel="noopener noreferrer">
+						<em>Réseau Technoscience</em>
+					</a>
+					, &copy; 2019.
+				</footer>
 			</Fragment>
 		);
 	}
