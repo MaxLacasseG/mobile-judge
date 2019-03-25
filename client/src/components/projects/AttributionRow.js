@@ -131,7 +131,7 @@ class AttributionRow extends Component {
 	// #region JUDGE MANAGEMENT
 	// =================
 	CheckJudgeAmount = () => {
-		if (isEmpty(this.props.attributionByProject)) return console.log("Aucun pairage");
+		//if (isEmpty(this.props.attributionByProject)) return console.log("Aucun pairage");
 		let judgeNumber = 0;
 
 		Object.keys(this.props.attributionByProject).map((period, index) => {
@@ -189,7 +189,7 @@ class AttributionRow extends Component {
 			judge: judge
 		};
 
-		console.log("JUDGE SWITCH", oldJudge, judge);
+		//console.log("JUDGE SWITCH", oldJudge, judge);
 		// RESET OLD JUDGE
 		if (oldJudge && !isEmpty(pairing.pairingByJudges[oldJudge][period])) {
 			delete pairing.pairingByJudges[oldJudge][period];
@@ -211,7 +211,7 @@ class AttributionRow extends Component {
 			}
 		}
 
-		console.log(results);
+		//console.log(results);
 		//Save new info
 		final.pairing = pairing;
 		final.results = results;
@@ -274,17 +274,15 @@ class AttributionRow extends Component {
 	 * Removes judges that are evaluating another project during given period
 	 */
 	CheckIfIsJudgingAtPeriod = (list, period) => {
-		list.map(elem => {
-			console.log("vertical check", period, elem.number);
-		});
 		const pairing = this.props.final.selectedFinal.pairing.pairingByProjects;
-		console.log(pairing);
+
 		let newList = list.filter(judge => {
 			if (judge.number === null) return false;
 
 			//Remove judge from list, if exist in pairing for same period,
 			for (let project in pairing) {
-				if (pairing[project][period].judge === judge.number) return false;
+				if (pairing[project][period] && pairing[project][period].judge === judge.number)
+					return false;
 			}
 
 			return true;
@@ -298,7 +296,7 @@ class AttributionRow extends Component {
 		const pairing = this.props.final && this.props.final.selectedFinal.pairing;
 		const results = this.props.final && this.props.final.selectedFinal.results;
 
-		console.log("results", results);
+		//console.log("results", results);
 		// Cast to int, got converted to string somewhere
 		project = parseInt(project);
 		period = parseInt(period);
@@ -325,7 +323,7 @@ class AttributionRow extends Component {
 			delete results[project][judge];
 		}
 
-		console.log("remove end", final, pairing, results);
+		//console.log("remove end", final, pairing, results);
 
 		final.pairing = pairing;
 		final.results = results;

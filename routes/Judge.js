@@ -5,6 +5,7 @@ const logger = require("tracer").colorConsole();
 const isEmpty = require("../utils/isEmpty");
 
 const judgeConnectionValidator = require("../validators/JudgeConnection");
+const newJudgeValidator = require("../validators/NewJudge");
 
 const JudgeController = require("../controllers/Judge");
 const FinalController = require("../controllers/Final");
@@ -117,6 +118,10 @@ router.post("/create", (req, res) => {
 });
 
 router.post("/add-new", (req, res) => {
+	console.trace("newJudge", req.body);
+	const { errors, isValid, sanitizedData } = newJudgeValidator(req.body);
+	if (!isValid) return res.status(400).json(errors);
+
 	JudgeController.AddNew(req.body)
 		.then(result => {
 			return FinalController.AddNewJudge(result);
