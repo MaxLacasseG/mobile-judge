@@ -150,7 +150,11 @@ router.post("/login", (req, res) => {
 });
 
 router.put("/set-number", (req, res) => {
-	//console.log(req.body);
+	//Validation
+	if (isNaN(req.body.judgeNumber)) {
+		req.body.judgeNumber = null;
+	}
+
 	JudgeController.Find({ judgeId: req.body.judgeId, finalId: req.body.finalId })
 		.then(judge => {
 			if (isEmpty(judge[0])) {

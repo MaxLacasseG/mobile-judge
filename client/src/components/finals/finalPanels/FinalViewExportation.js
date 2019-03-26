@@ -21,38 +21,55 @@ class FinalViewExportation extends Component {
 		this.props.SelectProjectsByFinalId(this.props.match.params[0]);
 	};
 
+	FindProject = projectNumber => {
+		if (isNaN(projectNumber)) return null;
+
+		const foundProject = this.props.project.projectsList.filter(project => {
+			return project.number == projectNumber;
+		});
+		return foundProject;
+	};
+
 	CalculateResults = results => {
 		//console.log(results);
-		for (let project in results) {
-			this.CalculateProjectResults(project, results[project]);
+		for (let project of this.props.project.projectsList) {
+			this.CalculateProjectResults(project.number, results[project.number]);
 		}
 	};
 
 	CalculateProjectResults = (projectNumber, projectResults) => {
-		console.log("final results", projectNumber, projectResults);
+		let resultArray = [];
+		let internationalResultArray = [];
 
-		//Checks all the results total for a project
-		const resultArray = Object.keys(projectResults)
-			.filter(key => {
-				return (
-					projectResults[key].total !== undefined && projectResults[key].total !== null
-				);
-			})
-			.map(key => {
-				return projectResults[key].total;
-			});
+		// If no results is entered returns 0
+		if (projectResults === undefined || isEmpty(projectResults)) {
+			resultArray = [0, 0, 0, 0, 0];
+			internationalResultArray = [0, 0, 0, 0, 0];
+		} else {
+			//Checks all the results total for a project
+			resultArray = Object.keys(projectResults)
+				.filter(key => {
+					return (
+						projectResults[key].total !== undefined &&
+						projectResults[key].total !== null
+					);
+				})
+				.map(key => {
+					return projectResults[key].total;
+				});
 
-		//Checks all the results total for a project
-		const internationalResultArray = Object.keys(projectResults)
-			.filter(key => {
-				return (
-					projectResults[key].totalInternational !== undefined &&
-					projectResults[key].totalInternational !== null
-				);
-			})
-			.map(key => {
-				return projectResults[key].totalInternational;
-			});
+			//Checks all the results total for a project
+			internationalResultArray = Object.keys(projectResults)
+				.filter(key => {
+					return (
+						projectResults[key].totalInternational !== undefined &&
+						projectResults[key].totalInternational !== null
+					);
+				})
+				.map(key => {
+					return projectResults[key].totalInternational;
+				});
+		}
 
 		if (isEmpty(resultArray)) return false;
 
@@ -68,25 +85,20 @@ class FinalViewExportation extends Component {
 		//CALCULATES RESULTS
 		if (this.props.final.selectedFinal.level === "highschool") {
 			//Calc trimmed average
-			console.log("CALC TRIMMED AVG");
 			results[projectNumber].finalAvgResults = this.CalcTrimmedAvg(resultArray);
-		} else if (this.props.final.selectedFinal.level === "elementary") {
-			console.log("CALC AVG");
-			//Calc average
-			results[projectNumber].finalAvgResults = this.CalcAvg(resultArray);
-		}
-
-		//ADDS INTERNATIONAL RESULTS
-		if (this.props.final.selectedFinal.level === "highschool") {
+			//ADDS INTERNATIONAL RESULTS
 			results[projectNumber].finalInternationalResults = this.CalcInternationalResult(
 				internationalResultArray
 			);
+		} else if (this.props.final.selectedFinal.level === "elementary") {
+			//Calc average
+			results[projectNumber].finalAvgResults = this.CalcAvg(resultArray);
 		}
 
 		//SUPER EXPO-SCIENCES RESULTS
 		if (this.props.final.selectedFinal.isSuperExpo) {
 			//Get report results for project
-			const reportResult = this.props.final.selectedFinal.reportsResults
+			const reportResult = this.props.final.selectedFinal.reportsResults[projectNumber]
 				? this.props.final.selectedFinal.reportsResults[projectNumber].reportResult
 				: 0;
 
@@ -306,7 +318,9 @@ class FinalViewExportation extends Component {
 			for (let key in row) {
 				csv += `${key};`;
 				csv += `${row[key].finalAvgResults};`;
-				csv += `${row[key].finalInternationalResults}\n`;
+				csv += `${
+					row[key].finalInternationalResults ? row[key].finalInternationalResults : 0
+				}\n`;
 			}
 			return true;
 		});
@@ -331,26 +345,33 @@ class FinalViewExportation extends Component {
 			? []
 			: this.props.final.selectedFinal.results;
 
+		//Prints results
 		const list = this.state.sortedResults.map((result, index) => {
 			let number, trimmedavg;
 
+			//Needs to map again because result contains an object with an index which is the project number
 			Object.keys(result).map(key => {
 				number = key;
 				trimmedavg = result[key].finalAvgResults;
 				return true;
 			});
 
+			const project = this.FindProject(number);
+			const title = project && project[0] && project[0].information.projectInformation.title;
+
 			return (
-				<div className="col-12 row ranking-row my-2 py-3" key={index}>
-					<div className="col-4 text-center">{index + 1}</div>
-					<div className="col-4 text-center">{number}</div>
-					<div className="col-4 text-center">
+				<div className="col-12 row ranking-row my-1 py-2" key={index}>
+					<div className="col-2 text-center">{index + 1}</div>
+					<div className="col-8 text-center">
+						Projet {number} | {title}
+					</div>
+					<div className="col-2 text-center">
 						{trimmedavg === undefined ? (
 							<span>
 								<i className="fas fa-exclamation-triangle" /> Pas assez de jugements
 							</span>
 						) : (
-							trimmedavg.toFixed(6)
+							trimmedavg.toFixed(3)
 						)}
 					</div>
 				</div>
@@ -419,9 +440,9 @@ class FinalViewExportation extends Component {
 						</div>
 					</div>
 					<div className="row w-50 mx-auto">
-						<div className="col-4 text-center">Ordre</div>
-						<div className="col-4 text-center">Numéro de projet</div>
-						<div className="col-4 text-center">Résultat</div>
+						<div className="col-2 text-center">Ordre</div>
+						<div className="col-8 text-center">Numéro de projet</div>
+						<div className="col-2 text-center">Résultat</div>
 					</div>
 					<div className="row w-50 mx-auto mb-5">{list}</div>
 				</div>
@@ -439,7 +460,8 @@ class FinalViewExportation extends Component {
 
 const mapStateToProps = state => ({
 	auth: state.auth,
-	final: state.final
+	final: state.final,
+	project: state.project
 });
 
 export default connect(

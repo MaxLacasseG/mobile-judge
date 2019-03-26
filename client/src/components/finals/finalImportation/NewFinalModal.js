@@ -94,7 +94,8 @@ class NewFinalModal extends Component {
 			return newJudge;
 		});
 
-		//FORMATS PROJECTS
+		//FORMATS PROJECTS & CREATE RESULT OBJECT
+		const results = {};
 		const newProjectsList = this.state.projects.map(project => {
 			project.participants = this.state.participants.filter(participant => {
 				return participant.project === project._id;
@@ -106,6 +107,10 @@ class NewFinalModal extends Component {
 			project.projectId = project._id;
 			project.finalId = this.state.event._id;
 
+			if (project.number !== undefined) {
+				results[project.number] = {};
+			}
+
 			return this.CopyObject(project, [
 				"projectId",
 				"classification",
@@ -115,6 +120,8 @@ class NewFinalModal extends Component {
 				"finalId"
 			]);
 		});
+
+		newEvent.results = results;
 
 		//RETURN THE OBJECTS
 		const newFinal = {

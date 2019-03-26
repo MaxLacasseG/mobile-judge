@@ -46,6 +46,7 @@ export const SetJudgeNumber = (judgeNumber, judgeId, finalId) => dispatch => {
 			dispatch(GetJudgesPwd(finalId));
 		})
 		.catch(err => {
+			dispatch(GetJudgesPwd(finalId));
 			dispatch({ type: GET_ERRORS, payload: err.response.data });
 		});
 };

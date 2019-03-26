@@ -265,7 +265,7 @@ class EvaluationGrid extends Component {
 			//Calculates regular total
 			endTotal += results[criterion].total;
 
-			console.log(this.state.level, this.state.type);
+			//console.log(this.state.level, this.state.type);
 
 			// Calculates total for international competition
 			if (this.props.final.selectedFinal.level === "highschool") {

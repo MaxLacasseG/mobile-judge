@@ -89,10 +89,20 @@ class PairingFileImportation extends Component {
 		};
 
 		//Reset results
-		const results = {};
+		const results = this.ResetResults();
 
 		const finalInfos = { _id: this.props.finalId, pairing, results };
 		this.props.SaveFinalPairing(finalInfos);
+	};
+
+	ResetResults = () => {
+		const results = {};
+		this.props.project.projectsList.map(project => {
+			if (project.number !== undefined) {
+				results[project.number] = {};
+			}
+		});
+		return results;
 	};
 
 	OnSubmit = e => {
@@ -237,6 +247,7 @@ class PairingFileImportation extends Component {
 const mapStateToProps = state => ({
 	action: state.action,
 	errors: state.errors,
+	project: state.project,
 	final: state.final
 });
 export default connect(

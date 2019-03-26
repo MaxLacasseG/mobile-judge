@@ -61,8 +61,11 @@ class FinalViewJudgesInfos extends Component {
 		//Change edit mode
 		numberZone.contentEditable = "false";
 
+		if (!parseInt(target.innerText)) {
+			numberZone.innerText = "";
+		}
 		this.props.SetJudgeNumber(
-			target.innerText,
+			numberZone.innerText,
 			target.dataset.judgeid,
 			this.props.final.selectedFinal._id
 		);
