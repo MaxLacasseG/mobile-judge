@@ -78,51 +78,53 @@ class JudgeDashboard extends Component {
 						</span>
 					) : null;
 					return (
-						<div
-							className={classnames("row mb-3 period-row p-2", {
-								"is-complete": isComplete
-							})}
-							key={projects[key].project}
-						>
-							<div className="col-md-1">{linkIcon}</div>
-							<div className="col-md-2">
-								<span className="">
-									<strong>
-										Période {String.fromCharCode(64 + projects[key].period)}
-									</strong>
-								</span>
-							</div>
-							<div className="col">
-								<Link
-									to={{
-										pathname: `/projet/${projects[key].project}`,
-										state: {
-											period: projects[key].period,
-											project: projects[key].project,
-											judge: this.props.auth.user.number,
-											finalId: this.props.auth.user.finalId,
-											isAdmin: false,
-											results: this.CheckExistingResult(
-												projects[key].project,
-												this.props.auth.user.number,
-												results
-											)
-												? this.ImportResults(
-														projects[key].project,
-														this.props.auth.user.number,
-														results
-												  )
-												: {}
-										}
-									}}
-								>
-									{linkText}{" "}
-									<span className="ml-3">
-										<i className="fas fa-sign-in-alt" />
+						projects[key].project !== null && (
+							<div
+								className={classnames("row mb-3 period-row p-2", {
+									"is-complete": isComplete
+								})}
+								key={projects[key].project}
+							>
+								<div className="col-md-1">{linkIcon}</div>
+								<div className="col-md-2">
+									<span className="">
+										<strong>
+											Période {String.fromCharCode(64 + projects[key].period)}
+										</strong>
 									</span>
-								</Link>
+								</div>
+								<div className="col">
+									<Link
+										to={{
+											pathname: `/projet/${projects[key].project}`,
+											state: {
+												period: projects[key].period,
+												project: projects[key].project,
+												judge: this.props.auth.user.number,
+												finalId: this.props.auth.user.finalId,
+												isAdmin: false,
+												results: this.CheckExistingResult(
+													projects[key].project,
+													this.props.auth.user.number,
+													results
+												)
+													? this.ImportResults(
+															projects[key].project,
+															this.props.auth.user.number,
+															results
+													  )
+													: {}
+											}
+										}}
+									>
+										{linkText}{" "}
+										<span className="ml-3">
+											<i className="fas fa-sign-in-alt" />
+										</span>
+									</Link>
+								</div>
 							</div>
-						</div>
+						)
 					);
 			  })
 			: "Aucun projet d'assigné pour l'instant";
