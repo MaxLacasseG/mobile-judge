@@ -876,7 +876,7 @@ export const highVulgarisationGrid = {
 					criterions: [
 						{
 							id: "1A",
-							description: "Connaissance et originalité de la problématique",
+							description: "Connaissance et compréhension de la problématique",
 							percentage: 4
 						},
 						{
