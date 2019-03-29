@@ -10,7 +10,7 @@ const path = require("path");
 const envResult = require("dotenv").config();
 
 if (envResult.error) {
-	logger.warn({ type: "env", error: envResult.error });
+    logger.warn({ type: "env", error: envResult.error });
 }
 const db = process.env.MONGO_URI;
 
@@ -21,8 +21,8 @@ const projectRoutes = require("./routes/Project");
 const finalRoutes = require("./routes/Final");
 
 mongoose.connect(db, { useNewUrlParser: true }, err => {
-	if (err) return logger.log(err);
-	logger.trace("Connecté à la base de donnée");
+    if (err) return logger.log(err);
+    logger.trace("Connecté à la base de donnée");
 });
 
 //PASSPORT INIT, ADDS TO REQUESTS
@@ -30,8 +30,8 @@ passport.initialize();
 require("./config/passport")(passport);
 
 //MIDDLEWARES
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: "50mb" }));
+app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 app.use(morgan("dev"));
 
 //ROUTES
@@ -42,15 +42,15 @@ app.use("/api/final", finalRoutes);
 
 // Server static assets if in production
 if (process.env.NODE_ENV === "production") {
-	// Set static folder
-	app.use(express.static("client/build"));
+    // Set static folder
+    app.use(express.static("client/build"));
 
-	app.get("*", (req, res) => {
-		res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
-	});
+    app.get("*", (req, res) => {
+        res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+    });
 }
 
 app.listen(port, err => {
-	if (err) logger.log(err);
-	logger.trace(`listening on ${port}`);
+    if (err) logger.log(err);
+    logger.trace(`listening on ${port}`);
 });
