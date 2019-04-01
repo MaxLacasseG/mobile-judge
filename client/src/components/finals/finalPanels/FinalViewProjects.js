@@ -203,6 +203,7 @@ class FinalViewProjects extends Component {
 			<TypeSwitchModal
 				projectid={projectid}
 				projectnumber={projectnumber}
+				results={this.props.final.selectedFinal.results}
 				type={type}
 				ClearModal={this.ClearModal}
 				SwitchProjectType={this.props.SwitchProjectType}

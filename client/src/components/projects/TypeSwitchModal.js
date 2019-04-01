@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
 import classnames from "classnames";
+import isEmpty from "../../validation/isEmpty";
 
 export default class TypeSwitchModal extends Component {
 	constructor(props) {
@@ -34,8 +35,59 @@ export default class TypeSwitchModal extends Component {
 	SaveNewType = () => {
 		if (this.state.type === "") return;
 
+		if (this.props.results[this.props.projectnumber]) {
+			this.MakeTXTFile(
+				this.props.projectnumber,
+				this.props.results[this.props.projectnumber],
+				this.props.type
+			);
+		}
 		this.props.SwitchProjectType(this.props.projectid, this.state.type);
 		this.props.ClearModal();
+	};
+
+	MakeTXTFile = (projectNumber, results, oldType) => {
+		if (isEmpty(results)) return;
+
+		//CREATE FILE
+		//For each results of a project
+		let txt = "";
+		let titre = `======== CHANGEMENT TYPE ========\n`;
+		titre += `Projet ${projectNumber}\n`;
+		titre += `Type ${oldType}\n`;
+		titre += `================================\n\n`;
+
+		let judgeTxt = "";
+		for (const judge in results) {
+			if (results.hasOwnProperty(judge)) {
+				judgeTxt += `Juge : ${judge} | Période : ${results[judge].period}\n`;
+
+				for (const result in results[judge].results) {
+					if (results[judge].results.hasOwnProperty(result)) {
+						//Print each result
+						judgeTxt += `${result} : ${results[judge].results[result].grade}/10 |  ${
+							results[judge].results[result].total
+						}/100 \n`;
+					}
+				}
+				judgeTxt += "------------------------\n";
+				judgeTxt += `Total:${results[judge].total}/100\n`;
+				judgeTxt += "------------------------\n";
+				judgeTxt += `Résultat complet:${results[judge].isComplete ? "Oui" : "Non"}\n\n`;
+			}
+		}
+		txt = titre + judgeTxt;
+
+		//FORMAT FILE
+		let txtToDownload = document.createElement("a");
+		txtToDownload.style.display = "none";
+		txtToDownload.href = "data:text/plain;charset=utf-8," + encodeURI(txt);
+		txtToDownload.target = "_blank";
+		txtToDownload.download = `ChangementType_Projet_${projectNumber}_${oldType}.txt`;
+
+		//DOWNLOAD FILE
+		document.getElementById("linkContainer").appendChild(txtToDownload);
+		txtToDownload.click();
 	};
 
 	ResetResults = () => {};
@@ -62,6 +114,7 @@ export default class TypeSwitchModal extends Component {
 			});
 		return (
 			<Fragment>
+				<div id="linkContainer" />
 				<button
 					type="button"
 					className="btn btn-primary d-none"
