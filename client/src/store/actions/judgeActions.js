@@ -13,16 +13,19 @@ import {
 import axios from "axios";
 import setAuthToken from "../../utils/setAuthHeaders";
 import jwt_decode from "jwt-decode";
+import { SelectFinalById } from "./finalActions";
 
 export const Login = (userData, history) => dispatch => {
 	axios
 		.post("/api/judge/login", userData)
 		.then(result => {
+			dispatch({ type: GET_ERRORS, payload: result.data });
 			const { token } = result.data;
 			localStorage.setItem("jwtToken", token);
 			setAuthToken(token);
 			const decoded = jwt_decode(token);
 			dispatch(SetCurrentJudge(decoded));
+			dispatch(SelectFinalById(decoded.finalId));
 			history.push("/mon-jugement");
 		})
 		.catch(err => {

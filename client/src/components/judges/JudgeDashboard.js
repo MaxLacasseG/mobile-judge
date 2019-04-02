@@ -16,8 +16,8 @@ class JudgeDashboard extends Component {
 		};
 	}
 	componentDidMount = () => {
-		this.props.GetJudgeProject(this.props.auth.user.finalId, this.props.auth.user.number);
 		this.props.SelectFinalById(this.props.auth.user.finalId);
+		this.props.GetJudgeProject(this.props.auth.user.finalId, this.props.auth.user.number);
 		this.props.CheckFinalActive(this.props.auth.user.finalId);
 	};
 	componentWillUnmount = () => {
