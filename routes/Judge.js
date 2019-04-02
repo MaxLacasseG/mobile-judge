@@ -1,7 +1,17 @@
 const express = require("express");
 const router = express.Router();
 const passport = require("passport");
-const logger = require("tracer").colorConsole();
+const logger = require("tracer").console({
+	transport: function(data) {
+		fs.appendFile(
+			`./logs/${new Date().toISOString().split("T")[0]}.log`,
+			data.rawoutput + "\n",
+			err => {
+				if (err) throw err;
+			}
+		);
+	}
+});
 const isEmpty = require("../utils/isEmpty");
 
 const judgeConnectionValidator = require("../validators/JudgeConnection");
@@ -144,7 +154,7 @@ router.post("/login", (req, res) => {
 			res.status(200).json(result);
 		})
 		.catch(err => {
-			console.log(err);
+			logger.log(err);
 			res.status(400).json(err);
 		});
 });
