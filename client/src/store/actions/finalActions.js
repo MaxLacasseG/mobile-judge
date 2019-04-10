@@ -35,6 +35,7 @@ export const CreateFinal = (finalInfos, userId, isAdmin) => dispatch => {
 
 export const CheckFinalActive = () => dispatch => {
 	const token = localStorage.getItem("jwtToken");
+	console.log("token");
 	if (token === undefined) {
 		return dispatch({ type: GET_ERRORS, payload: "Impossible de se connecter" });
 	}
