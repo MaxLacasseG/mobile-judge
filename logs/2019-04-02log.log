@@ -1,0 +1,14 @@
+2019-04-02T14:59:28-0400 <trace> server.js:67 (Server.app.listen.err) listening on 5000
+2019-04-02T14:59:28-0400 <trace> server.js:37 (mongoose.connect.err) Connecté à la base de donnée
+2019-04-02T14:59:31-0400 <trace> server.js:67 (Server.app.listen.err) listening on 5000
+2019-04-02T14:59:31-0400 <trace> server.js:37 (mongoose.connect.err) Connecté à la base de donnée
+2019-04-02T14:59:36-0400 <trace> server.js:67 (Server.app.listen.err) listening on 5000
+2019-04-02T14:59:36-0400 <trace> server.js:37 (mongoose.connect.err) Connecté à la base de donnée
+2019-04-02T14:59:41-0400 <trace> server.js:67 (Server.app.listen.err) listening on 5000
+2019-04-02T14:59:41-0400 <trace> server.js:37 (mongoose.connect.err) Connecté à la base de donnée
+2019-04-02T14:59:46-0400 <trace> server.js:67 (Server.app.listen.err) listening on 5000
+2019-04-02T14:59:46-0400 <trace> server.js:37 (mongoose.connect.err) Connecté à la base de donnée
+2019-04-02T14:59:51-0400 <trace> server.js:67 (Server.app.listen.err) listening on 5000
+2019-04-02T14:59:51-0400 <trace> server.js:37 (mongoose.connect.err) Connecté à la base de donnée
+2019-04-02T14:59:56-0400 <trace> server.js:67 (Server.app.listen.err) listening on 5000
+2019-04-02T14:59:56-0400 <trace> server.js:37 (mongoose.connect.err) Connecté à la base de donnée
