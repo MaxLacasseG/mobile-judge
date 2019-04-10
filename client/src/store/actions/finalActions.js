@@ -13,6 +13,7 @@ import {
 } from "./types";
 import axios from "axios";
 import isEmpty from "../../validation/isEmpty";
+import jwt_decode from "jwt-decode";
 
 export const CreateFinal = (finalInfos, userId, isAdmin) => dispatch => {
 	axios
@@ -31,13 +32,23 @@ export const CreateFinal = (finalInfos, userId, isAdmin) => dispatch => {
 			dispatch({ type: GET_ERRORS, payload: err.response.data });
 		});
 };
-export const CheckFinalActive = finalId => dispatch => {
+
+export const CheckFinalActive = () => dispatch => {
+	const token = localStorage.getItem("jwtToken");
+	if (token === undefined) {
+		return dispatch({ type: GET_ERRORS, payload: "Impossible de se connecter" });
+	}
+
+	const decoded = jwt_decode(token);
+	console.log("Check final token", decoded);
+	const finalId = decoded.finalId;
 	axios
 		.get("/api/final/active", { params: { finalId } })
 		.then(result => {
 			dispatch({ type: IS_FINAL_ACTIVE, payload: result.data });
 		})
 		.catch(err => {
+			console.log("Check final", err);
 			dispatch({ type: GET_ERRORS, payload: err.response.data });
 		});
 };
@@ -53,6 +64,7 @@ export const SelectFinalById = finalId => dispatch => {
 			dispatch({ type: SELECT_FINAL, payload: final.data });
 		})
 		.catch(err => {
+			console.log("Select Final", err, finalId);
 			dispatch({
 				type: SET_ACTION_RESPONSE,
 				payload: { type: SELECT_FINAL, response: "fail" }
