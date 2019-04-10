@@ -1,10 +1,9 @@
 const express = require("express");
 const app = express();
 const port = process.env.PORT || 5000;
-const fs = require("fs");
 const bodyParser = require("body-parser");
 const passport = require("passport");
-
+const logger = require("tracer").colorConsole();
 const mongoose = require("mongoose");
 const morgan = require("morgan");
 const path = require("path");
