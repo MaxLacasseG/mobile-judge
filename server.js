@@ -4,17 +4,6 @@ const port = process.env.PORT || 5000;
 const fs = require("fs");
 const bodyParser = require("body-parser");
 const passport = require("passport");
-const logger = require("tracer").console({
-	transport: function(data) {
-		fs.appendFile(
-			`./logs/${new Date().toISOString().split("T")[0]}.log`,
-			data.rawoutput + "\n",
-			err => {
-				if (err) throw err;
-			}
-		);
-	}
-});
 
 const mongoose = require("mongoose");
 const morgan = require("morgan");
