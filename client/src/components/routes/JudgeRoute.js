@@ -2,8 +2,7 @@ import React, { Component, Fragment } from "react";
 import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import FinalEnded from "../judges/FinalEnded";
-import { CheckFinalActive, SelectFinalById } from "../../store/actions/finalActions";
-import jwt_decode from "jwt-decode";
+import { CheckFinalActive } from "../../store/actions/finalActions";
 
 class JudgeRoute extends Component {
 	constructor(props) {
@@ -12,16 +11,9 @@ class JudgeRoute extends Component {
 			isActive: false
 		};
 	}
-
 	componentDidMount = () => {
-		const token = localStorage.getItem("jwtToken");
-		if (token !== undefined) {
-			const decoded = jwt_decode(token);
-			console.log("Check final token in route", decoded);
-			this.props.SelectFinalById(decoded.finalId);
-		}
+		this.props.CheckFinalActive(this.props.auth.user.finalId);
 	};
-
 	componentDidUpdate = (prevProps, prevState) => {
 		if (prevProps.final.isActive !== this.props.final.isActive) {
 			this.setState({ isActive: this.props.final.isActive });
@@ -59,5 +51,5 @@ const mapStateToProps = state => ({
 
 export default connect(
 	mapStateToProps,
-	{ CheckFinalActive, SelectFinalById }
+	{ CheckFinalActive }
 )(JudgeRoute);

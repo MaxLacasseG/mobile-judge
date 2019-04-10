@@ -33,24 +33,14 @@ export const CreateFinal = (finalInfos, userId, isAdmin) => dispatch => {
 		});
 };
 
-export const CheckFinalActive = () => dispatch => {
-	const token = localStorage.getItem("jwtToken");
-	console.log("token");
-	if (token === undefined) {
-		return dispatch({ type: GET_ERRORS, payload: "Impossible de se connecter" });
-	}
-
-	const decoded = jwt_decode(token);
-	console.log("Check final token", decoded);
-	const finalId = decoded.finalId;
-
+export const CheckFinalActive = finalId => dispatch => {
 	axios
 		.get("/api/final/active", { params: { finalId } })
 		.then(result => {
 			dispatch({ type: IS_FINAL_ACTIVE, payload: result.data });
 		})
 		.catch(err => {
-			console.log("Check final", err);
+			dispatch({ type: GET_ERRORS, payload: err.response.data });
 		});
 };
 
@@ -65,7 +55,11 @@ export const SelectFinalById = finalId => dispatch => {
 			dispatch({ type: SELECT_FINAL, payload: final.data });
 		})
 		.catch(err => {
-			console.log("Select Final", err, finalId);
+			dispatch({
+				type: SET_ACTION_RESPONSE,
+				payload: { type: SELECT_FINAL, response: "fail" }
+			});
+			dispatch({ type: GET_ERRORS, payload: err.response.data });
 		});
 };
 

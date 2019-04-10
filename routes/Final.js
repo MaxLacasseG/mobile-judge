@@ -32,8 +32,7 @@ router.get("/all-active-ids", (req, res) => {
 router.get("/id", (req, res) => {
 	FinalController.FindById(req.query.finalId)
 		.then(resultat => {
-			if (isEmpty(resultat))
-				throw new Error({ success: false, msg: "Aucune finale trouvée" });
+			if (isEmpty(resultat)) throw { success: false, msg: "Aucune finale trouvée" };
 			res.status(200).json(resultat);
 		})
 		.catch(err => {
