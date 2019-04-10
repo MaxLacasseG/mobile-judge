@@ -43,6 +43,7 @@ export const CheckFinalActive = () => dispatch => {
 	const decoded = jwt_decode(token);
 	console.log("Check final token", decoded);
 	const finalId = decoded.finalId;
+
 	axios
 		.get("/api/final/active", { params: { finalId } })
 		.then(result => {
@@ -50,7 +51,6 @@ export const CheckFinalActive = () => dispatch => {
 		})
 		.catch(err => {
 			console.log("Check final", err);
-			dispatch({ type: GET_ERRORS, payload: err.response.data });
 		});
 };
 
@@ -66,11 +66,6 @@ export const SelectFinalById = finalId => dispatch => {
 		})
 		.catch(err => {
 			console.log("Select Final", err, finalId);
-			dispatch({
-				type: SET_ACTION_RESPONSE,
-				payload: { type: SELECT_FINAL, response: "fail" }
-			});
-			dispatch({ type: GET_ERRORS, payload: err.response.data });
 		});
 };
 
