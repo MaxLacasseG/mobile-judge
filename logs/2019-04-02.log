@@ -1,0 +1,62 @@
+2019-04-02T15:00:00-0400 <trace> server.js:67 (Server.app.listen.err) listening on 5000
+2019-04-02T15:00:00-0400 <trace> server.js:37 (mongoose.connect.err) Connecté à la base de donnée
+2019-04-02T15:00:01-0400 <trace> server.js:67 (Server.app.listen.err) listening on 5000
+2019-04-02T15:00:01-0400 <trace> server.js:37 (mongoose.connect.err) Connecté à la base de donnée
+2019-04-02T15:00:06-0400 <trace> server.js:67 (Server.app.listen.err) listening on 5000
+2019-04-02T15:00:06-0400 <trace> server.js:37 (mongoose.connect.err) Connecté à la base de donnée
+2019-04-02T15:00:11-0400 <trace> server.js:67 (Server.app.listen.err) listening on 5000
+2019-04-02T15:00:11-0400 <trace> server.js:37 (mongoose.connect.err) Connecté à la base de donnée
+2019-04-02T15:00:16-0400 <trace> server.js:67 (Server.app.listen.err) listening on 5000
+2019-04-02T15:00:16-0400 <trace> server.js:37 (mongoose.connect.err) Connecté à la base de donnée
+2019-04-02T15:00:28-0400 <trace> server.js:67 (Server.app.listen.err) listening on 5000
+2019-04-02T15:00:28-0400 <trace> server.js:37 (mongoose.connect.err) Connecté à la base de donnée
+2019-04-02T15:00:30-0400 <trace> server.js:67 (Server.app.listen.err) listening on 5000
+2019-04-02T15:00:30-0400 <trace> server.js:37 (mongoose.connect.err) Connecté à la base de donnée
+2019-04-02T15:01:14-0400 <trace> server.js:67 (Server.app.listen.err) listening on 5000
+2019-04-02T15:01:14-0400 <trace> server.js:37 (mongoose.connect.err) Connecté à la base de donnée
+2019-04-02T15:01:25-0400 <trace> server.js:67 (Server.app.listen.err) listening on 5000
+2019-04-02T15:01:25-0400 <trace> server.js:37 (mongoose.connect.err) Connecté à la base de donnée
+2019-04-02T15:02:21-0400 <trace> server.js:67 (Server.app.listen.err) listening on 5000
+2019-04-02T15:02:21-0400 <trace> server.js:37 (mongoose.connect.err) Connecté à la base de donnée
+2019-04-02T15:43:52-0400 <trace> server.js:67 (Server.app.listen.err) listening on 5000
+2019-04-02T15:43:52-0400 <trace> server.js:37 (mongoose.connect.err) Connecté à la base de donnée
+2019-04-02T15:44:40-0400 <trace> server.js:67 (Server.app.listen.err) listening on 5000
+2019-04-02T15:44:40-0400 <trace> server.js:37 (mongoose.connect.err) Connecté à la base de donnée
+2019-04-02T15:44:42-0400 <trace> server.js:67 (Server.app.listen.err) listening on 5000
+2019-04-02T15:44:42-0400 <trace> server.js:37 (mongoose.connect.err) Connecté à la base de donnée
+2019-04-02T15:44:45-0400 <log> Judge.js:101 (router.get) { finalId: '5b328ef45c64321e96199fa4', judgeNumber: '8' }
+2019-04-02T15:45:14-0400 <log> Judge.js:101 (router.get) { finalId: '5b328ef45c64321e96199fa4', judgeNumber: '8' }
+2019-04-02T15:47:38-0400 <trace> server.js:67 (Server.app.listen.err) listening on 5000
+2019-04-02T15:47:38-0400 <trace> server.js:37 (mongoose.connect.err) Connecté à la base de donnée
+2019-04-02T16:15:20-0400 <trace> server.js:67 (Server.app.listen.err) listening on 5000
+2019-04-02T16:15:20-0400 <trace> server.js:37 (mongoose.connect.err) Connecté à la base de donnée
+2019-04-02T16:15:30-0400 <trace> server.js:67 (Server.app.listen.err) listening on 5000
+2019-04-02T16:15:30-0400 <trace> server.js:37 (mongoose.connect.err) Connecté à la base de donnée
+2019-04-02T16:15:31-0400 <trace> server.js:67 (Server.app.listen.err) listening on 5000
+2019-04-02T16:15:31-0400 <trace> server.js:37 (mongoose.connect.err) Connecté à la base de donnée
+2019-04-02T16:16:28-0400 <trace> server.js:67 (Server.app.listen.err) listening on 5000
+2019-04-02T16:16:28-0400 <trace> server.js:37 (mongoose.connect.err) Connecté à la base de donnée
+2019-04-02T16:17:17-0400 <trace> server.js:67 (Server.app.listen.err) listening on 5000
+2019-04-02T16:17:17-0400 <trace> server.js:37 (mongoose.connect.err) Connecté à la base de donnée
+2019-04-02T16:18:48-0400 <trace> server.js:67 (Server.app.listen.err) listening on 5000
+2019-04-02T16:18:48-0400 <trace> server.js:37 (mongoose.connect.err) Connecté à la base de donnée
+2019-04-02T16:18:49-0400 <trace> server.js:67 (Server.app.listen.err) listening on 5000
+2019-04-02T16:18:49-0400 <trace> server.js:37 (mongoose.connect.err) Connecté à la base de donnée
+2019-04-02T16:18:54-0400 <trace> server.js:67 (Server.app.listen.err) listening on 5000
+2019-04-02T16:18:54-0400 <trace> server.js:37 (mongoose.connect.err) Connecté à la base de donnée
+2019-04-02T16:18:56-0400 <trace> server.js:67 (Server.app.listen.err) listening on 5000
+2019-04-02T16:18:56-0400 <trace> server.js:37 (mongoose.connect.err) Connecté à la base de donnée
+2019-04-02T16:18:57-0400 <trace> server.js:67 (Server.app.listen.err) listening on 5000
+2019-04-02T16:18:57-0400 <trace> server.js:37 (mongoose.connect.err) Connecté à la base de donnée
+2019-04-02T16:20:26-0400 <log> Judge.js:101 (router.get) { finalId: '5b328ef45c64321e96199fa4', judgeNumber: '8' }
+2019-04-02T16:21:13-0400 <log> Judge.js:101 (router.get) { finalId: '5b328ef45c64321e96199fa4', judgeNumber: '8' }
+2019-04-02T16:22:39-0400 <trace> server.js:67 (Server.app.listen.err) listening on 5000
+2019-04-02T16:22:40-0400 <trace> server.js:37 (mongoose.connect.err) Connecté à la base de donnée
+2019-04-02T16:22:44-0400 <trace> server.js:67 (Server.app.listen.err) listening on 5000
+2019-04-02T16:22:44-0400 <trace> server.js:37 (mongoose.connect.err) Connecté à la base de donnée
+2019-04-02T16:22:49-0400 <trace> server.js:67 (Server.app.listen.err) listening on 5000
+2019-04-02T16:22:49-0400 <trace> server.js:37 (mongoose.connect.err) Connecté à la base de donnée
+2019-04-02T16:22:50-0400 <trace> server.js:67 (Server.app.listen.err) listening on 5000
+2019-04-02T16:22:50-0400 <trace> server.js:37 (mongoose.connect.err) Connecté à la base de donnée
+2019-04-02T16:25:42-0400 <trace> server.js:67 (Server.app.listen.err) listening on 5000
+2019-04-02T16:25:42-0400 <trace> server.js:37 (mongoose.connect.err) Connecté à la base de donnée
