@@ -2,17 +2,7 @@ const express = require("express");
 const fs = require("fs");
 const router = express.Router();
 const passport = require("passport");
-const logger = require("tracer").console({
-	transport: function(data) {
-		fs.appendFile(
-			`./logs/${new Date().toISOString().split("T")[0]}.log`,
-			data.rawoutput + "\n",
-			err => {
-				if (err) throw err;
-			}
-		);
-	}
-});
+const logger = require("tracer").colorConsole();
 const isEmpty = require("../utils/isEmpty");
 
 const judgeConnectionValidator = require("../validators/JudgeConnection");
