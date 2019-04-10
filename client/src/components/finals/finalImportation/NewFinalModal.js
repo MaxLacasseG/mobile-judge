@@ -83,11 +83,8 @@ class NewFinalModal extends Component {
 			const newJudge = {};
 			newJudge.number = judge.number;
 			newJudge.information = this.CopyObject(judge.information, [
-				"education",
 				"generalInformation",
-				"judgingPreference",
-				"judgingExperience",
-				"work"
+				"judgingPreference"
 			]);
 			newJudge.judgeId = judge._id;
 			newJudge.finalId = this.state.event._id;
