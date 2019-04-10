@@ -9,8 +9,6 @@ import FinalNav from "../../pages/partials/FinalNav";
 import ReportsJudgingImportation from "../../judges/writtenReports/ReportsJudgingImportation";
 import ReportsResults from "../../judges/writtenReports/ReportsResults";
 
-import isEmpty from "../../../validation/isEmpty";
-
 class FinalViewReports extends Component {
 	constructor(props) {
 		super(props);

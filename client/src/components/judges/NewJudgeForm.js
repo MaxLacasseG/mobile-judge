@@ -4,7 +4,6 @@ import { AddNewJudge } from "../../store/actions/judgeActions";
 import { ClearResponse } from "../../store/actions/responseActions";
 import PropTypes from "prop-types";
 import classnames from "classnames";
-import { format } from "util";
 
 class NewJudgeForm extends Component {
 	constructor(props) {

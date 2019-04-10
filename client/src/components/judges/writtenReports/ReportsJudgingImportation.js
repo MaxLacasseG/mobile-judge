@@ -47,10 +47,10 @@ class ReportsJudgingImportation extends Component {
 				line.substr(0, 1) === "" ||
 				line.substr(0, 1) === "&"
 			)
-				return;
+				return null;
 
 			if (!parseInt(line.substr(0, 1))) {
-				return;
+				return null;
 			}
 			const array = line.split(/;/);
 			//console.log("array", array);

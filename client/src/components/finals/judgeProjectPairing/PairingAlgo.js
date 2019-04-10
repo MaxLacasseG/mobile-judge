@@ -38,12 +38,12 @@ class PairingAlgo extends Component {
 
 	InitializeRandomizer = selectedLevel => {
 		let pairingByProjects = {};
-		let pairingByJudges = {};
+		//let pairingByJudges = {};
 		const projectListArray = this.props.project.projectsList;
 
 		const level = selectedLevel;
 		let nbPeriods, nbJudgmentsPerProject;
-		let removeFirstLastPeriod = this.state.removeFirstLastPeriod;
+		//let removeFirstLastPeriod = this.state.removeFirstLastPeriod;
 
 		//Assign cases
 		switch (level) {
@@ -96,6 +96,7 @@ class PairingAlgo extends Component {
 			) {
 				return frenchJudges.push(judge);
 			}
+			return true;
 		});
 		this.setState({ englishJudges, bilangualJudges, frenchJudges });
 	};
@@ -123,6 +124,7 @@ class PairingAlgo extends Component {
 			) {
 				return frenchProjects.push(project);
 			}
+			return true;
 		});
 		this.setState({ englishProjects, bilangualProjects, frenchProjects });
 	};

@@ -4,7 +4,6 @@ import { SelectFinalById } from "../../../store/actions/finalActions";
 import { SelectJudgesByFinalId } from "../../../store/actions/judgeActions";
 import { SelectProjectsByFinalId } from "../../../store/actions/projectActions";
 import AttributionRow from "../../judges/AttributionRow";
-import PairingAlgo from "../judgeProjectPairing/PairingAlgo";
 import FinalNav from "../../pages/partials/FinalNav";
 import isEmpty from "../../../validation/isEmpty";
 

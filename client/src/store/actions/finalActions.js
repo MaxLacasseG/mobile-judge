@@ -169,12 +169,12 @@ export const ResetProjectJudgement = (finalId, projectNumber) => dispatch => {
 		.then(final => {
 			final = final.data;
 			//If no result, return
-			if (isEmpty(final.results) || isEmpty(final.results[projectNumber]))
-				throw {
+			if (isEmpty(final.results) || isEmpty(final.results[projectNumber])) {
+				throw new Error({
 					response: { data: { msg: "Aucun jugement enregistré pour le projet demandé" } }
-				};
-
-			//Delete property for each result
+				});
+			}
+			//Delete property for each resultª
 			const results = final.results;
 			//console.log("results avant", results);
 			delete results[projectNumber];

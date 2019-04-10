@@ -87,14 +87,14 @@ class FinalViewProjects extends Component {
 	ShowMissingJudge = (projectNumber, isMissing) => {
 		const elem = document.querySelector(`[data-projectrow='${projectNumber.toString()}']`);
 		isMissing ? elem.classList.add("missing-judge") : elem.classList.remove("missing-judge");
-		const attribute = isMissing
-			? elem.setAttribute(
-					"title",
-					"Le nombre de juge est inférieur ou supérieur au nombre de juges permis"
-			  )
-			: elem.hasAttribute("title")
-			? elem.removeAttribute("title")
-			: null;
+		if (isMissing) {
+			elem.setAttribute(
+				"title",
+				"Le nombre de juge est inférieur ou supérieur au nombre de juges permis"
+			);
+		} else {
+			if (elem.hasAttribute("title")) elem.removeAttribute("title");
+		}
 	};
 
 	ShowProjectInfos = e => {

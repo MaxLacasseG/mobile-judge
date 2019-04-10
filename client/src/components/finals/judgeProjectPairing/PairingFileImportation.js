@@ -101,6 +101,7 @@ class PairingFileImportation extends Component {
 			if (project.number !== undefined) {
 				results[project.number] = {};
 			}
+			return true;
 		});
 		return results;
 	};
